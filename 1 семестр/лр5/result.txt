@@ -1,0 +1,6 @@
+*********************************************************
+* Nizhniy Novgorod Technical University *
+* Study work number 5. Task number 18. *
+* Performed student 19-IVT-3 Sukhorukov V.A. *
+*********************************************************
+this is the laboratory work's number 5
