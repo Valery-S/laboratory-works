@@ -1,0 +1,20 @@
+﻿  Source.cpp
+C:\Users\Валерий\Desktop\учёба\дз\алгоритмы и структуры данных\Лабораторная 5\Project1\Source.cpp(51,20): warning C4244:  аргумент: преобразование "int" в "T", возможна потеря данных
+C:\Users\Валерий\Desktop\учёба\дз\алгоритмы и структуры данных\Лабораторная 5\Project1\Source.cpp(51,20): warning C4244:         with
+C:\Users\Валерий\Desktop\учёба\дз\алгоритмы и структуры данных\Лабораторная 5\Project1\Source.cpp(51,20): warning C4244:         [
+C:\Users\Валерий\Desktop\учёба\дз\алгоритмы и структуры данных\Лабораторная 5\Project1\Source.cpp(51,20): warning C4244:             T=float
+C:\Users\Валерий\Desktop\учёба\дз\алгоритмы и структуры данных\Лабораторная 5\Project1\Source.cpp(51,20): warning C4244:         ]
+C:\Users\Валерий\Desktop\учёба\дз\алгоритмы и структуры данных\Лабораторная 5\Project1\Source.cpp(54,23): warning C4244:  аргумент: преобразование "int" в "T", возможна потеря данных
+C:\Users\Валерий\Desktop\учёба\дз\алгоритмы и структуры данных\Лабораторная 5\Project1\Source.cpp(54,23): warning C4244:         with
+C:\Users\Валерий\Desktop\учёба\дз\алгоритмы и структуры данных\Лабораторная 5\Project1\Source.cpp(54,23): warning C4244:         [
+C:\Users\Валерий\Desktop\учёба\дз\алгоритмы и структуры данных\Лабораторная 5\Project1\Source.cpp(54,23): warning C4244:             T=float
+C:\Users\Валерий\Desktop\учёба\дз\алгоритмы и структуры данных\Лабораторная 5\Project1\Source.cpp(54,23): warning C4244:         ]
+C:\Users\Валерий\Desktop\учёба\дз\алгоритмы и структуры данных\Лабораторная 5\Project1\Source.cpp(9,13): warning C4244:  =: преобразование "T" в "int", возможна потеря данных
+C:\Users\Валерий\Desktop\учёба\дз\алгоритмы и структуры данных\Лабораторная 5\Project1\Source.cpp(9,13): warning C4244:         with
+C:\Users\Валерий\Desktop\учёба\дз\алгоритмы и структуры данных\Лабораторная 5\Project1\Source.cpp(9,13): warning C4244:         [
+C:\Users\Валерий\Desktop\учёба\дз\алгоритмы и структуры данных\Лабораторная 5\Project1\Source.cpp(9,13): warning C4244:             T=float
+C:\Users\Валерий\Desktop\учёба\дз\алгоритмы и структуры данных\Лабораторная 5\Project1\Source.cpp(9,13): warning C4244:         ]
+C:\Users\Валерий\Desktop\учёба\дз\алгоритмы и структуры данных\Лабораторная 5\Project1\Source.cpp(58): message :  выполняется компиляция ссылки на экземпляр шаблон функции "int List_sum<float>(List<float>)"
+C:\Users\Валерий\Desktop\учёба\дз\алгоритмы и структуры данных\Лабораторная 5\Project1\MyList.h(46): warning C4715:  List<float>::operator[]: значение возвращается не при всех путях выполнения
+C:\Users\Валерий\Desktop\учёба\дз\алгоритмы и структуры данных\Лабораторная 5\Project1\MyList.h(46): warning C4715:  List<int>::operator[]: значение возвращается не при всех путях выполнения
+  Project1.vcxproj -> C:\Users\Валерий\Desktop\учёба\дз\алгоритмы и структуры данных\Лабораторная 5\Project1\Debug\Project1.exe
