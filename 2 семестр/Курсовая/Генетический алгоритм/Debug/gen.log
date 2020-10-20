@@ -1,0 +1,4 @@
+﻿  Source.cpp
+C:\Users\Валерий\Desktop\дз\програмирование\2 семетср\gen\Source.cpp(227,14): warning C4244:  =: преобразование "double" в "int", возможна потеря данных
+C:\Users\Валерий\Desktop\дз\програмирование\2 семетср\gen\Source.cpp(251,15): warning C4244:  =: преобразование "double" в "int", возможна потеря данных
+  gen.vcxproj -> C:\Users\Валерий\Desktop\дз\програмирование\2 семетср\gen\Debug\gen.exe
