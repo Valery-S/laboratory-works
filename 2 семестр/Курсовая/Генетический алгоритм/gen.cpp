@@ -5,27 +5,27 @@
 #include <ctime>
 using namespace std;
 struct Graph {
-	int quantity = 0;//колличество городов
-	int length = 0;//длина пути
-	vector<vector<double>>distance;//таблица расстояний 
-	vector<int>individual_f;//особь 1
-	vector<int>individual_s;//особь 2
-	vector<int>individual_t;//особь 3
+	int quantity = 0;//РєРѕР»Р»РёС‡РµСЃС‚РІРѕ РіРѕСЂРѕРґРѕРІ
+	int length = 0;//РґР»РёРЅР° РїСѓС‚Рё
+	vector<vector<double>>distance;//С‚Р°Р±Р»РёС†Р° СЂР°СЃСЃС‚РѕСЏРЅРёР№ 
+	vector<int>individual_f;//РѕСЃРѕР±СЊ 1
+	vector<int>individual_s;//РѕСЃРѕР±СЊ 2
+	vector<int>individual_t;//РѕСЃРѕР±СЊ 3
 };
-Graph read(string file_name) {//Функция чтения данных из файла
-	cout  << "Режим чтения" << endl;
+Graph read(string file_name) {//Р¤СѓРЅРєС†РёСЏ С‡С‚РµРЅРёСЏ РґР°РЅРЅС‹С… РёР· С„Р°Р№Р»Р°
+	cout  << "Р РµР¶РёРј С‡С‚РµРЅРёСЏ" << endl;
 	Graph gr;
 	vector<vector<double>> input_data;
 	ifstream in;
-	in.open(file_name);//открываем файл на чтение
-	if (!in)//проверка на корректность файла
+	in.open(file_name);//РѕС‚РєСЂС‹РІР°РµРј С„Р°Р№Р» РЅР° С‡С‚РµРЅРёРµ
+	if (!in)//РїСЂРѕРІРµСЂРєР° РЅР° РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚СЊ С„Р°Р№Р»Р°
 	{
 		if (in.eof()) {
-			cout << "Файл пуст" << endl;
+			cout << "Р¤Р°Р№Р» РїСѓСЃС‚" << endl;
 			exit(-1);
 		}
 		else {
-			cout << "Неверное имя файла" << endl;
+			cout << "РќРµРІРµСЂРЅРѕРµ РёРјСЏ С„Р°Р№Р»Р°" << endl;
 			exit(-1);
 		}
 	}
@@ -36,104 +36,104 @@ Graph read(string file_name) {//Функция чтения данных из файла
 		vector<double>a(num);
 		for (int i = 0; i < num; i++) {
 			for (int j = 0; j < num; j++) {
-				in >> string[j];//cчитывем данные i-той строки
+				in >> string[j];//cС‡РёС‚С‹РІРµРј РґР°РЅРЅС‹Рµ i-С‚РѕР№ СЃС‚СЂРѕРєРё
 				a[i] = 0;
 			}
-			input_data.push_back(string);//записываем данные в таблицу расстояний
+			input_data.push_back(string);//Р·Р°РїРёСЃС‹РІР°РµРј РґР°РЅРЅС‹Рµ РІ С‚Р°Р±Р»РёС†Сѓ СЂР°СЃСЃС‚РѕСЏРЅРёР№
 		}
-		gr.quantity = num;//записываем количество городов
-		gr.distance = input_data;//переписываем даные расстояний
-		cout << "Данные считаны" << endl;
+		gr.quantity = num;//Р·Р°РїРёСЃС‹РІР°РµРј РєРѕР»РёС‡РµСЃС‚РІРѕ РіРѕСЂРѕРґРѕРІ
+		gr.distance = input_data;//РїРµСЂРµРїРёСЃС‹РІР°РµРј РґР°РЅС‹Рµ СЂР°СЃСЃС‚РѕСЏРЅРёР№
+		cout << "Р”Р°РЅРЅС‹Рµ СЃС‡РёС‚Р°РЅС‹" << endl;
 	}
 	in.close();
 	return gr;
 }
-Graph choose_f(Graph gr) {//выбор особи 1
-	srand((unsigned)time(NULL));//изменение начального значения ГПСЧ 
-	gr.individual_f.resize(gr.quantity + 1);//устанавливаем размер "особи"
+Graph choose_f(Graph gr) {//РІС‹Р±РѕСЂ РѕСЃРѕР±Рё 1
+	srand((unsigned)time(NULL));//РёР·РјРµРЅРµРЅРёРµ РЅР°С‡Р°Р»СЊРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ Р“РџРЎР§ 
+	gr.individual_f.resize(gr.quantity + 1);//СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЂР°Р·РјРµСЂ "РѕСЃРѕР±Рё"
 	for (int i = 0; i < gr.quantity; i++) { gr.individual_f[i] = -1; }
 	bool flag = false;
-	int k = 0;//число городов в "особи"
-	int j = 0;//переменная, в которую будет записываться псевдослучайное число
+	int k = 0;//С‡РёСЃР»Рѕ РіРѕСЂРѕРґРѕРІ РІ "РѕСЃРѕР±Рё"
+	int j = 0;//РїРµСЂРµРјРµРЅРЅР°СЏ, РІ РєРѕС‚РѕСЂСѓСЋ Р±СѓРґРµС‚ Р·Р°РїРёСЃС‹РІР°С‚СЊСЃСЏ РїСЃРµРІРґРѕСЃР»СѓС‡Р°Р№РЅРѕРµ С‡РёСЃР»Рѕ
 	while (k < gr.quantity) {
 		j = rand() % gr.quantity;
-		if (k == 0) {//если в особи еще нет ни одного города
+		if (k == 0) {//РµСЃР»Рё РІ РѕСЃРѕР±Рё РµС‰Рµ РЅРµС‚ РЅРё РѕРґРЅРѕРіРѕ РіРѕСЂРѕРґР°
 			gr.individual_f[k] = j;
 			k++;}
-		else {//если в особи есть хотя бы 1 город
-			if (gr.distance[gr.individual_f[k - 1]][j] != -1) {//если расстояние между последним и сгенерированным городом не равно -1 
+		else {//РµСЃР»Рё РІ РѕСЃРѕР±Рё РµСЃС‚СЊ С…РѕС‚СЏ Р±С‹ 1 РіРѕСЂРѕРґ
+			if (gr.distance[gr.individual_f[k - 1]][j] != -1) {//РµСЃР»Рё СЂР°СЃСЃС‚РѕСЏРЅРёРµ РјРµР¶РґСѓ РїРѕСЃР»РµРґРЅРёРј Рё СЃРіРµРЅРµСЂРёСЂРѕРІР°РЅРЅС‹Рј РіРѕСЂРѕРґРѕРј РЅРµ СЂР°РІРЅРѕ -1 
 				for (int i = 0; i < gr.quantity; i++)
 				{
-					if (gr.individual_f[i] == j) {//проверяем есть ли в особи город j
+					if (gr.individual_f[i] == j) {//РїСЂРѕРІРµСЂСЏРµРј РµСЃС‚СЊ Р»Рё РІ РѕСЃРѕР±Рё РіРѕСЂРѕРґ j
 						flag = true;
 						break;
 					}
 					else { flag = false; }
 				}
-				if (flag == false) { gr.individual_f[k] = j; k++; }//если город j в особи не обнаружен, то добавляем его
+				if (flag == false) { gr.individual_f[k] = j; k++; }//РµСЃР»Рё РіРѕСЂРѕРґ j РІ РѕСЃРѕР±Рё РЅРµ РѕР±РЅР°СЂСѓР¶РµРЅ, С‚Рѕ РґРѕР±Р°РІР»СЏРµРј РµРіРѕ
 			}
 		}
 	}
 	return gr;
 }
-Graph choose_s(Graph gr) {//выбор особи 2
-	srand((unsigned)time(NULL) * 2);//изменение начального значения ГПСЧ для того, чтобы особи были разные
+Graph choose_s(Graph gr) {//РІС‹Р±РѕСЂ РѕСЃРѕР±Рё 2
+	srand((unsigned)time(NULL) * 2);//РёР·РјРµРЅРµРЅРёРµ РЅР°С‡Р°Р»СЊРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ Р“РџРЎР§ РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ РѕСЃРѕР±Рё Р±С‹Р»Рё СЂР°Р·РЅС‹Рµ
 	gr.individual_s.resize(gr.quantity + 1);
 	for (int i = 0; i < gr.quantity; i++) { gr.individual_s[i] = -1; }
 	int k = 0, j;
 	bool flag = false;
 	while (k < gr.quantity) {
 		j = rand() % gr.quantity;
-		if (k == 0) {//если в особи еще нет ни одного города
+		if (k == 0) {//РµСЃР»Рё РІ РѕСЃРѕР±Рё РµС‰Рµ РЅРµС‚ РЅРё РѕРґРЅРѕРіРѕ РіРѕСЂРѕРґР°
 			gr.individual_s[k] = j;
 			k++;}
-		else {//если в особи есть хотя бы 1 город
-			if (gr.distance[gr.individual_s[k - 1]][j] != -1) {//если расстояние между последним и сгенерированным городом не равно -1 
+		else {//РµСЃР»Рё РІ РѕСЃРѕР±Рё РµСЃС‚СЊ С…РѕС‚СЏ Р±С‹ 1 РіРѕСЂРѕРґ
+			if (gr.distance[gr.individual_s[k - 1]][j] != -1) {//РµСЃР»Рё СЂР°СЃСЃС‚РѕСЏРЅРёРµ РјРµР¶РґСѓ РїРѕСЃР»РµРґРЅРёРј Рё СЃРіРµРЅРµСЂРёСЂРѕРІР°РЅРЅС‹Рј РіРѕСЂРѕРґРѕРј РЅРµ СЂР°РІРЅРѕ -1 
 				for (int i = 0; i < gr.quantity; i++)
 				{
-					if (gr.individual_s[i] == j) {//проверяем есть ли в особи город j
+					if (gr.individual_s[i] == j) {//РїСЂРѕРІРµСЂСЏРµРј РµСЃС‚СЊ Р»Рё РІ РѕСЃРѕР±Рё РіРѕСЂРѕРґ j
 						flag = true;
 						break;
 					}
 					else { flag = false; }
 				}
-				if (flag == false) { gr.individual_s[k] = j; k++; }//если город j в особи не обнаружен, то добавляем его
+				if (flag == false) { gr.individual_s[k] = j; k++; }//РµСЃР»Рё РіРѕСЂРѕРґ j РІ РѕСЃРѕР±Рё РЅРµ РѕР±РЅР°СЂСѓР¶РµРЅ, С‚Рѕ РґРѕР±Р°РІР»СЏРµРј РµРіРѕ
 			}
 		}
 	}
 	return gr;
 }
-Graph choose_t(Graph gr) {//выбор особи 3
-	srand((unsigned)time(NULL)*3);//изменение начального значения ГПСЧ для того, чтобы особи были разные
+Graph choose_t(Graph gr) {//РІС‹Р±РѕСЂ РѕСЃРѕР±Рё 3
+	srand((unsigned)time(NULL)*3);//РёР·РјРµРЅРµРЅРёРµ РЅР°С‡Р°Р»СЊРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ Р“РџРЎР§ РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ РѕСЃРѕР±Рё Р±С‹Р»Рё СЂР°Р·РЅС‹Рµ
 	gr.individual_t.resize(gr.quantity + 1);
 	for (int i = 0; i < gr.quantity; i++) { gr.individual_t[i] = -1; }
 	int k = 0, j;
 	bool flag = false;
 	while (k < gr.quantity) {
 		j = rand() % gr.quantity;
-		if (k == 0) {//если в особи еще нет ни одного города
+		if (k == 0) {//РµСЃР»Рё РІ РѕСЃРѕР±Рё РµС‰Рµ РЅРµС‚ РЅРё РѕРґРЅРѕРіРѕ РіРѕСЂРѕРґР°
 			gr.individual_t[k] = j;
 			k++;}
-		else  {//если в особи есть хотя бы 1 город
-			if (gr.distance[gr.individual_t[k - 1]][j] != -1) {//если расстояние между последним и сгенерированным городом не равно -1 
+		else  {//РµСЃР»Рё РІ РѕСЃРѕР±Рё РµСЃС‚СЊ С…РѕС‚СЏ Р±С‹ 1 РіРѕСЂРѕРґ
+			if (gr.distance[gr.individual_t[k - 1]][j] != -1) {//РµСЃР»Рё СЂР°СЃСЃС‚РѕСЏРЅРёРµ РјРµР¶РґСѓ РїРѕСЃР»РµРґРЅРёРј Рё СЃРіРµРЅРµСЂРёСЂРѕРІР°РЅРЅС‹Рј РіРѕСЂРѕРґРѕРј РЅРµ СЂР°РІРЅРѕ -1 
 				for (int i = 0; i < gr.quantity; i++)
 				{
-					if (gr.individual_t[i] == j) {//проверяем есть ли в особи город j
+					if (gr.individual_t[i] == j) {//РїСЂРѕРІРµСЂСЏРµРј РµСЃС‚СЊ Р»Рё РІ РѕСЃРѕР±Рё РіРѕСЂРѕРґ j
 						flag = true;
 						break;
 					}
 					else { flag = false; }
 				}
-				if (flag == false) { gr.individual_t[k] = j; k++; }//если город j в особи не обнаружен, то добавляем его
+				if (flag == false) { gr.individual_t[k] = j; k++; }//РµСЃР»Рё РіРѕСЂРѕРґ j РІ РѕСЃРѕР±Рё РЅРµ РѕР±РЅР°СЂСѓР¶РµРЅ, С‚Рѕ РґРѕР±Р°РІР»СЏРµРј РµРіРѕ
 			}
 		}
 	}
 	return gr;
 }
-Graph choose(Graph gr) {//выбор трех особей
-	gr = choose_f(gr);// выбор особи
-	gr.individual_f[gr.quantity] = gr.individual_f[0];//запись в последнюю ячейку первого города
-	// если расстояние между последним и предпоследним городом равно -1, то нужно перевыбрать особь 
+Graph choose(Graph gr) {//РІС‹Р±РѕСЂ С‚СЂРµС… РѕСЃРѕР±РµР№
+	gr = choose_f(gr);// РІС‹Р±РѕСЂ РѕСЃРѕР±Рё
+	gr.individual_f[gr.quantity] = gr.individual_f[0];//Р·Р°РїРёСЃСЊ РІ РїРѕСЃР»РµРґРЅСЋСЋ СЏС‡РµР№РєСѓ РїРµСЂРІРѕРіРѕ РіРѕСЂРѕРґР°
+	// РµСЃР»Рё СЂР°СЃСЃС‚РѕСЏРЅРёРµ РјРµР¶РґСѓ РїРѕСЃР»РµРґРЅРёРј Рё РїСЂРµРґРїРѕСЃР»РµРґРЅРёРј РіРѕСЂРѕРґРѕРј СЂР°РІРЅРѕ -1, С‚Рѕ РЅСѓР¶РЅРѕ РїРµСЂРµРІС‹Р±СЂР°С‚СЊ РѕСЃРѕР±СЊ 
 	while (gr.distance[gr.individual_f[gr.quantity]][gr.individual_f[gr.quantity - 1]] == -1) {
 		gr = choose_f(gr);
 		gr.individual_f[gr.quantity] = gr.individual_f[0];}
@@ -149,24 +149,24 @@ Graph choose(Graph gr) {//выбор трех особей
 		gr.individual_t[gr.quantity] = gr.individual_t[0];}
 	return gr;
 }
-Graph mutation(Graph gr,int& flag) {//мутация наилучшей особи
+Graph mutation(Graph gr,int& flag) {//РјСѓС‚Р°С†РёСЏ РЅР°РёР»СѓС‡С€РµР№ РѕСЃРѕР±Рё
 	double sum_s = 0, sum_f = 0, sum_t = 0,Sum=0,sum_n=0,sum_max=0,max1 = 0, max2 = 0;
 	int k=1,n=1,max1_s=0,max2_s=0;
-	vector<int>new_individual(gr.quantity+1);//новая особь
+	vector<int>new_individual(gr.quantity+1);//РЅРѕРІР°СЏ РѕСЃРѕР±СЊ
 	for (int i = 0; i < gr.quantity; i++){
-		sum_f = sum_f + gr.distance[gr.individual_f[i]][gr.individual_f[i + 1]];//подсчет длины пути 1 
-		sum_s = sum_s + gr.distance[gr.individual_s[i]][gr.individual_s[i + 1]];//подсчет длины пути 2 
-		sum_t = sum_t + gr.distance[gr.individual_t[i]][gr.individual_t[i + 1]];//подсчет длины пути 3
+		sum_f = sum_f + gr.distance[gr.individual_f[i]][gr.individual_f[i + 1]];//РїРѕРґСЃС‡РµС‚ РґР»РёРЅС‹ РїСѓС‚Рё 1 
+		sum_s = sum_s + gr.distance[gr.individual_s[i]][gr.individual_s[i + 1]];//РїРѕРґСЃС‡РµС‚ РґР»РёРЅС‹ РїСѓС‚Рё 2 
+		sum_t = sum_t + gr.distance[gr.individual_t[i]][gr.individual_t[i + 1]];//РїРѕРґСЃС‡РµС‚ РґР»РёРЅС‹ РїСѓС‚Рё 3
 	}
-	//выбор наилучшего пути
+	//РІС‹Р±РѕСЂ РЅР°РёР»СѓС‡С€РµРіРѕ РїСѓС‚Рё
 	Sum = sum_f;
 	if (sum_s < Sum) { Sum = sum_s; k = 2; }
 	if (sum_t < Sum) { Sum = sum_t; k = 3; }
-	//выбор наихудшего пути
+	//РІС‹Р±РѕСЂ РЅР°РёС…СѓРґС€РµРіРѕ РїСѓС‚Рё
 	sum_max = sum_f;
 	if (sum_s > sum_max) { sum_max = sum_s; n = 2; }
 	if (sum_t >sum_max) { sum_max = sum_t; n = 3; }
-	//расстановка особей в порядке возрастания длины пути
+	//СЂР°СЃСЃС‚Р°РЅРѕРІРєР° РѕСЃРѕР±РµР№ РІ РїРѕСЂСЏРґРєРµ РІРѕР·СЂР°СЃС‚Р°РЅРёСЏ РґР»РёРЅС‹ РїСѓС‚Рё
 	if (k == 1 && n == 2) {
 		double buf_i;
 		vector<int>buf(gr.quantity + 1);
@@ -224,10 +224,10 @@ Graph mutation(Graph gr,int& flag) {//мутация наилучшей особи
 		sum_f = sum_s;
 		gr.individual_s = buf;
 		sum_s = buf_i;}
-	gr.length = sum_f;//лучшая длина пути- длина пути первой особи
-	//Мутация проиходит у той особи, длина пути которой меньше(первой), что бы достичь ещё меньшей длины. 
-	//Она осуществляется по двум генам  с максимальным расстоянием между городами.
-	//Если расстояние уменьшилось, то новая заменяет ту, у которой проводилась мутация.
+	gr.length = sum_f;//Р»СѓС‡С€Р°СЏ РґР»РёРЅР° РїСѓС‚Рё- РґР»РёРЅР° РїСѓС‚Рё РїРµСЂРІРѕР№ РѕСЃРѕР±Рё
+	//РњСѓС‚Р°С†РёСЏ РїСЂРѕРёС…РѕРґРёС‚ Сѓ С‚РѕР№ РѕСЃРѕР±Рё, РґР»РёРЅР° РїСѓС‚Рё РєРѕС‚РѕСЂРѕР№ РјРµРЅСЊС€Рµ(РїРµСЂРІРѕР№), С‡С‚РѕР±С‹ РґРѕСЃС‚РёС‡СЊ РµС‰С‘ РјРµРЅСЊС€РµР№ РґР»РёРЅС‹. 
+	//РћРЅР° РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚СЃСЏ РїРѕ РґРІСѓРј РіРµРЅР°Рј СЃ РјР°РєСЃРёРјР°Р»СЊРЅС‹Рј СЂР°СЃСЃС‚РѕСЏРЅРёРµРј РјРµР¶РґСѓ РіРѕСЂРѕРґР°РјРё.
+	//Р•СЃР»Рё СЂР°СЃСЃС‚РѕСЏРЅРёРµ СѓРјРµРЅСЊС€РёР»РѕСЃСЊ, С‚Рѕ РЅРѕРІР°СЏ Р·Р°РјРµРЅСЏРµС‚ С‚Сѓ, Сѓ РєРѕС‚РѕСЂРѕР№ РїСЂРѕРІРѕРґРёР»Р°СЃСЊ РјСѓС‚Р°С†РёСЏ.
 	for (int i = 1; i < gr.quantity; i++){
 		if (gr.distance[gr.individual_f[i]][gr.individual_f[i+1]]>max1){
 			max1 = gr.distance[gr.individual_f[i]][gr.individual_f[i + 1]];
@@ -243,34 +243,33 @@ Graph mutation(Graph gr,int& flag) {//мутация наилучшей особи
 	new_individual = gr.individual_f;
 	new_individual[max1_s] = new_individual[max2_s];
 	new_individual[max2_s] = gr.individual_f[max1_s];
-	for (int i = 0; i < gr.quantity; i++){sum_n = sum_n + gr.distance[new_individual[i]][new_individual[i + 1]];}//подсчет длины пути новой особи 
-	//Если мутация прошла успешно т.е длина уменьшилась, то заменяем особь.
-	//Иначе присваимаем переменной flag,преданной как параметр значение равное 0 - показатель неуспешной мутации
+	for (int i = 0; i < gr.quantity; i++){sum_n = sum_n + gr.distance[new_individual[i]][new_individual[i + 1]];}//РїРѕРґСЃС‡РµС‚ РґР»РёРЅС‹ РїСѓС‚Рё РЅРѕРІРѕР№ РѕСЃРѕР±Рё 
+	//Р•СЃР»Рё РјСѓС‚Р°С†РёСЏ РїСЂРѕС€Р»Р° СѓСЃРїРµС€РЅРѕ С‚.Рµ РґР»РёРЅР° СѓРјРµРЅСЊС€РёР»Р°СЃСЊ, С‚Рѕ Р·Р°РјРµРЅСЏРµРј РѕСЃРѕР±СЊ.
+	//РРЅР°С‡Рµ РїСЂРёСЃРІР°РёРІР°РµРј РїРµСЂРµРјРµРЅРЅРѕР№ flag, РїРµСЂРµРґР°РЅРЅРѕР№ РєР°Рє РїР°СЂР°РјРµС‚СЂ Р·РЅР°С‡РµРЅРёРµ СЂР°РІРЅРѕРµ 0 - РїРѕРєР°Р·Р°С‚РµР»СЊ РЅРµСѓСЃРїРµС€РЅРѕР№ РјСѓС‚Р°С†РёРё
 	if (sum_n < sum_f) { 
 		gr.individual_f = new_individual;
 		gr.length = sum_n;
-		cout << "Мутация прошла успешно"<<endl;
-		cout << "Лучший путь на данный момент" << endl;
+		cout << "РњСѓС‚Р°С†РёСЏ РїСЂРѕС€Р»Р° СѓСЃРїРµС€РЅРѕ"<<endl;
+		cout << "Р›СѓС‡С€РёР№ РїСѓС‚СЊ РЅР° РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚" << endl;
 		for (int i = 0; i < gr.quantity + 1; i++) { cout << gr.individual_f[i] + 1 << " "; }
-		cout << endl << "лучшая длина пути на данный момент " << gr.length << endl << endl;
+		cout << endl << "Р»СѓС‡С€Р°СЏ РґР»РёРЅР° РїСѓС‚Рё РЅР° РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚ " << gr.length << endl << endl;
 	}
 	else {
 		flag = 0;
-		cout << "Мутация прошла неуспешно" << endl << endl;}
+		cout << "РњСѓС‚Р°С†РёСЏ РїСЂРѕС€Р»Р° РЅРµСѓСЃРїРµС€РЅРѕ" << endl << endl;}
 	return gr;
 }
 
 int main() {
 	double start = clock();
 	int flag=1;
-	setlocale(LC_ALL, "RUS");
-	cout << "Введите имя файла для чтения данных"<<endl;
+	cout << "Р’РІРµРґРёС‚Рµ РёРјСЏ С„Р°Р№Р»Р° РґР»СЏ С‡С‚РµРЅРёСЏ РґР°РЅРЅС‹С…"<<endl;
 	string file_name;
 	cin >> file_name;
 	Graph gr;
 	gr = read(file_name);
 	gr=choose(gr);
-	cout << "сформированные особи:"<<endl;
+	cout << "СЃС„РѕСЂРјРёСЂРѕРІР°РЅРЅС‹Рµ РѕСЃРѕР±Рё:"<<endl;
 	for (int i = 0; i < gr.quantity + 1; i++) { cout << gr.individual_f[i] + 1 << " "; }
 	cout << endl;
 	for (int i = 0; i < gr.quantity + 1; i++) { cout << gr.individual_s[i] + 1 << " "; }
@@ -280,8 +279,8 @@ int main() {
 	while (flag == 1) {
 		gr = mutation(gr, flag);
 	}
-	cout << "Лучшая длина пути "<<gr.length << endl;
-	cout << "Лучший путь " << endl;
+	cout << "Р›СѓС‡С€Р°СЏ РґР»РёРЅР° РїСѓС‚Рё "<<gr.length << endl;
+	cout << "Р›СѓС‡С€РёР№ РїСѓС‚СЊ " << endl;
 	for (int i = 0; i < gr.quantity+1; i++){cout << gr.individual_f[i] + 1 << " " ;}
 	cout << endl<<"time="<< (clock() - start) / CLOCKS_PER_SEC;
 	return 0;
