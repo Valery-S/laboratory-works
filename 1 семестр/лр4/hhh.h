@@ -4,7 +4,7 @@
 #include<cstdlib>
 #include<iomanip>
 using namespace std;
-int **filling(int d, int c) {/*функция заполнения массива*/
+int **filling(int d, int c) {/*С„СѓРЅРєС†РёСЏ Р·Р°РїРѕР»РЅРµРЅРёСЏ РјР°СЃСЃРёРІР°*/
 	char b;
 	int  **a = new int*[d];
 	cout << "choose how to fill the matrix : manually (enter m) or randomly (enter r) ";
@@ -42,7 +42,7 @@ int **filling(int d, int c) {/*функция заполнения массива*/
 	}
 	return a;
 }
-int proverka() {/*функция проверки правильности ввода разрера массива*/
+int proverka() {/*С„СѓРЅРєС†РёСЏ РїСЂРѕРІРµСЂРєРё РїСЂР°РІРёР»СЊРЅРѕСЃС‚Рё РІРІРѕРґР° СЂР°Р·СЂРµСЂР° РјР°СЃСЃРёРІР°*/
 	int n = 0;
 	char b = 1;
 	while (cin.good()) {
@@ -75,7 +75,7 @@ int proverka() {/*функция проверки правильности ввода разрера массива*/
 	}
 	return n;
 }
-int trace(int **a, int q, int b) {/*функция  вычисления следа матрицы */
+int trace(int **a, int q, int b) {/*С„СѓРЅРєС†РёСЏ  РІС‹С‡РёСЃР»РµРЅРёСЏ СЃР»РµРґР° РјР°С‚СЂРёС†С‹ */
 	int t = 0;
 	for (int i = 0; i < q; i++)
 	{
@@ -89,7 +89,7 @@ int trace(int **a, int q, int b) {/*функция  вычисления следа матрицы */
 	}
 	return t;
 }
-int **composition(int trace, int row, int column, int** a ) {/*функция вычисления матрицы R (матрица А * след матрицы С)*/
+int **composition(int trace, int row, int column, int** a ) {/*С„СѓРЅРєС†РёСЏ РІС‹С‡РёСЃР»РµРЅРёСЏ РјР°С‚СЂРёС†С‹ R (РјР°С‚СЂРёС†Р° Рђ * СЃР»РµРґ РјР°С‚СЂРёС†С‹ РЎ)*/
 	int** r = new int* [row];
 	for (int i = 0; i < row; i++)
 	{
