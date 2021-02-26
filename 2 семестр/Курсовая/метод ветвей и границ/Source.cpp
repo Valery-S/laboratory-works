@@ -5,11 +5,11 @@
 #include<iomanip>
 using namespace std;
 struct Graph {
-	int quantity=0;//колличество городов
-	double length = 0;//длина пути
-	vector<vector<double>>distance;//таблица расстояний 
-	vector<int>way;//путь 
-	vector<vector<double>>assessment;//оценка нулевых клеток
+	int quantity=0;//РєРѕР»РёС‡РµСЃС‚РІРѕ РіРѕСЂРѕРґРѕРІ
+	double length = 0;//РґР»РёРЅР° РїСѓС‚Рё
+	vector<vector<double>>distance;//С‚Р°Р±Р»РёС†Р° СЂР°СЃСЃС‚РѕСЏРЅРёР№ 
+	vector<int>way;//РїСѓС‚СЊ 
+	vector<vector<double>>assessment;//РѕС†РµРЅРєР° РЅСѓР»РµРІС‹С… РєР»РµС‚РѕРє
 	void print_matrix() {
 		for (int j = 0; j < quantity; j++){
 			for (int i = 0; i < quantity; i++){
@@ -20,19 +20,19 @@ struct Graph {
 	}
 	
 };
-Graph read(string file_name) {//Функция чтения данных из файла
-	cout << endl  << "Режим чтения" << endl;
+Graph read(string file_name) {//Р¤СѓРЅРєС†РёСЏ С‡С‚РµРЅРёСЏ РґР°РЅРЅС‹С… РёР· С„Р°Р№Р»Р°
+	cout << endl  << "Р РµР¶РёРј С‡С‚РµРЅРёСЏ" << endl;
 	Graph gr;
 	ifstream in;
-	in.open(file_name);//открываем файл на чтение
-	if (!in)//проверка на корректность файла
+	in.open(file_name);//РѕС‚РєСЂС‹РІР°РµРј С„Р°Р№Р» РЅР° С‡С‚РµРЅРёРµ
+	if (!in)//РїСЂРѕРІРµСЂРєР° РЅР° РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚СЊ С„Р°Р№Р»Р°
 	{
 		if (in.eof()){
-			cout << "Файл пуст" << endl;
+			cout << "Р¤Р°Р№Р» РїСѓСЃС‚" << endl;
 			exit(-1);
 		}
 		else{
-			cout << "Неверное имя файла" << endl;
+			cout << "РќРµРІРµСЂРЅРѕРµ РёРјСЏ С„Р°Р№Р»Р°" << endl;
 			exit(-1);
 		}
 	}
@@ -44,14 +44,14 @@ Graph read(string file_name) {//Функция чтения данных из файла
 		//vector<double>a(num);
 		for (int i = 0; i < num; i++) {
 			for (int j = 0; j < num; j++) {
-				in >> string[j];//cчитывем данные i-той строки
+				in >> string[j];//cС‡РёС‚С‹РІРµРј РґР°РЅРЅС‹Рµ i-С‚РѕР№ СЃС‚СЂРѕРєРё
 				//a[i] = 0;
 			}
-			input_data.push_back(string);//записываем данные в таблицу расстояний
+			input_data.push_back(string);//Р·Р°РїРёСЃС‹РІР°РµРј РґР°РЅРЅС‹Рµ РІ С‚Р°Р±Р»РёС†Сѓ СЂР°СЃСЃС‚РѕСЏРЅРёР№
 		}
-		gr.quantity = num;//записываем количество городов
-		gr.distance = input_data;//переписываем даные расстояний
-		cout << "Данные считаны" << endl;
+		gr.quantity = num;//Р·Р°РїРёСЃС‹РІР°РµРј РєРѕР»РёС‡РµСЃС‚РІРѕ РіРѕСЂРѕРґРѕРІ
+		gr.distance = input_data;//РїРµСЂРµРїРёСЃС‹РІР°РµРј РґР°РЅС‹Рµ СЂР°СЃСЃС‚РѕСЏРЅРёР№
+		cout << "Р”Р°РЅРЅС‹Рµ СЃС‡РёС‚Р°РЅС‹" << endl;
 	}
 	in.close();
 	return gr;
@@ -59,10 +59,10 @@ Graph read(string file_name) {//Функция чтения данных из файла
 Graph step(Graph gr,int p) {
 	vector<vector<double>>buf;
 	buf = gr.distance;
-	cout << "Выполняется шаг " << p << endl << endl << "Матрица на данном этапе " << endl;
+	cout << "Р’С‹РїРѕР»РЅСЏРµС‚СЃСЏ С€Р°Рі " << p << endl << endl << "РњР°С‚СЂРёС†Р° РЅР° РґР°РЅРЅРѕРј СЌС‚Р°РїРµ " << endl;
 	gr.print_matrix();
 	cout << endl;
-	//вычисление минимума в строке
+	//РІС‹С‡РёСЃР»РµРЅРёРµ РјРёРЅРёРјСѓРјР° РІ СЃС‚СЂРѕРєРµ
 	vector<double>min_str(gr.quantity);
 	for (int i = 0; i < gr.quantity; i++)
 	{
@@ -70,7 +70,7 @@ Graph step(Graph gr,int p) {
 			while (gr.distance[i][k] == -1  && k<gr.quantity-1) { k++; }
 			if (k == 0) { min_str[i] = gr.distance[i][0]; }
 			if (k != 0) { min_str[i] = gr.distance[i][k]; }
-			//проверка на то, что строка не вычерктнута
+			//РїСЂРѕРІРµСЂРєР° РЅР° С‚Рѕ, С‡С‚Рѕ СЃС‚СЂРѕРєР° РЅРµ РІС‹С‡РµСЂРєС‚РЅСѓС‚Р°
 			double res = 0;
 			for (int j = 0; j < gr.quantity; j++){res = res+gr.distance[i][j];}
 			if (res==gr.quantity*(-1.0)){min_str[i] = 0;}
@@ -80,26 +80,26 @@ Graph step(Graph gr,int p) {
 			}
 			
 	}
-	cout << "Мининумы в строках "<<endl;
+	cout << "РњРёРЅРёРЅСѓРјС‹ РІ СЃС‚СЂРѕРєР°С… "<<endl;
 	for (int i = 0; i < gr.quantity; i++){cout << min_str[i]<<" ";}
 	cout << endl<<endl;
-	//редукция матрицы по строкам
+	//СЂРµРґСѓРєС†РёСЏ РјР°С‚СЂРёС†С‹ РїРѕ СЃС‚СЂРѕРєР°Рј
 	for (int i = 0; i < gr.quantity; i++){
 		for (int j = 0; j < gr.quantity; j++){
 			if (gr.distance[i][j]!=-1){gr.distance[i][j] = gr.distance[i][j] - min_str[i];}
 		}
 	}
-	cout << "Редукция матрицы по строкам." << endl << "Матрица на данном этапе " << endl;
+	cout << "Р РµРґСѓРєС†РёСЏ РјР°С‚СЂРёС†С‹ РїРѕ СЃС‚СЂРѕРєР°Рј." << endl << "РњР°С‚СЂРёС†Р° РЅР° РґР°РЅРЅРѕРј СЌС‚Р°РїРµ " << endl;
 	gr.print_matrix();
 	cout << endl ;
-	//вычисление минимума по столбцам
+	//РІС‹С‡РёСЃР»РµРЅРёРµ РјРёРЅРёРјСѓРјР° РїРѕ СЃС‚РѕР»Р±С†Р°Рј
 	vector<double>min_column(gr.quantity);
 	for (int i = 0; i < gr.quantity; i++){
 		int k = 0;
 		while (gr.distance[k][i] == -1 && k < gr.quantity - 1) { k++; }
 		if (k == 0) { min_column[i] = gr.distance[0][i]; }
 		if (k != 0) { min_column[i] = gr.distance[k][i]; }
-		//проверка на то, что столбец не вычеркнут
+		//РїСЂРѕРІРµСЂРєР° РЅР° С‚Рѕ, С‡С‚Рѕ СЃС‚РѕР»Р±РµС† РЅРµ РІС‹С‡РµСЂРєРЅСѓС‚
 		double res = 0;
 		for (int j = 0; j < gr.quantity; j++) {res = res + gr.distance[j][i];}
 		if (res == gr.quantity * (-1.0)) { min_column[i] = 0; }
@@ -108,21 +108,21 @@ Graph step(Graph gr,int p) {
 			if (gr.distance[j][i] < min_column[i] && gr.distance[j][i] != -1) { min_column[i] = gr.distance[j][i]; }
 		}
 	}
-	cout << "Мининумы с столбцах"<<endl;
+	cout << "РњРёРЅРёРЅСѓРјС‹ СЃ СЃС‚РѕР»Р±С†Р°С…"<<endl;
 	for (int i = 0; i < gr.quantity; i++){
 		cout << min_column[i] << " ";
 	}
 	cout << endl << endl;
-	//редукция матрицы по столбцам
+	//СЂРµРґСѓРєС†РёСЏ РјР°С‚СЂРёС†С‹ РїРѕ СЃС‚РѕР»Р±С†Р°Рј
 	for (int i = 0; i < gr.quantity; i++){
 		for (int j = 0; j < gr.quantity; j++){
 			if (gr.distance[i][j] != -1) { gr.distance[i][j] = gr.distance[i][j] - min_column[j]; }
 		}
 	}
-	cout << "Редукция матрицы по столбцам." << endl<< "Матрица на данном этапе " << endl;
+	cout << "Р РµРґСѓРєС†РёСЏ РјР°С‚СЂРёС†С‹ РїРѕ СЃС‚РѕР»Р±С†Р°Рј." << endl<< "РњР°С‚СЂРёС†Р° РЅР° РґР°РЅРЅРѕРј СЌС‚Р°РїРµ " << endl;
 	gr.print_matrix();
 	cout << endl ;
-	//Нахождение нулевых клеток
+	//РќР°С…РѕР¶РґРµРЅРёРµ РЅСѓР»РµРІС‹С… РєР»РµС‚РѕРє
 	vector<int> zero_x;
 	vector<int> zero_y;
 	for (int i = 0; i < gr.quantity; i++){
@@ -130,7 +130,7 @@ Graph step(Graph gr,int p) {
 			if (gr.distance[i][j] == 0) { zero_x.push_back(i); zero_y.push_back(j); }
 		}
 	}
-	//Поиск минимума в столбцах и строках с нулевыми клетками
+	//РџРѕРёСЃРє РјРёРЅРёРјСѓРјР° РІ СЃС‚РѕР»Р±С†Р°С… Рё СЃС‚СЂРѕРєР°С… СЃ РЅСѓР»РµРІС‹РјРё РєР»РµС‚РєР°РјРё
 	vector<double>min_str_zero(size(zero_x));
 	vector<double>min_col_zero(size(zero_x));
 	for (int i = 0; i < size(zero_x); i++) {
@@ -151,13 +151,13 @@ Graph step(Graph gr,int p) {
 			if (gr.distance[j][r] < min_col_zero[i] && gr.distance[j][r] != -1) { min_col_zero[i] = gr.distance[j][r]; }
 		}
 	}
-	//Поиск максимальной оценки нулевых клеток
+	//РџРѕРёСЃРє РјР°РєСЃРёРјР°Р»СЊРЅРѕР№ РѕС†РµРЅРєРё РЅСѓР»РµРІС‹С… РєР»РµС‚РѕРє
 	int c = 0, s = 0;
 	double max_ass = 0;
 	for (int i = 0; i < size(zero_x); i++){
 		if (min_str_zero[i] == DBL_MAX) { min_str_zero[i] = 0; }
 		if (min_col_zero[i] == DBL_MAX) { min_col_zero[i] = 0; }
-		if (size(gr.way) > 0) {//если в пути есть города, то нужно проверить, что город из которого идем равен последнему записанному городу
+		if (size(gr.way) > 0) {//РµСЃР»Рё РІ РїСѓС‚Рё РµСЃС‚СЊ РіРѕСЂРѕРґР°, С‚Рѕ РЅСѓР¶РЅРѕ РїСЂРѕРІРµСЂРёС‚СЊ, С‡С‚Рѕ РіРѕСЂРѕРґ РёР· РєРѕС‚РѕСЂРѕРіРѕ РёРґРµРј СЂР°РІРµРЅ РїРѕСЃР»РµРґРЅРµРјСѓ Р·Р°РїРёСЃР°РЅРЅРѕРјСѓ РіРѕСЂРѕРґСѓ
 			if (min_str_zero[i] + min_col_zero[i] >= max_ass && zero_x[i] == gr.way[size(gr.way) - 1] && zero_y[i] != gr.way[0]) {
 				max_ass = min_str_zero[i] + min_col_zero[i];
 				c = zero_y[i];
@@ -171,37 +171,37 @@ Graph step(Graph gr,int p) {
 		}
 	}
 	if (size(gr.way) == 0) {
-		gr.way.push_back(s);//добавляем в путь город s, из которого идем 
-		gr.way.push_back(c);//добавляем в путь город с, в который идем 
-		gr.distance[s][c] = -1;//вычеркиваем клетку, что бы ей больше не пользоваться
-		gr.distance[c][s] = -1;//вычеркиваем противоположную клетку
+		gr.way.push_back(s);//РґРѕР±Р°РІР»СЏРµРј РІ РїСѓС‚СЊ РіРѕСЂРѕРґ s, РёР· РєРѕС‚РѕСЂРѕРіРѕ РёРґРµРј 
+		gr.way.push_back(c);//РґРѕР±Р°РІР»СЏРµРј РІ РїСѓС‚СЊ РіРѕСЂРѕРґ СЃ, РІ РєРѕС‚РѕСЂС‹Р№ РёРґРµРј 
+		gr.distance[s][c] = -1;//РІС‹С‡РµСЂРєРёРІР°РµРј РєР»РµС‚РєСѓ, С‡С‚Рѕ Р±С‹ РµР№ Р±РѕР»СЊС€Рµ РЅРµ РїРѕР»СЊР·РѕРІР°С‚СЊСЃСЏ
+		gr.distance[c][s] = -1;//РІС‹С‡РµСЂРєРёРІР°РµРј РїСЂРѕС‚РёРІРѕРїРѕР»РѕР¶РЅСѓСЋ РєР»РµС‚РєСѓ
 	}else {
-		gr.way.push_back(c);//добавляем в путь город с, в который идем 
-		gr.distance[s][c] = -1;//вычеркиваем клетку, что бы ей больше не пользоваться
-		gr.distance[c][s] = -1;//вычеркиваем противоположную клетку
+		gr.way.push_back(c);//РґРѕР±Р°РІР»СЏРµРј РІ РїСѓС‚СЊ РіРѕСЂРѕРґ СЃ, РІ РєРѕС‚РѕСЂС‹Р№ РёРґРµРј 
+		gr.distance[s][c] = -1;//РІС‹С‡РµСЂРєРёРІР°РµРј РєР»РµС‚РєСѓ, С‡С‚Рѕ Р±С‹ РµР№ Р±РѕР»СЊС€Рµ РЅРµ РїРѕР»СЊР·РѕРІР°С‚СЊСЃСЏ
+		gr.distance[c][s] = -1;//РІС‹С‡РµСЂРєРёРІР°РµРј РїСЂРѕС‚РёРІРѕРїРѕР»РѕР¶РЅСѓСЋ РєР»РµС‚РєСѓ
 	}
 	if (size(gr.way) == gr.quantity) { gr.way.push_back(gr.way[0]);}
-	cout<<"Путь на данный момент"<<endl;
+	cout<<"РџСѓС‚СЊ РЅР° РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚"<<endl;
 	for (int i = 0; i < size(gr.way); i++){cout << gr.way[i]+1<<" ";}
 	cout << endl;
-	//уничтожение из таблицы расстояний городов s и с 
+	//СѓРЅРёС‡С‚РѕР¶РµРЅРёРµ РёР· С‚Р°Р±Р»РёС†С‹ СЂР°СЃСЃС‚РѕСЏРЅРёР№ РіРѕСЂРѕРґРѕРІ s Рё СЃ 
 	for (int i = 0; i < gr.quantity; i++) {
 		gr.distance[s][i] = -1;
 		gr.distance[i][c] = -1;}
-	//возвращение невычеркнутым клеткам изначального значения
+	//РІРѕР·РІСЂР°С‰РµРЅРёРµ РЅРµРІС‹С‡РµСЂРєРЅСѓС‚С‹Рј РєР»РµС‚РєР°Рј РёР·РЅР°С‡Р°Р»СЊРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
 	for (int i = 0; i < gr.quantity; i++){
 		for (int j = 0; j < gr.quantity; j++){
 			if (gr.distance[i][j] != -1) { gr.distance[i][j] = buf[i][j]; }
 		}
 	}
 	cout << endl;
-	cout << "Выполнен шаг "<<p<<endl;
+	cout << "Р’С‹РїРѕР»РЅРµРЅ С€Р°Рі "<<p<<endl;
 	return gr;
 }
 int main() {
 	double start = clock();
 	setlocale(LC_ALL, "RUS");
-	cout << "Введите имя файла для чтения данных" << endl;
+	cout << "Р’РІРµРґРёС‚Рµ РёРјСЏ С„Р°Р№Р»Р° РґР»СЏ С‡С‚РµРЅРёСЏ РґР°РЅРЅС‹С…"<<endl;
 	string file_name;
 	cin >> file_name;
 	Graph gr;
@@ -212,11 +212,11 @@ int main() {
 	while (size(gr.way) != gr.quantity+1 ){
 		gr = step(gr, i);
 		i++;}
-	cout << "Лучший путь "<<endl;
+	cout << "Р›СѓС‡С€РёР№ РїСѓС‚СЊ "<<endl;
 	for (int i = 0; i < gr.quantity; i++) {
 		gr.length = gr.length + distance[gr.way[i]][gr.way[i + 1]];
 		cout << gr.way[i]+1 << " ";}
 	cout << gr.way[gr.quantity]+1;
-	cout << endl<<"Лучшая длина пути = "<<gr.length<<endl << "time=" << (clock() - start) / CLOCKS_PER_SEC;
+	cout << endl<<"Р›СѓС‡С€Р°СЏ РґР»РёРЅР° РїСѓС‚Рё = "<<gr.length<<endl << "time=" << (clock() - start) / CLOCKS_PER_SEC;
 	return 0;
 }
