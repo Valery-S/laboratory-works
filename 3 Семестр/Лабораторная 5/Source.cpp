@@ -1,16 +1,16 @@
 #include "MyList.h"
 #include<iostream>
 using namespace std;
-//--Функция для подсчёта массы кучи
+//--Р¤СѓРЅРєС†РёСЏ РґР»СЏ РїРѕРґСЃС‡С‘С‚Р° РјР°СЃСЃС‹ РєСѓС‡Рё
 template <typename T>
 int List_sum(List<T> list) {
-	T sum = 0;
+	int sum = 0;
 	for (int i = 0; i < list.get_size(); i++){
 		sum = sum + list[i];
 	}
 	return sum;
 }
-//---Перегрузка оператора << для вывода списка
+//---РџРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С‚РѕСЂР° << РґР»СЏ РІС‹РІРѕРґР° СЃРїРёСЃРєР°
 template <typename T>
 ostream& operator<<(ostream& os, List<T> list) {
 	for (int i = 0; i < list.get_size(); i++) {
@@ -19,77 +19,54 @@ ostream& operator<<(ostream& os, List<T> list) {
 	os << endl;
 	return os;
 }
-/*функция проверки корректности  ввода */
-int proverka() {
-	int n = 0;
-	int i = 0, count = 0;
-	bool f = false;
-	char b[50];
-	while (n == 0) {
-		f = false;
-		i = 0;
-		while (cin.peek()!='\n') {
-			b[i] = cin.get();
-			i++;
-		}
-		cin.ignore();
-		count = i;
-		for (int j = 0; j < count; j++){
-			if (b[j]<'0' || b[j]>'9') {
-				f = true;
-			}
-		}	
-		if (f == true){
-			cout << "Ошибка, введите ещё раз\n";
-		}
-		else {
-			for (int j = 0; j < count; j++){
-				n = n * 10 + b[j] - 48;
-			}
-		}
-	}
-	return n;
-}
 int main(){
-	setlocale(LC_ALL, "ru");//Включение русского языка
-	int N = 0;				//Количество камней
-	int max_mass=0;			//Масса максимального камня
-	int mass = 0;			//Масса текущего в цикле камня
-	int max_mass_index = 0;	//Номер камня с максимальной массой
-	List<float> L_mass;		//Массы камней
-	List<int> first_index;	//Номера камней первой кучи
-	List<int> second_index;	//Номера камней второй кучи
-	List<float>first_mass;	//Массы камней в первой куче
-	List<float>second_mass;	//Массы камней во второй куче
-	//---Получение и обработка исходных данных
-	cout << "Введите количество камней : " ;
-	N = proverka();
+	setlocale(LC_ALL, "ru");//Р’РєР»СЋС‡РµРЅРёРµ СЂСѓСЃСЃРєРѕРіРѕ СЏР·С‹РєР°
+	int N = 0;			//РљРѕР»РёС‡РµСЃС‚РІРѕ РєР°РјРЅРµР№
+	int max_mass=0;		//РњР°СЃСЃР° РјР°РєСЃРёРјР°Р»СЊРЅРѕРіРѕ РєР°РјРЅСЏ
+	int mass = 0;			//РњР°СЃСЃР° С‚РµРєСѓС‰РµРіРѕ РІ С†РёРєР»Рµ РєР°РјРЅСЏ
+	int max_mass_index = 0;	//РќРѕРјРµСЂ РєР°РјРЅСЏ СЃ РјР°РєСЃРёРјР°Р»СЊРЅРѕР№ РјР°СЃСЃРѕР№
+	List<float> L_mass;		//РњР°СЃСЃС‹ РєР°РјРЅРµР№
+	List<int> first_index;	//РќРѕРјРµСЂР° РєР°РјРЅРµР№ РїРµСЂРІРѕР№ РєСѓС‡Рё
+	List<int> second_index;	//РќРѕРјРµСЂР° РєР°РјРЅРµР№ РІС‚РѕСЂРѕР№ РєСѓС‡Рё
+	List<float>first_mass;	//РњР°СЃСЃС‹ РєР°РјРЅРµР№ РІ РїРµСЂРІРѕР№ РєСѓС‡Рµ
+	List<float>second_mass;	//РњР°СЃСЃС‹ РєР°РјРЅРµР№ РІРѕ РІС‚РѕСЂРѕР№ РєСѓС‡Рµ
+	//---РџРѕР»СѓС‡РµРЅРёРµ Рё РѕР±СЂР°Р±РѕС‚РєР° РёСЃС…РѕРґРЅС‹С… РґР°РЅРЅС‹С…
+	cout << "Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ РєР°РјРЅРµР№" << endl;
+	cin >> N;
+	if (N<=0){
+		cout << "РќРµРєРѕСЂСЂРµРєС‚РЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РєР°РјРЅРµР№" << endl;
+		exit(-1);
+	}
 	for (int i = 0; i < N; i++){
-		cout<<endl << "Введите массу "<<i+1<<"   камня " << endl;
-		mass= proverka();;
+		cout<<endl << "Р’РІРµРґРёС‚Рµ РјР°СЃСЃСѓ "<<i<<"   РєР°РјРЅСЏ " << endl;
+		cin >> mass;
+		if (mass < 0) {
+			cout << "РќРµРєРѕСЂСЂРµРєС‚РЅР°СЏ РјР°СЃСЃР° РєР°РјРЅСЏ" << endl;
+			exit(-1);
+		}
 		if (mass>max_mass){
 			max_mass = mass;
-			max_mass_index = i+1;
+			max_mass_index = i;
 		}
 		L_mass.push_back(mass);
 	}
-	//---Добавление камня с максимальной массой в первую кучу
+	//---Р”РѕР±Р°РІР»РµРЅРёРµ РєР°РјРЅСЏ СЃ РјР°РєСЃРёРјР°Р»СЊРЅРѕР№ РјР°СЃСЃРѕР№ РІ РїРµСЂРІСѓСЋ РєСѓС‡Сѓ
 	first_mass.push_back(max_mass);
 	first_index.push_back(max_mass_index);
-	//---Обработка оставшихся камней
+	//---РћР±СЂР°Р±РѕС‚РєР° РѕСЃС‚Р°РІС€РёС…СЃСЏ РєР°РјРЅРµР№
 	for (int i = 1; i < L_mass.get_size(); i++){
 		int sum1 = List_sum(first_mass);
 		int sum2 = List_sum(second_mass);
 		if (sum2 >= sum1) {
 			first_mass.push_back(L_mass[i]);
-			first_index.push_back(i+1);
+			first_index.push_back(i);
 		}
 		else {
 			second_mass.push_back(L_mass[i]);
-			second_index.push_back(i+1);
+			second_index.push_back(i);
 		}
 	}
-	//-----Обработка полученных масс
+	//-----РћР±СЂР°Р±РѕС‚РєР° РїРѕР»СѓС‡РµРЅРЅС‹С… РјР°СЃСЃ
 	int sum1 = List_sum(first_mass);
 	int sum2 = List_sum(second_mass);
 	int max_sum = sum1;
@@ -98,18 +75,19 @@ int main(){
 		max_mass = sum2;
 		min_sum = sum1;
 	}
-	//--Вывод результата
+	//--Р’С‹РІРѕРґ СЂРµР·СѓР»СЊС‚Р°С‚Р°
 	if (min_sum*2<=max_sum){
-		cout << "Камни можно разделить на кучи, соглачно условию." << endl
-			<< "Номера камней в первой куче: " << first_index
-			<< "Массы камней в первой куче: " << first_mass
-			<< "Масса первой кучи: " << List_sum(first_mass)<<endl
-			<< "Номера камней во второй куче: " << second_index
-			<< "Массы камней во второй куче: " << second_mass
-			<< "Масса второй кучи: " << List_sum(second_mass)<<endl;
+		cout << "РљР°РјРЅРё РјРѕР¶РЅРѕ СЂР°Р·РґРµР»РёС‚СЊ РЅР° РєСѓС‡Рё, СЃРѕРіР»Р°С‡РЅРѕ СѓСЃР»РѕРІРёСЋ." << endl
+			<< "РќРѕРјРµСЂР° РєР°РјРЅРµР№ РІ РїРµСЂРІРѕР№ РєСѓС‡Рµ: " << first_index
+			<< "РњР°СЃСЃС‹ РєР°РјРЅРµР№ РІ РїРµСЂРІРѕР№ РєСѓС‡Рµ: " << first_mass
+			<< "РњР°СЃСЃР° РїРµСЂРІРѕР№ РєСѓС‡Рё: " << List_sum(first_mass)<<endl
+			<< "РќРѕРјРµСЂР° РєР°РјРЅРµР№ РІРѕ РІС‚РѕСЂРѕР№ РєСѓС‡Рµ: " << second_index
+			<< "РњР°СЃСЃС‹ РєР°РјРЅРµР№ РІРѕ РІС‚РѕСЂРѕР№ РєСѓС‡Рµ: " << second_mass
+			<< "РњР°СЃСЃР° РІС‚РѕСЂРѕР№ РєСѓС‡Рё: " << List_sum(second_mass)<<endl;
 	}
 	else {
-		cout << "Камни нельзя разделить на кучи, соглачно условию." << endl;
+		cout << "РљР°РјРЅРё РЅРµР»СЊР·СЏ СЂР°Р·РґРµР»РёС‚СЊ РЅР° РєСѓС‡Рё, СЃРѕРіР»Р°С‡РЅРѕ СѓСЃР»РѕРІРёСЋ." 
+<< endl;
 	}
 	return 0;
 }
