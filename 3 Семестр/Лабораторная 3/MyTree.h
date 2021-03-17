@@ -50,7 +50,7 @@ template <typename T>
 void push(Node<T>* PNode, int index, T key) {
     if (PNode->number == index) {
         if (PNode->count_child == N) {
-            cout << "\u001B[31mУ этого узла максимальное количество сыновей" << endl;
+            cout << "\u001B[31mУ этого узла максимальное   количество сыновей" << endl;
         }
         else {
             if (PNode->parent == nullptr) {
