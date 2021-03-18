@@ -167,12 +167,11 @@ void print_map_to_console(map<char, vector<bool>>table) {
 *		1)Формируем блоки из 0 и 1 длиной по 8 символов и выписываем их в файл
 */
 void write_to_compressed_file(ofstream &out,vector<char>data,map<char,vector<bool>>table) {
-	cout << "Результат сжатия записан в файл output.bin\n";
 	int count = 0;
 	char buf = 0; 
 	for (int i = 0; i < data.size(); i++){
 		for (int j = 0; j < table[data[i]].size(); j++){
-			buf = buf | (table[data[i]][j]) << (7 - count);
+			buf = buf | (table[data[i]][j]) << (8 - count);
 			count++;
 			if (count == 8) {
 				count = 0;
@@ -182,4 +181,5 @@ void write_to_compressed_file(ofstream &out,vector<char>data,map<char,vector<boo
 		}
 	}
 }
+
 #endif
