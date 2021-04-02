@@ -13,19 +13,19 @@ public:
 	void set_points() {
 		bool is_readed = false;
 		while (is_readed == false) {
-			cout << Green << "Âûáåðèòå ñïîñîá ââîäà äàííûõ\n"
-				<< "\t{1} - ðó÷íîé ââîä â êîíñîëü\n"
-				<< "\t{2} - ÷òåíèå èç ôàéëà\n";
+			cout << Green << "Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ ÑÐ¿Ð¾ÑÐ¾Ð± Ð²Ð²Ð¾Ð´Ð° Ð´Ð°Ð½Ð½Ñ‹Ñ…\n"
+				<< "\t{1} - Ñ€ÑƒÑ‡Ð½Ð¾Ð¹ Ð²Ð²Ð¾Ð´ Ð² ÐºÐ¾Ð½ÑÐ¾Ð»ÑŒ\n"
+				<< "\t{2} - Ñ‡Ñ‚ÐµÐ½Ð¸Ðµ Ð¸Ð· Ñ„Ð°Ð¹Ð»Ð°\n";
 			int metod;
 			cin >> metod;
 			if (metod == 1) {
-				cout << Green << "Ââåäèòå êîëè÷åñòâî òî÷åê  ";
+				cout << Green << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÐºÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ Ñ‚Ð¾Ñ‡ÐµÐº  ";
 				int k;
 				double x_val;
 				cin >> k;
 				this->n = k;
 				for (size_t i = 1; i <= n; i++) {
-					cout << Yellow << "\n\tÂâåäèòå êîîðäèíàòó x " << i << " òî÷êè ";
+					cout << Yellow << "\n\tÐ’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÐºÐ¾Ð¾Ñ€Ð´Ð¸Ð½Ð°Ñ‚Ñƒ x " << i << " Ñ‚Ð¾Ñ‡ÐºÐ¸ ";
 					cin >> x_val;
 					this->x.push_back(x_val);
 					cout << Reset << "\n";
@@ -34,7 +34,7 @@ public:
 			}
 			else {
 				if (metod == 2) {
-					cout << Green << "Ââåäèòå èìÿ ôàéëà ";
+					cout << Green << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¸Ð¼Ñ Ñ„Ð°Ð¹Ð»Ð° ";
 					string file_name;
 					cin >> file_name;
 					ifstream in(file_name);
@@ -50,7 +50,7 @@ public:
 				}
 			}
 		}
-		cout << Green << "C÷èòàííûå òî÷êè\n";
+		cout << Green << "CÑ‡Ð¸Ñ‚Ð°Ð½Ð½Ñ‹Ðµ Ñ‚Ð¾Ñ‡ÐºÐ¸\n";
 		for (size_t i = 0; i < this->n; i++){
 			cout << Blue<<setprecision(3) << x[i] << "\n";
 		}
