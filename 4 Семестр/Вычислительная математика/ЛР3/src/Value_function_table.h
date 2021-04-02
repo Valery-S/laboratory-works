@@ -11,7 +11,7 @@ using namespace std;
 class Value_function_table{
 public:
 	vector<double>x;                    //Координаты x точек
-	vector<double>y;										//Координаты y точек
+	vector<double>y;		    //Координаты y точек
 	size_t n;                           //Количество точек 
 
 	Value_function_table() {
