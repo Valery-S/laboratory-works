@@ -6,16 +6,14 @@ import propertys.DataProperty;
  * Класс Индивид - экземпляр класс/подкласса типа
  * ClassNode
  *
- * @see ClassNode
- * @see AttributeNode
- * @see ValueNode
- *
  * @author Vladislav Sapozhnikov 19-IVT-3
  * @author Valerii Sukhorukov    19-IVT-3
  * @author Vyacheslav Mostashov  19-IVT-3
- * */
-public class IndividualNode extends Node
-{
+ * @see ClassNode
+ * @see AttributeNode
+ * @see ValueNode
+ */
+public class IndividualNode extends Node {
     /**
      * Метод для добавления атрибута индивиду
      * Создает узел атрибут с именем атрибута,
@@ -24,9 +22,8 @@ public class IndividualNode extends Node
      *
      * @param parameterName - имя параметра
      * @param value         - значение параметра
-     * */
-    public void addAttribute(String parameterName, String value)
-    {
+     */
+    public void addAttribute(String parameterName, String value) {
         AttributeNode node = new AttributeNode(parameterName, value);
         node.setParent(this);
         addChildNode(node);
@@ -35,19 +32,17 @@ public class IndividualNode extends Node
     /**
      * Конструктор с паметрами
      *
-     * @param name   - имя данного индивида
-     * */
-    public IndividualNode(String name)
-    {
+     * @param name - имя данного индивида
+     */
+    public IndividualNode(String name) {
         this.data = name;
     }
 
     /**
      * Метод для получения ID от родителя
-     * */
-    public void addID()
-    {
-        addAttribute("ID", Integer.toString(((ClassNode)parent).getIndividualCount()));
+     */
+    public void addID() {
+        addAttribute("ID", Integer.toString(((ClassNode) parent).getIndividualCount()));
     }
 
     /**
@@ -56,9 +51,8 @@ public class IndividualNode extends Node
      * AttributeNode
      *
      * @param node - ссылка на потомка
-     * */
-    private void addChildNode(AttributeNode node)
-    {
+     */
+    private void addChildNode(AttributeNode node) {
         DataProperty property = new DataProperty(node);
         propertyList.add(property);
     }

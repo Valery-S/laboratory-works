@@ -9,17 +9,15 @@ import java.util.List;
  * Абстрактный класс, содержащий основные поля
  * и методы узлов графовой структуры
  *
+ * @author Vladislav Sapozhnikov 19-IVT-3
+ * @author Valerii Sukhorukov    19-IVT-3
+ * @author Vyacheslav Mostashov  19-IVT-3
  * @see ClassNode
  * @see IndividualNode
  * @see AttributeNode
  * @see ValueNode
- *
- * @author Vladislav Sapozhnikov 19-IVT-3
- * @author Valerii Sukhorukov    19-IVT-3
- * @author Vyacheslav Mostashov  19-IVT-3
- * */
-public abstract class Node
-{
+ */
+public abstract class Node {
     protected Node parent;    //Поле для хранении ссылки на родительский узел
     protected String data;    //Поле для хранения данных
 
@@ -30,9 +28,8 @@ public abstract class Node
      * Метод для получения ссылки на родительский узел
      *
      * @return - ссылка на родительский узел
-     * */
-    public Node getParent()
-    {
+     */
+    public Node getParent() {
         return parent;
     }
 
@@ -40,9 +37,8 @@ public abstract class Node
      * Метод для задания ссылки на родительский узел
      *
      * @param parent - ссылка на родительский узел
-     * */
-    public void setParent(Node parent)
-    {
+     */
+    public void setParent(Node parent) {
         this.parent = parent;
     }
 
@@ -50,9 +46,8 @@ public abstract class Node
      * Метод для получения данных из узла
      *
      * @return - данные
-     * */
-    public String getData()
-    {
+     */
+    public String getData() {
         return data;
     }
 
@@ -61,9 +56,8 @@ public abstract class Node
      * дочерними узлами
      *
      * @return - список связей с дочерними узлами
-     * */
-    public List<Property> getPropertyList()
-    {
+     */
+    public List<Property> getPropertyList() {
         return propertyList;
     }
 }

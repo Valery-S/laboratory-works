@@ -6,25 +6,21 @@ import printers.GraphPrinter;
 /**
  * Класс, содержащий точку входа в программу - метод main.
  * Язык: java
- *
+ * <p>
  * Реализация первой лабораторной работы по диспилине: Шаблоны проектирования ПО
- *  Вариант №8
- *
+ * Вариант №8
+ * <p>
  * Текст задания: https://github.com/progerSapog/Software-design-patterns-2-course-2-semestr
- *
- * @release:     10.03.21
- * @last_update: 18.03.21
  *
  * @author Vladislav Sapozhnikov 19-IVT-3 (github: https://github.com/progerSapog )
  * @author Valerii Sukhorukov    19-IVT-3 (github: https://github.com/Valery-S    )
  * @author Vyacheslav Mostashov  19-IVT-3 (github: https://github.com/Vyacheslav-M)
+ * @release: 10.03.21
+ * @last_update: 18.03.21
  */
-public class Main
-{
-    public static void main(String[] args)
-    {
-        try
-        {
+public class Main {
+    public static void main(String[] args) {
+        try {
             //Вызов метода для создания графовой структуры
             ClassNode classNode = GraphBuilder.createNewGraph();
 
@@ -37,8 +33,7 @@ public class Main
             System.out.println("\n\t\t\t\t\u001B[31m Конец работы...\u001B[0m");
         }
         //Обработка исключений реализованных в рамке данной работы
-        catch (ChildNodeException e)
-        {
+        catch (ChildNodeException e) {
             e.printStackTrace();
         }
     }

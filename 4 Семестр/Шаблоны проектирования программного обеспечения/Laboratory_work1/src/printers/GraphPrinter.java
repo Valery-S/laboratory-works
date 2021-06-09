@@ -13,15 +13,13 @@ import java.util.Queue;
  * Класс, реализующий интрфейс Printable.
  * Предназначен для вывода информации о графовой структуре в консоль
  *
- * @see printers.Printable
- * @see ClassNode
- *
  * @author Vladislav Sapozhnikov 19-IVT-3
  * @author Valerii Sukhorukov    19-IVT-3
  * @author Vyacheslav Mostashov  19-IVT-3
- * */
-public class GraphPrinter implements Printable<ClassNode>
-{
+ * @see printers.Printable
+ * @see ClassNode
+ */
+public class GraphPrinter implements Printable<ClassNode> {
     private static GraphPrinter instance;    //Ссылка на единственный экземпляр класса
 
     //Константы для хранения последовательностей для
@@ -34,22 +32,20 @@ public class GraphPrinter implements Printable<ClassNode>
     /**
      * Приватный конструктор.
      * Запрещяет свободное создание объектов данного класс
-     * */
+     */
     private GraphPrinter() {
     }
 
     /**
      * Метод для получения единственного экземпляра
      * класса
-     *
+     * <p>
      * Реализация паттерна singleton
      *
      * @return - ссылка на экземпляр данного класса
-     * */
-    public static GraphPrinter getInstance()
-    {
-        if (instance == null)
-        {
+     */
+    public static GraphPrinter getInstance() {
+        if (instance == null) {
             instance = new GraphPrinter();
         }
 
@@ -61,10 +57,9 @@ public class GraphPrinter implements Printable<ClassNode>
      * Printable
      *
      * @param graph - корень графовой структуры
-     * */
+     */
     @Override
-    public void print(ClassNode graph)
-    {
+    public void print(ClassNode graph) {
         //Если передана пустая ссылка, то завершение работы
         if (graph == null) return;
 
@@ -72,9 +67,9 @@ public class GraphPrinter implements Printable<ClassNode>
         System.out.println();
 
         System.out.print("Обозначения: ");
-        System.out.print(RED    + "узел дерева, ");
+        System.out.print(RED + "узел дерева, ");
         System.out.print(YELLOW + "подкласс, ");
-        System.out.print(GREEN  + "индивид." + RESET);
+        System.out.print(GREEN + "индивид." + RESET);
         System.out.println();
         System.out.println();
 
@@ -108,14 +103,11 @@ public class GraphPrinter implements Printable<ClassNode>
             System.out.print(": ");
 
             //Если "вытащенный" узел не принадлжеит типу IndividualNode
-            if (!(tempNode instanceof IndividualNode))
-            {
+            if (!(tempNode instanceof IndividualNode)) {
                 //Проходя по потомкам выводим их имена с подсветкой
-                for (int i = 0; i < tempList.size(); i++)
-                {
+                for (int i = 0; i < tempList.size(); i++) {
                     printDataWithColor(tempList.get(i).getChildNode());
-                    if (i < tempList.size() - 1)
-                    {
+                    if (i < tempList.size() - 1) {
                         System.out.print(", ");
                     }
 
@@ -126,17 +118,14 @@ public class GraphPrinter implements Printable<ClassNode>
             //Иначе выводим потомков и потомков потомков (Узлы AttributeNode и ValueNode)
             else {
                 //Проход по узлам потомкам - Attribute узлам
-                for (int i = 0; i < tempList.size(); i++)
-                {
+                for (int i = 0; i < tempList.size(); i++) {
                     //Проход по потомкам потомков - value узлам
                     secondTempList = tempList.get(i).getChildNode().getPropertyList();
-                    for (int j = 0; j < secondTempList.size(); j++)
-                    {
+                    for (int j = 0; j < secondTempList.size(); j++) {
                         System.out.print(tempList.get(i).getChildNode().getData() + ": " +
                                 tempList.get(i).getChildNode().getPropertyList().get(j).getChildNode().getData());
                     }
-                    if (i < tempList.size() - 1)
-                    {
+                    if (i < tempList.size() - 1) {
                         System.out.print(", ");
                     }
                 }
@@ -149,32 +138,27 @@ public class GraphPrinter implements Printable<ClassNode>
     /**
      * Вспомогательный метод, выводящий имя узла
      * разными цветами, в зависимости от типа
-     *
+     * <p>
      * Красный - корень дерева
      * Желтый  - подкласс
      * Зеленый - индивид
-     * */
-    private void printDataWithColor(Node node)
-    {
+     */
+    private void printDataWithColor(Node node) {
         //Если переданный узел относится к типу ClassNode
-        if (node instanceof ClassNode)
-        {
+        if (node instanceof ClassNode) {
             //Если у узла нет родителя - то узел является корнем
             //и выводится красным
-            if (node.getParent() == null)
-            {
+            if (node.getParent() == null) {
                 System.out.print(RED);
             }
             //Иначе узел является подклассом и выводится
             //желтым
-            else
-            {
+            else {
                 System.out.print(YELLOW);
             }
         }
         //Другой тип выводится зеленым
-        else
-        {
+        else {
             System.out.print(GREEN);
         }
 

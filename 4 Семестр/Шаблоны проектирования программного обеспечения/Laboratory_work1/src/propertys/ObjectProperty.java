@@ -7,23 +7,20 @@ import nodes.Node;
  * узлами типов IndividualNode -> AttributeNode
  * и AttributeNode -> ValueNode
  *
+ * @author Vladislav Sapozhnikov 19-IVT-3
+ * @author Valerii Sukhorukov    19-IVT-3
+ * @author Vyacheslav Mostashov  19-IVT-3
  * @see Node
  * @see nodes.IndividualNode
  * @see nodes.AttributeNode
  * @see nodes.ValueNode
- *
- * @author Vladislav Sapozhnikov 19-IVT-3
- * @author Valerii Sukhorukov    19-IVT-3
- * @author Vyacheslav Mostashov  19-IVT-3
- * */
-public class ObjectProperty extends Property
-{
+ */
+public class ObjectProperty extends Property {
     /**
      * Констурктор с параметром,
      * использует конструктор род. класса
-     * */
-    public ObjectProperty(Node childNode)
-    {
+     */
+    public ObjectProperty(Node childNode) {
         super(childNode);
     }
 }

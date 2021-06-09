@@ -9,19 +9,17 @@ import propertys.Property;
  * Главный узел графовой структуры - служит корнем графа
  * и/или родителем для узлов типа IndividualNode
  *
+ * @author Vladislav Sapozhnikov 19-IVT-3
+ * @author Valerii Sukhorukov    19-IVT-3
+ * @author Vyacheslav Mostashov  19-IVT-3
  * @see Node
  * @see IndividualNode
  * @see ObjectProperty
  * @see exceptions.ChildNodeException
- *
- * @author Vladislav Sapozhnikov 19-IVT-3
- * @author Valerii Sukhorukov    19-IVT-3
- * @author Vyacheslav Mostashov  19-IVT-3
- * */
-public class ClassNode extends Node
-{
+ */
+public class ClassNode extends Node {
     private int individualCount = 0;    //счетчик индивидов для которых данный
-                                        //узе является родительским
+    //узе является родительским
 
     private String state;               //Поле отвечающее за состояния данного узла
 
@@ -30,10 +28,9 @@ public class ClassNode extends Node
      * Поскольку нет родителя, то узел
      * приобритает состояние класс
      *
-     * @param data   - имя данного узла
-     * */
-    public ClassNode(String data)
-    {
+     * @param data - имя данного узла
+     */
+    public ClassNode(String data) {
         this.data = data;
         this.state = "Класс";
     }
@@ -42,16 +39,14 @@ public class ClassNode extends Node
      * Медот для добавления дочернего узла
      * Формирует связь - свойство объекта
      *
-     * @param node                - дочерний узел
+     * @param node - дочерний узел
      * @throws ChildNodeException - исключение созданий связей
-     *                              между узлами в графовой структуре
-     * */
-    public void addChild (Node node) throws ChildNodeException
-    {
+     *                            между узлами в графовой структуре
+     */
+    public void addChild(Node node) throws ChildNodeException {
         //Если дочерний узел не принадлежит типу ClassNode или IndividualNode,
         //то выбрасываем исключение связей узлов
-        if ((!(node instanceof ClassNode)) && (!(node instanceof IndividualNode)))
-        {
+        if ((!(node instanceof ClassNode)) && (!(node instanceof IndividualNode))) {
             throw new ChildNodeException("Для узла типа" + this.getClass() + " дочерним узлом могут быть" +
                     " узлы: " + ClassNode.class + " или " + IndividualNode.class);
         }
@@ -59,8 +54,7 @@ public class ClassNode extends Node
         Property property;
 
         //Если дочерний узел принадлжеит классу IndividualNode
-        if (node instanceof IndividualNode)
-        {
+        if (node instanceof IndividualNode) {
             //Установка родителя при помощи метода setParent класса
             //IndividualNode, где конкретно указано какой тип
             //Родителя может быть.
@@ -77,8 +71,7 @@ public class ClassNode extends Node
             //Если в состоянии узла еще не указано, что он имеет
             //индивида к текущему состоянию приписываем:
             //имеет индивида
-            if (!this.state.contains(", имеет индивида"))
-            {
+            if (!this.state.contains(", имеет индивида")) {
                 this.state = this.state + ", имеет индивида";
             }
 
@@ -87,15 +80,13 @@ public class ClassNode extends Node
         }
         //Иначе если тип переданного узла ClassNode то у него устанавливается
         //статус Подкласс
-        else
-        {
+        else {
             node.setParent(this);
             ((ClassNode) node).state = "Подкласс";
 
             //Если у текущего узла не указано в состоянии, что он имеет подкласс
             //то дописываем это
-            if (!this.state.contains(", имеет подкласс"))
-            {
+            if (!this.state.contains(", имеет подкласс")) {
                 this.state = this.state + ", имеет подкласс";
             }
 
@@ -110,9 +101,8 @@ public class ClassNode extends Node
      * Метод для получения счетчика индивидов данного класса (узла)
      *
      * @return значение счетчика индивидов
-     * */
-    public int getIndividualCount()
-    {
+     */
+    public int getIndividualCount() {
         return this.individualCount;
     }
 
@@ -120,9 +110,8 @@ public class ClassNode extends Node
      * Метод для получения состояния данного узла
      *
      * @return значение счетчика индивидов
-     * */
-    public String getState()
-    {
+     */
+    public String getState() {
         return state;
     }
 }

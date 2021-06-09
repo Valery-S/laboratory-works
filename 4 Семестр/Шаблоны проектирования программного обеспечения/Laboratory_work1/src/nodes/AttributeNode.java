@@ -6,26 +6,23 @@ import propertys.DataProperty;
  * Узел атрибут
  * Фомрмируется при вывозе метод addAttribute
  * у узла типа IndividualNode
- *
+ * <p>
  * Содержит значение Имя атрибута и ссылку на значение
- *
- * @see Node
- * @see ValueNode
  *
  * @author Vladislav Sapozhnikov 19-IVT-3
  * @author Valerii Sukhorukov    19-IVT-3
  * @author Vyacheslav Mostashov  19-IVT-3
- * */
-public class AttributeNode extends Node
-{
+ * @see Node
+ * @see ValueNode
+ */
+public class AttributeNode extends Node {
     /**
      * Конструктор с параметрами
      *
      * @param name  - имя данного атрибута
      * @param value - значение, которое будет передано узлу ValueNode
-     * */
-    public AttributeNode(String name, String value)
-    {
+     */
+    public AttributeNode(String name, String value) {
         this.data = name;
         ValueNode valueNode = new ValueNode(value, this);
         addChildNode(valueNode);
@@ -38,9 +35,8 @@ public class AttributeNode extends Node
      * Формирует связь типа DataProperty
      *
      * @param node - дочерний узел типа ValueNode
-     * */
-    public void addChildNode(ValueNode node)
-    {
+     */
+    public void addChildNode(ValueNode node) {
         DataProperty property = new DataProperty(node);
         propertyList.add(property);
     }
