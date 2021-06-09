@@ -55,7 +55,7 @@ public class App
         //Построение графовой структуры
         Optional<ContainerNode> nodeOpt = director.build(app.GraphBuilder);
 
-        //Если обретка не пуста, то выводим граф
+        //Если обертка не пуста, то выводим граф
         nodeOpt.ifPresent(containerNode -> app.graphPrinter.print(containerNode));
 
         //закрытие контекста
