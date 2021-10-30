@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>Удалить фотокарточку</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="~/css/delete_or_add.css">
+	<script type="text/javascript" src="~/js/delete_or_add.js"></script>
+	@model Picture.Models.MainModel
+</head>
+<body>
+	<p align="center" style="color: #3c0760; font-size: 50px; ">
+		<i><font face="Arial">Удали или добавь картинку</font></i>
+	</p>
+
+	<ul class="menu">
+		<li><a href="Index">На главную</a></li>
+		<li><a href="Like_or_dislike">Оценить картинки</a></li>
+	</ul>
+
+	<div class="form">
+
+		<p align="center" style="color:rebeccapurple; font-size: 20px;" class="title">
+			<i><font face="Arial">
+					Введите номер картинки, которую нужно удалить или добавить<Br>
+			</font></i>
+			<textarea style="font-size:30px" class="input"></textarea>
+		</p>
+
+		<div class="buttons">
+			<button value="add" class="add">Добавить</button>
+			<button value="delete" class="delete">Удалить</button>
+		</div>
+		
+
+
+	</div>
+
+</body>
+</html>

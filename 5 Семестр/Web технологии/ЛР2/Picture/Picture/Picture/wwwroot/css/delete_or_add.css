@@ -1,0 +1,87 @@
+﻿body {
+	background-image: url("../Image/background.jpg");
+}
+
+button {
+	width: 130px;
+	height: 50px;
+	border: none;
+	background: orange;
+	cursor: pointer;
+	border-radius: 30px 30px;
+	font: normal 13px arial;
+	color: white;
+}
+
+	button:hover {
+		background-color: green;
+	}
+
+.menu {
+	list-style-type: none;
+}
+
+	.menu li {
+		float: left;
+	}
+
+	.menu a {
+		list-style-type: none;
+		display: block;
+		width: 5em;
+		height: 40px;
+		list-style-type: none;
+		padding: 10px;
+		margin: 0 5px;
+		background-color: yellow;
+		border: 1px solid black;
+		text-decoration: none;
+		color: black;
+		text-align: center;
+	}
+
+ul.menu a:hover {
+	background-color: green;
+	color: white;
+}
+
+.form{
+	position:relative;
+	height:600px;
+	width:600px;
+	background-color:yellow;
+	margin-left:auto;
+	margin-right:auto;
+	top:80px;
+	border-radius:50px;
+}
+
+.buttons {
+	position: relative;
+	height: 200px;
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+	top: 100px;
+}
+.add {
+	position: relative;
+	left:40px;
+	top: 60px;
+}
+.delete {
+	position: relative;
+	left:180px;
+	top: 60px;
+}
+
+.title{
+	position:relative;
+	top:40px;
+}
+
+.input{
+	resize:none;
+	width:500px;
+	height:50px;
+}
