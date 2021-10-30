@@ -1,0 +1,22 @@
+cl
+clc
+am n
+sm t
+cmd 16 1 6 11 18 25 30
+cmd 17 7 35
+cmd 18 31 35
+cmd 19 38 40 41 43 45
+cmd 20 36
+cmd 21 18 24 38 39 41 42 43 45
+cmd 22 33 37 40 41 42 45
+cmd 23 19 24 10 33 37 40 45 42 41
+link G9 C3
+link COUNT C5
+link ONE C4
+setma 10000
+setc 100
+exec
+setm 1001
+exec
+setm 110100000
+exec

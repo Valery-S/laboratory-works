@@ -1,0 +1,138 @@
+/****************************************************************************
+
+
+cuemu-gui.rc
+
+produced by Borland Resource Workshop
+
+
+*****************************************************************************/
+
+#include "cuemu-rc.rh"
+
+MAINMENU MENU 
+{
+ POPUP "Файл"
+ {
+  MENUITEM "Выполнить файл\tCtrl-L", IDM_EXECUTEFILE
+  MENUITEM "Сохранить файл\tCtrl-S", IDM_SAVEFILE
+  MENUITEM SEPARATOR
+  MENUITEM "Выход\tAlt-X", IDM_EXIT
+ }
+
+ POPUP "Эмулятор"
+ {
+  MENUITEM "Выполнить\tCtrl-E", IDM_EXECUTE
+  MENUITEM SEPARATOR
+  MENUITEM "Пошаговое выполнение\tCtrl-T", IDM_TRACE, CHECKED
+  MENUITEM "Автоматическое выполнение\tCtrl-A", IDM_AUTOMODE
+  MENUITEM SEPARATOR
+  MENUITEM "Естественна\377 адресаци\377\tCtrl-0", IDM_NATURAL, CHECKED
+  MENUITEM "Принудительна\377 адресаци\377 1 адр.\tCtrl-1", IDM_FORCED1
+  MENUITEM "Принудительна\377 адресаци\377 2 адр.\tCtrl-2", IDM_FORCED2
+  MENUITEM "Принудительна\377 адресаци\377 4 адр.\tCtrl-3", IDM_FORCED4
+  MENUITEM SEPARATOR
+  MENUITEM "Инициализация\tCtrl-I", IDM_INITIALIZE
+  MENUITEM "Очистить микропрограмму\tCtrl-D", IDM_CLEAR
+  MENUITEM "Удалить соединения\tCtrl-U", IDM_UNLINKALL
+ }
+
+ POPUP "Консоль"
+ {
+  MENUITEM "Убрать консоль", IDM_HIDECONSOLE
+  MENUITEM SEPARATOR
+  MENUITEM "Список команд", IDM_HELPALL
+  MENUITEM "Список микрокоманд", IDM_LS
+  MENUITEM "Список соединений", IDM_LSC
+  MENUITEM "Состо\377ние эмул\377тора", IDM_SHOW
+ }
+
+}
+
+MAINMENU ACCELERATORS 
+{
+ "L", IDM_EXECUTEFILE, VIRTKEY, CONTROL
+ "S", IDM_SAVEFILE, VIRTKEY, CONTROL
+ "X", IDM_EXIT, VIRTKEY, ALT
+ "E", IDM_EXECUTE, VIRTKEY, CONTROL
+ "I", IDM_INITIALIZE, VIRTKEY, CONTROL
+ "D", IDM_CLEAR, VIRTKEY, CONTROL
+ "U", IDM_UNLINKALL, VIRTKEY, CONTROL
+ "T", IDM_TRACE, VIRTKEY, CONTROL
+ "A", IDM_AUTOMODE, VIRTKEY, CONTROL
+ "0", IDM_NATURAL, VIRTKEY, CONTROL
+ "1", IDM_FORCED1, VIRTKEY, CONTROL
+ "2", IDM_FORCED2, VIRTKEY, CONTROL
+ "3", IDM_FORCED4, VIRTKEY, CONTROL
+ "V", IDM_SETREGS, VIRTKEY, CONTROL
+}
+
+EMPTYDIALOG DIALOG 0, 0, 240, 120
+STYLE DS_CONTROL | DS_CONTEXTHELP | WS_CHILD | WS_VISIBLE
+CAPTION ""
+FONT 8, "MS Sans Serif"
+{
+}
+
+CONNECTIONS DIALOG 10, 20, 440, 302
+STYLE DS_3DLOOK | DS_CONTROL | WS_CHILD | WS_VISIBLE
+FONT 8, "MS Sans Serif"
+{
+ CONTROL "ListBox1", IDC_CONNECTIONS, "listbox", LBS_STANDARD | WS_CHILD | WS_VISIBLE | WS_HSCROLL | WS_TABSTOP, 8, 28, 420, 194
+ CONTROL "Добавленные соединения", IDC_STATICTEXT1, "static", SS_LEFT | WS_CHILD | WS_VISIBLE, 8, 12, 420, 13
+ CONTROL "ComboBox1", IDC_CONNECTOR1, "combobox", CBS_DROPDOWNLIST | WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_TABSTOP, 8, 224, 420, 80
+ CONTROL "ComboBox2", IDC_CONNECTOR2, "combobox", CBS_DROPDOWNLIST | WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_TABSTOP, 8, 244, 420, 84
+ CONTROL "Соединить", IDC_LINK, "button", BS_PUSHBUTTON | BS_CENTER | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 8, 263, 92, 13
+ CONTROL "Разъединить", IDC_UNLINK, "button", BS_PUSHBUTTON | BS_CENTER | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 110, 263, 92, 13
+ CONTROL "Удалить все", IDC_UNLINKALL, "button", BS_PUSHBUTTON | BS_CENTER | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 213, 263, 92, 13
+}
+
+INFO DIALOG 10, 20, 480, 282
+STYLE DS_3DLOOK | DS_CONTROL | DS_CONTEXTHELP | WS_CHILD | WS_VISIBLE
+CAPTION ""
+FONT 8, "MS Sans Serif"
+{
+ CONTROL "Выберите микрооперацию", IDC_STATICTEXT2, "static", SS_LEFT | WS_CHILD | WS_VISIBLE, 8, 9, 228, 11
+ CONTROL "ComboBox1", IDC_SELECTMOP, "combobox", CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_TABSTOP, 8, 22, 464, 162
+ CONTROL "Несовместимые микрооперации", IDC_STATICTEXT3, "static", SS_LEFT | WS_CHILD | WS_VISIBLE, 8, 43, 120, 9
+ CONTROL "", IDC_MOPINFO, "static", SS_LEFT | SS_SUNKEN | WS_CHILD | WS_VISIBLE, 8, 60, 460, 176
+}
+
+DECODER DIALOG 10, 21, 470, 287
+STYLE DS_3DLOOK | DS_CONTROL | WS_CHILD | WS_VISIBLE
+FONT 8, "MS Sans Serif"
+{
+ CONTROL "TreeView1", IDC_MOPTREE, "SysTreeView32", TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | WS_CHILD | WS_VISIBLE | WS_BORDER, 8, 9, 444, 263
+}
+
+1 VERSIONINFO 
+FILEVERSION 1, 0, 0, 0
+PRODUCTVERSION 1, 0, 0, 0
+FILEOS VOS_NT_WINDOWS32
+FILETYPE VFT_APP
+{
+ BLOCK "StringFileInfo"
+ {
+  BLOCK "040904E4"
+  {
+   VALUE "CompanyName", "VAN\000\000"
+   VALUE "FileDescription", "CUEMU: simple ALU/CU emulator\000"
+   VALUE "FileVersion", "1.00\000\000"
+   VALUE "InternalName", "CUEMU\000"
+   VALUE "LegalCopyright", "Copyright © VAN (2006)\000\000"
+   VALUE "OriginalFilename", "cuemu-gui.exe\000"
+  }
+
+ }
+
+ BLOCK "VarFileInfo"
+ {
+  VALUE "Translation", 0x409, 1252
+ }
+
+}
+
+
+
+
+
