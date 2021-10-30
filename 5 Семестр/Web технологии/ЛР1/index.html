@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="look.css">
+  <script type="text/javascript" src="logic.js"></script>
+  
+</head>
+<body background="background.jpg">
+
+  <div class="color">
+    <pre><i><font size="4" color="blue" face="Arial">      Выберите цвет</font></i>
+    </pre>
+
+    <select onclick="color_selection()" id="list">
+      <option value="PU">Фиолетовый</option>
+      <option value="RE">Красный</option>
+      <option value="OR">Оранжевый</option>
+      <option value="YE">Жёлтый</option>
+      <option value="GR">Зелёный</option>
+      <option value="BL">Синий</option>
+    </select>
+  </div>
+
+  <div class="sq"></div>
+
+  <div class="circles">
+    <div class="red" onclick='colors("red")'></div>
+    <div class="green" onclick='colors("green")'></div>
+    <div class="orange" onclick='colors("orange")'></div>
+    <div class="purple" onclick='colors("purple")'></div>
+    <div class="blue" onclick='colors("blue")'></div>
+    <div class="yellow" onclick='colors("yellow")'></div>
+  </div>
+
+</body>
+</html>

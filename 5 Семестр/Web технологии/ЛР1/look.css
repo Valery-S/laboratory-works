@@ -1,0 +1,97 @@
+.sq {
+  width: 400px;
+  height: 400px;
+  cursor: crosshair;
+  background-color: purple;
+  border-radius: 50px 50px;
+  position: relative;
+  top: -150px;
+  left: 500px;
+}
+
+.color {
+  width: 200px;
+  height: 200px;
+  border: 3px solid blue;
+  background: linear-gradient(to bottom,pink,purple );
+  border-radius: 30px 30px;
+  position: relative;
+  top: 150px;
+  left: 50px;
+}
+
+.circles {
+  border: 3px solid blue;
+  width: 600px;
+  height: 150px;
+  border-radius: 50px 50px;
+  background: linear-gradient(to bottom,pink,purple );
+  position: relative;
+  top: -100px;
+  left: 150px;
+}
+
+
+.red {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  background-color: red;
+  border-radius: 50px 50px;
+  position: relative;
+  left: 20px;
+  top: 50px;
+}
+.green {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  background-color: green;
+  border-radius: 50px 50px;
+  position: relative;
+  left: 120px;
+}
+
+.orange {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  background-color: orange;
+  border-radius: 50px 50px;
+  position: relative;
+  left: 220px;
+  top: -50px;
+}
+
+.purple {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  background-color: purple;
+  border-radius: 50px 50px;
+  position: relative;
+  left: 320px;
+  top: -100px;
+}
+
+.blue {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  background-color: blue;
+  border-radius: 50px 50px;
+  position: relative;
+  left: 420px;
+  top: -150px;
+}
+.yellow {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  background-color: yellow;
+  border-radius: 50px 50px;
+  position: relative;
+  left: 520px;
+  top: -200px;
+}
+
