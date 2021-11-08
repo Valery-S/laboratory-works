@@ -1,0 +1,119 @@
+Turbo Assembler	 Version 3.1	    08/11/21 20:37:17	    Page 1
+lab2com.asm
+
+
+
+      1	0000			     .model tiny
+      2
+      3	0000			     .code
+      4				     org 100h
+      5	0100			     _main:
+      6
+      7					 ;Считывание исходного массива
+      8	0100  BA 0151r			 mov dx, offset	in_str
+      9	0103  C6 06 0151r 14 90		 mov in_str, 20
+     10	0109  B4 0A			 mov ah, 10
+     11	010B  CD 21			 int 21h
+     12
+     13					 ;Инициализация	регистра источника данных на конец исходного массива
+     14	010D  8A 0E 0152r		 mov cl, in_str	+ 1	    ;Количество	элементов в массиве
+     15	0111  32 ED			 xor ch, ch		    ;Очистка регистра ch
+     16	0113  B8 0152r			 mov ax, offset	in_str+1    ;Адрес, предшествующий первому элементу
+     17	0116  03 C1			 add ax,cx		    ;Запись адреса последнего элемента
+     18	0118  8B F0			 mov si,ax		    ;Инициализация регистра источника данных
+     19
+     20					 ;Инициализация	регистра приёмника данных на начало выходного массива
+     21	011A  BF 0167r			 mov di, offset	out_str
+     22
+     23					 ;Определения числа повторений первого цикла - Переставка второй
+     24					 ;части	исходного массива в начало нового в обратном порядке.
+     25					 ;Число	повторений - количество	элементов делить на 2.
+     26	011D  D1 E9			 shr cx,1		     ;Деление выполняется сдвигом на 1 в право
+     27
+     28	011F			     m1:
+     29	011F  8A 04			 mov al, [si]
+     30	0121  26: 88 05			 mov es:[di],al
+     31	0124  4E			 dec si
+     32	0125  47			 inc di
+     33	0126  E2 F7			 loop m1
+     34
+     35					 ;Инициализация	регистра источника данных на начало исходного массива
+     36	0128  BE 0153r			 mov si, offset	in_str+2
+     37
+     38					 ;Определения числа повторений второго цикла - Переставка первой
+     39					 ;части	исходного массива в конец нового.
+     40					 ;Число	повторений - количество	элементов делить на 2.
+     41	012B  8A 0E 0152r		 mov cl, in_str	+ 1
+     42	012F  D1 E9			 shr cx,1
+     43
+     44
+     45	0131			     m2:
+     46	0131  8A 04			 mov al,[si]
+     47	0133  26: 88 05			 mov es:[di],al
+     48	0136  46			 inc si
+     49	0137  47			 inc di
+     50	0138  E2 F7			 loop m2
+     51
+     52					;Вывод пустрой строки
+     53	013A  BA 017Br			 mov dx, offset	blank_str
+     54	013D  B4 09			 mov ah, 9
+     55	013F  CD 21			 int 21h
+     56
+     57					 ;Вывод	нового массива
+Turbo Assembler	 Version 3.1	    08/11/21 20:37:17	    Page 2
+lab2com.asm
+
+
+
+     58	0141  BA 0167r			 mov dx, offset	out_str
+     59	0144  B4 09			 mov ah, 9
+     60	0146  CD 21			 int 21h
+     61
+     62	0148  B4 07			 mov ah, 7
+     63	014A  CD 21			 int 21h
+     64
+     65	014C  B8 4C00			 mov ax, 4c00h
+     66	014F  CD 21			 int 21h
+     67
+     68	0151  16*(??)			 in_str	db 22 dup (?)
+     69	0167  14*(24)			 out_str db 20 dup ('$')
+     70	017B  14*(24)			 blank_str db 20 dup ('$')
+     71
+     72				     end _main
+Turbo Assembler	 Version 3.1	    08/11/21 20:37:17	    Page 3
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "08/11/21"
+??FILENAME			  Text	 "lab2com "
+??TIME				  Text	 "20:37:17"
+??VERSION			  Number 030A
+@32BIT				  Text	 0
+@CODE				  Text	 DGROUP
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 LAB2COM
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 1
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+BLANK_STR			  Byte	 DGROUP:017B
+IN_STR				  Byte	 DGROUP:0151
+M1				  Near	 DGROUP:011F
+M2				  Near	 DGROUP:0131
+OUT_STR				  Byte	 DGROUP:0167
+_MAIN				  Near	 DGROUP:0100
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  _DATA				  16  0000 Word	  Public  DATA
+  _TEXT				  16  018F Word	  Public  CODE
+

@@ -1,0 +1,155 @@
+Turbo Assembler	 Version 3.1	    08/11/21 20:40:05	    Page 1
+lab2.asm
+
+
+
+      1				     ; Лабораторная работа №2
+      2				     ; Сухоруков Валерий
+      3				     ; Перестановка a(n),a(n-1),a(n-2),...,a(n/2),a(1),a(2),...,a(n/2-1).
+      4				     ; Многосегментная программа. Создаётся exe	файл
+      5
+      6
+      7	0000			     .model small
+      8	0000			     .stack 200h
+      9
+     10	0000			     d1	segment	para public 'data'
+     11	0000  49 6E 70 75 74 3A	20+  mess1 db 'Input: ',10,13,'$'
+     12	      0A 0D 24
+     13	000A  16*(??)		     in_str db 22 dup (?)
+     14	0020			     d1	ends
+     15
+     16	0000			     e1	segment	para public 'data'
+     17	0000  0A 0D 4F 75 74 70	75+  mess2 db 10,13, 'Output: ',10,13,'$'
+     18	      74 3A 20 0A 0D 24
+     19	000D  14*(24)		     out_str db	20 dup ('$')
+     20	0021			     e1	ends
+     21
+     22
+     23	0000			     c1	segment	para public 'code'
+     24				     assume cs:c1, ds:d1, es:e1
+     25
+     26	0000			     start:
+     27					 ;Инициализация	сегментов
+     28	0000  B8 0000s			 mov ax, d1
+     29	0003  8E D8			 mov ds, ax
+     30	0005  B8 0000s			 mov ax, e1
+     31	0008  8E C0			 mov es, ax
+     32
+     33					 ;Вывод	строки запроса
+     34	000A  BA 0000r			 mov dx, offset	mess1
+     35	000D  B4 09			 mov ah, 9
+     36	000F  CD 21			 int 21h
+     37
+     38					 ;Считывание исходного массива
+     39	0011  BA 000Ar			 mov dx, offset	in_str
+     40	0014  C6 06 000Ar 14		 mov in_str, 20
+     41	0019  B4 0A			 mov ah, 10
+     42	001B  CD 21			 int 21h
+     43
+     44					 ;Инициализация	регистра источника данных на конец исходного массива
+     45	001D  8A 0E 000Br		 mov cl, in_str	+ 1	    ;Количество	элементов в массиве
+     46	0021  32 ED			 xor ch, ch		    ;Очистка регистра ch
+     47	0023  B8 000Br			 mov ax, offset	in_str+1    ;Адрес, предшествующий первому элементу
+     48	0026  03 C1			 add ax,cx		    ;Запись адреса последнего элемента
+     49	0028  8B F0			 mov si,ax		    ;Инициализация регистра источника данных
+     50
+     51					 ;Инициализация	регистра приёмника данных на начало выходного массива
+     52	002A  BF 000Dr			 mov di, offset	out_str
+     53
+     54					 ;Определения числа повторений первого цикла - Переставка второй
+     55					 ;части	исходного массива в начало нового в обратном порядке.
+     56					 ;Число	повторений - количество	элементов делить на 2.
+     57	002D  D1 E9			 shr cx,1		     ;Деление выполняется сдвигом на 1 в право
+Turbo Assembler	 Version 3.1	    08/11/21 20:40:05	    Page 2
+lab2.asm
+
+
+
+     58
+     59	002F			     m1:
+     60	002F  8A 04			 mov al, [si]
+     61	0031  26: 88 05			 mov es:[di],al
+     62	0034  4E			 dec si
+     63	0035  47			 inc di
+     64	0036  E2 F7			 loop m1
+     65
+     66					 ;Инициализация	регистра источника данных на начало исходного массива
+     67	0038  BE 000Cr			 mov si, offset	in_str+2
+     68
+     69					 ;Определения числа повторений второго цикла - Переставка первой
+     70					 ;части	исходного массива в конец нового.
+     71					 ;Число	повторений - количество	элементов делить на 2.
+     72	003B  8A 0E 000Br		 mov cl, in_str	+ 1
+     73	003F  D1 E9			 shr cx,1
+     74
+     75
+     76	0041			     m2:
+     77	0041  8A 04			 mov al,[si]
+     78	0043  26: 88 05			 mov es:[di],al
+     79	0046  46			 inc si
+     80	0047  47			 inc di
+     81	0048  E2 F7			 loop m2
+     82
+     83					 ;Вывод	строки,	предшествующей выходному массиву
+     84	004A  8C C0			 mov ax, es
+     85	004C  8E D8			 mov ds, ax
+     86	004E  BA 0000r			 mov dx, offset	mess2
+     87	0051  B4 09			 mov ah, 9
+     88	0053  CD 21			 int 21h
+     89
+     90					 ;Вывод	нового массива
+     91	0055  BA 000Dr			 mov dx, offset	out_str
+     92	0058  B4 09			 mov ah, 9
+     93	005A  CD 21			 int 21h
+     94
+     95	005C  B4 07			 mov ah, 7
+     96	005E  CD 21			 int 21h
+     97
+     98	0060  B8 4C00			 mov ax, 4c00h
+     99	0063  CD 21			 int 21h
+    100
+    101	0065			     c1	ends
+    102
+    103				     end start
+Turbo Assembler	 Version 3.1	    08/11/21 20:40:05	    Page 3
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "08/11/21"
+??FILENAME			  Text	 "lab2	  "
+??TIME				  Text	 "20:40:05"
+??VERSION			  Number 030A
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 C1
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 LAB2
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+IN_STR				  Byte	 D1:000A
+M1				  Near	 C1:002F
+M2				  Near	 C1:0041
+MESS1				  Byte	 D1:0000
+MESS2				  Byte	 E1:0000
+OUT_STR				  Byte	 E1:000D
+START				  Near	 C1:0000
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+C1				  16  0065 Para	  Public  CODE
+D1				  16  0020 Para	  Public  DATA
+DGROUP				  Group
+  STACK				  16  0200 Para	  Stack	  STACK
+  _DATA				  16  0000 Word	  Public  DATA
+E1				  16  0021 Para	  Public  DATA
+_TEXT				  16  0000 Word	  Public  CODE
+
