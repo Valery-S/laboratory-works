@@ -1,0 +1,40 @@
+﻿@model IEnumerable<MySite.Models.Picture>
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Оценить картинку </title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="~/css/Like_or_dislike.css">
+</head>
+
+
+<body>
+	<p align="center" style="color: coral; font-size: 50px; cursor: default">
+		<i><font face="Arial">Оценить картинку </font></i>
+	</p>
+
+	<ul class="menu">
+		<li class="to_like"><a href="~/Home/Index">На главную</a></li>
+		<li class="to_add"><a href="~/Home/ADD">Добавить картинку</a></li>
+	</ul>
+
+
+	@foreach (var picture in Model)
+	{
+		if (@picture.Id == @ViewBag.PictireID)
+		{
+			<img src="~/Image/50 Foto/@picture.Name" width="900" height="530" class="grade_image" />
+		}
+	}
+
+	<form method="post">
+		<button type="submit" class="do_like" name="was_liked" value="1"></button>
+		<button type="submit" class="do_dislike" name="was_liked" value="0"></button>
+	</form>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<MySite.Models.Picture>
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Рейтинг картинок</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="~/css/index.css">
+</head>
+
+
+<body>
+	<p align="center" style="color: coral; font-size: 50px;cursor:default ">
+		<i><font face="Arial">Рейтинг картинок</font></i>
+	</p>
+
+	<ul class="menu">
+		@if (Model.Count() != 0)
+		{
+			<li class="to_like"><a href="~/Home/Like_or_dislike/@Model.FirstOrDefault().Id" style="cursor:pointer">Оценить картинки</a></li>
+		}
+		<li class="to_add"><a href="~/Home/ADD" style="cursor:pointer">Добавить картинку</a></li>
+	</ul>
+
+
+	@foreach (var picture in Model)
+	{
+		<img src="~/Image/50 Foto/@picture.Name" width="800" height="470" class="pic" />
+
+		<p class="likes" style="color: coral; font-size: 30px; width: 150px ">
+			<a href="~/Home/Like_or_dislike/@picture.Id" style="cursor:pointer">@picture.Likes Like</a>
+		</p>
+
+		<p class="dislikes" style="color:coral; font-size: 30px; width:150px ">
+			<a href="~/Home/Like_or_dislike/@picture.Id" style="cursor:pointer">@picture.Dislikes Dislike</a>
+		</p>
+
+		<p class="to_del" style="color:coral; font-size: 30px; width:150px ">
+			<a href="~/Home/delete/@picture.Id" style="cursor:pointer">Удалить картинку</a>
+		</p>
+	}
+
+
+</body>
+</html>

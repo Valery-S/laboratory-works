@@ -1,0 +1,45 @@
+﻿@model IEnumerable<MySite.Models.Picture>
+@{
+	Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Добавить картинку</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="~/css/add.css">
+</head>
+<body>
+	<p align="center" style="color: coral; font-size: 50px; cursor: default ">
+		<i><font face="Arial">Добавь картинку</font></i>
+	</p>
+	<ul class="menu">
+		<li><a href="~/Home/Index" style="cursor:pointer">На главную</a></li>
+		@if (Model.Count() != 0)
+		{
+			<li class="to_like"><a href="~/Home/Like_or_dislike/@Model.FirstOrDefault().Id" style="cursor:pointer">Оценить картинки</a></li>
+		}
+	</ul>
+
+
+
+
+	<div class="form">
+		<p align="center" style="color: coral; font-size: 20px;" class="title">
+			<i>
+				<font face="Arial">
+					Введите название картинки, которую нужно добавить<Br>
+				</font>
+			</i>
+		</p>
+		<form method="post">
+			<input type="hidden" value="@ViewBag.PictureId" name="PictureId" />
+			<input type="text" name="Name" style="font-size:30px " class="input" />
+			<button type="submit" value="add" class="add" style="cursor:pointer">Добавить</button>
+		</form>
+	</div>
+
+
+</body>
+
+</html>

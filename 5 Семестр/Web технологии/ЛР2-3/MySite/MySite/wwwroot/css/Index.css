@@ -1,0 +1,88 @@
+﻿body {
+	background-image: url("../Image/background.jpg");
+}
+
+button {
+	width: 130px;
+	height: 50px;
+	border: none;
+	background: orange;
+	cursor: pointer;
+	border-radius: 30px 30px;
+	font: normal 13px arial;
+	color: white;
+}
+
+	button:hover {
+		background-color: green;
+	}
+
+.menu {
+	list-style-type: none;
+}
+
+	.menu li {
+		float: left;
+		position:absolute;
+	}
+
+	.menu a {
+		list-style-type: none;
+		display: block;
+		width: 5em;
+		height: 40px;
+		list-style-type: none;
+		padding: 10px;
+		margin: 0 5px;
+		background-color: yellow;
+		border: 1px solid black;
+		text-decoration: none;
+		color: black;
+		text-align: center;
+	}
+
+ul.menu a:hover {
+	background-color: green;
+	color: white;
+}
+img {
+	position: relative;
+	left: 530px;
+	top: 150px;
+}
+
+.likes{
+	position:relative;
+	top:150px;
+	left:650px;
+}
+.dislikes {
+	position: relative;
+	top: 80px;
+	left: 1100px;
+}
+.del {
+	position: relative;
+	top: 50px;
+	left: 500px;
+}
+.to_add{
+	left:160px;
+}
+.to_del {
+	position: relative;
+	top: 100px;
+	left: 850px;
+}
+
+a {
+	text-decoration: none;
+}
+
+	a:link, a:visited {
+		color: coral;
+	}
+
+	a:hover {
+		color: coral;
+	}
