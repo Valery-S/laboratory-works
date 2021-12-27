@@ -1,4 +1,4 @@
-Turbo Assembler	 Version 3.1	    08/11/21 20:40:05	    Page 1
+Turbo Assembler	 Version 3.1	    14/11/21 13:13:29	    Page 1
 lab2.asm
 
 
@@ -8,25 +8,25 @@ lab2.asm
       3				     ; Перестановка a(n),a(n-1),a(n-2),...,a(n/2),a(1),a(2),...,a(n/2-1).
       4				     ; Многосегментная программа. Создаётся exe	файл
       5
-      6
-      7	0000			     .model small
-      8	0000			     .stack 200h
-      9
-     10	0000			     d1	segment	para public 'data'
-     11	0000  49 6E 70 75 74 3A	20+  mess1 db 'Input: ',10,13,'$'
-     12	      0A 0D 24
-     13	000A  16*(??)		     in_str db 22 dup (?)
-     14	0020			     d1	ends
-     15
-     16	0000			     e1	segment	para public 'data'
-     17	0000  0A 0D 4F 75 74 70	75+  mess2 db 10,13, 'Output: ',10,13,'$'
-     18	      74 3A 20 0A 0D 24
-     19	000D  14*(24)		     out_str db	20 dup ('$')
-     20	0021			     e1	ends
+      6	0000			     d1	segment	para public 'data'
+      7	0000  49 6E 70 75 74 3A	20+  mess1 db 'Input: ',10,13,'$'
+      8	      0A 0D 24
+      9	000A  16*(??)		     in_str db 22 dup (?)
+     10	0020			     d1	ends
+     11
+     12	0000			     e1	segment	para public 'data'
+     13	0000  0A 0D 4F 75 74 70	75+  mess2 db 10,13, 'Output: ',10,13,'$'
+     14	      74 3A 20 0A 0D 24
+     15	000D  14*(24)		     out_str db	20 dup ('$')
+     16	0021			     e1	ends
+     17
+     18	0000			     st1 segment para stack 'stack'
+     19	0000  64*(????)			 dw 100	dup (?)
+     20	00C8			     st1 ends
      21
      22
      23	0000			     c1	segment	para public 'code'
-     24				     assume cs:c1, ds:d1, es:e1
+     24				     assume cs:c1, ds:d1, es:e1, ss:st1
      25
      26	0000			     start:
      27					 ;Инициализация	сегментов
@@ -60,7 +60,7 @@ lab2.asm
      55					 ;части	исходного массива в начало нового в обратном порядке.
      56					 ;Число	повторений - количество	элементов делить на 2.
      57	002D  D1 E9			 shr cx,1		     ;Деление выполняется сдвигом на 1 в право
-Turbo Assembler	 Version 3.1	    08/11/21 20:40:05	    Page 2
+Turbo Assembler	 Version 3.1	    14/11/21 13:13:29	    Page 2
 lab2.asm
 
 
@@ -111,7 +111,7 @@ lab2.asm
     101	0065			     c1	ends
     102
     103				     end start
-Turbo Assembler	 Version 3.1	    08/11/21 20:40:05	    Page 3
+Turbo Assembler	 Version 3.1	    14/11/21 13:13:29	    Page 3
 Symbol Table
 
 
@@ -119,21 +119,13 @@ Symbol Table
 
 Symbol Name			  Type	 Value
 
-??DATE				  Text	 "08/11/21"
+??DATE				  Text	 "14/11/21"
 ??FILENAME			  Text	 "lab2	  "
-??TIME				  Text	 "20:40:05"
+??TIME				  Text	 "13:13:29"
 ??VERSION			  Number 030A
-@32BIT				  Text	 0
-@CODE				  Text	 _TEXT
-@CODESIZE			  Text	 0
 @CPU				  Text	 0101H
 @CURSEG				  Text	 C1
-@DATA				  Text	 DGROUP
-@DATASIZE			  Text	 0
 @FILENAME			  Text	 LAB2
-@INTERFACE			  Text	 00H
-@MODEL				  Text	 2
-@STACK				  Text	 DGROUP
 @WORDSIZE			  Text	 2
 IN_STR				  Byte	 D1:000A
 M1				  Near	 C1:002F
@@ -147,9 +139,6 @@ Groups & Segments		  Bit Size Align  Combine Class
 
 C1				  16  0065 Para	  Public  CODE
 D1				  16  0020 Para	  Public  DATA
-DGROUP				  Group
-  STACK				  16  0200 Para	  Stack	  STACK
-  _DATA				  16  0000 Word	  Public  DATA
 E1				  16  0021 Para	  Public  DATA
-_TEXT				  16  0000 Word	  Public  CODE
+ST1				  16  00C8 Para	  Stack	  STACK
 

@@ -1,0 +1,610 @@
+Turbo Assembler	 Version 3.1	    20/12/21 11:02:57	    Page 1
+lab3.asm
+
+
+
+      1	0000			     .MODEL SMALL
+      2				     p1	macro f1;вывод сообщений на экран
+      3					     push ax
+      4					     push dx
+      5					     mov dx,offset f1
+      6					     mov ah,9
+      7					     int 21h
+      8					     pop dx
+      9					     pop ax
+     10				     endm
+     11				     p2	macro f2;ввод строки символов
+     12					     push ax
+     13					     push dx
+     14					     mov dx,offset f2
+     15					     mov ah,0ah
+     16					     int 21h
+     17					     pop dx
+     18					     pop ax
+     19				     endm
+     20	0000			     .data
+     21	0000  49 6E 70 75 74 3A	35+  mess0 db 'Input:5 numbers in [-29999,29999]',10,13,'$'
+     22	      20 6E 75 6D 62 65	72+
+     23	      73 20 69 6E 20 5B	2D+
+     24	      32 39 39 39 39 2C	32+
+     25	      39 39 39 39 5D 0A	0D+
+     26	      24
+     27	0024  50 72 65 73 73 20	3C+  mess00 db 'Press <Enter> after each number',10,13,'$'
+     28	      45 6E 74 65 72 3E	20+
+     29	      61 66 74 65 72 20	65+
+     30	      61 63 68 20 6E 75	6D+
+     31	      62 65 72 0A 0D 24
+     32	0046  45 6E 74 65 72 20	6E+  mess1 db 'Enter number:$'
+     33	      75 6D 62 65 72 3A	24
+     34	0054			     in_str label byte ;строка символов	(не более 6)
+     35	0054  07		     razmer db 7
+     36	0055  00		     kol db (?)
+     37	0056  07*(??)		     stroka db 7 dup (?)   ;знак числа (для отрицательных), 5 цифр, enter
+     38	005D  05*(0000)		     number dw 5 dup (0)   ;массив чисел
+     39	0067  0005		     siz dw 5		   ;количество чисел
+     40	0069  0000		     maxnum dw 0	   ;наибольшее
+     41	006B  0000		     minnum dw 0	   ;наименьшее
+     42	006D  05*(0000)		     negNum dw 5 dup (0)   ;Отрицательные элементы
+     43	0077  05*(0000)		     posNum dw 5 dup (0)   ;Положительные элементы
+     44	0081  0000		     negSum dw 0	   ;Сумма отрицательных
+     45	0083  0000		     posSum dw 0	   ;Сумма положительных
+     46	0085  0000		     posAvg dw 0		   ;Среднее полжительных чисел
+     47	0087  0000		     posKol dw 0	       ;Количество положительных
+     48	0089  0A 0D 24		     perevod db	10,13,'$'
+     49	008C  49 6E 70 75 74 20	65+  text_err1 db 'Input error!',10,13,'$'
+     50	      72 72 6F 72 21 0A	0D+
+     51	      24
+     52	009B  0D 0A 07 4F 76 65	72+  messovf db	13,10,7,'Overflow!','$'
+     53	      66 6C 6F 77 21 24
+     54	00A8  0D 0A 50 6F 73 69	74+  mesposavg db 13,10,'Positive Average:','$'
+     55	      69 76 65 20 41 76	65+
+     56	      72 61 67 65 3A 24
+     57	00BC  0D 0A 4D 61 78 3A	24   messmax db	13,10,'Max:','$'
+Turbo Assembler	 Version 3.1	    20/12/21 11:02:57	    Page 2
+lab3.asm
+
+
+
+     58	00C3  0D 0A 4D 69 6E 3A	24   messmin db	13,10,'Min:','$'
+     59	00CA  0D 0A 43 6F 75 6E	74+  mesposkol db 13,10,'Count of positive:','$'
+     60	      20 6F 66 20 70 6F	73+
+     61	      69 74 69 76 65 3A	24
+     62	00DF  0D 0A 53 75 6D 20	6F+  mesnegSum db 13,10,'Sum of	negative:','$'
+     63	      66 20 6E 65 67 61	74+
+     64	      69 76 65 3A 24
+     65	00F2  0D 0A 53 75 6D 20	6F+  mesposSum db 13,10,'Sum of	positive:','$'
+     66	      66 20 70 6F 73 69	74+
+     67	      69 76 65 3A 24
+     68	0105  06*(20) 24	     out_str db	6 dup (' '),'$'
+     69	      =0001		     flag_err equ 1
+     70	0000			     .stack 256
+     71	010C			     .code
+     72	0000  B8 0000s		     start:	     mov ax,@data
+     73	0003  8E D8				     mov ds,ax
+     74
+     75				     ;вызов функции 0 -	 установка 3 текстового	видеорежима, очистка экрана
+     76	0005  B8 0003				     mov ax,0003  ;ah=0	(номер функции),al=3 (номер режима)
+     77	0008  CD 10				     int 10h
+     78						     p1	mess0
+1    79	000A  50			     push ax
+1    80	000B  52			     push dx
+1    81	000C  BA 0000r			     mov dx,offset mess0
+1    82	000F  B4 09			     mov ah,9
+1    83	0011  CD 21			     int 21h
+1    84	0013  5A			     pop dx
+1    85	0014  58			     pop ax
+     86						     p1	mess00
+1    87	0015  50			     push ax
+1    88	0016  52			     push dx
+1    89	0017  BA 0024r			     mov dx,offset mess00
+1    90	001A  B4 09			     mov ah,9
+1    91	001C  CD 21			     int 21h
+1    92	001E  5A			     pop dx
+1    93	001F  58			     pop ax
+     94				     ;цикл ввода, di - номер числа в массиве
+     95	0020  33 FF				     xor di,di
+     96	0022  8B 0E 0067r			     mov cx, siz ; в cx	- размер массива
+     97	0026  51		     vvod:	     push cx
+     98
+     99	0027			     m1:	     p1	mess1	  ;вывод сообщения о вводе строки
+1   100	0027  50			     push ax
+1   101	0028  52			     push dx
+1   102	0029  BA 0046r			     mov dx,offset mess1
+1   103	002C  B4 09			     mov ah,9
+1   104	002E  CD 21			     int 21h
+1   105	0030  5A			     pop dx
+1   106	0031  58			     pop ax
+    107				     ;ввод числа в виде	строки
+    108						     p2	in_str
+1   109	0032  50			     push ax
+1   110	0033  52			     push dx
+1   111	0034  BA 0054r			     mov dx,offset in_str
+1   112	0037  B4 0A			     mov ah,0ah
+1   113	0039  CD 21			     int 21h
+1   114	003B  5A			     pop dx
+Turbo Assembler	 Version 3.1	    20/12/21 11:02:57	    Page 3
+lab3.asm
+
+
+
+1   115	003C  58			     pop ax
+    116						     p1	perevod
+1   117	003D  50			     push ax
+1   118	003E  52			     push dx
+1   119	003F  BA 0089r			     mov dx,offset perevod
+1   120	0042  B4 09			     mov ah,9
+1   121	0044  CD 21			     int 21h
+1   122	0046  5A			     pop dx
+1   123	0047  58			     pop ax
+    124				     ;проверка диапазона вводимых чисел	(-29999,+29999)
+    125	0048  E8 0163				     call diapazon
+    126	004B  80 FF 01				     cmp bh,flag_err  ;сравним bh и flag_err
+    127	004E  74 13				     je	err1	      ;если равен -сообщение об	ошибке ввода
+    128				     ;проверка допустимости вводимых символов
+    129	0050  E8 0189				     call dopust
+    130	0053  80 FF 01				     cmp bh,flag_err
+    131	0056  74 0B				     je	err1
+    132				     ;преобразование строки в число
+    133	0058  E8 01AE				     call AscToBin
+    134	005B  47				     inc di
+    135	005C  47				     inc di
+    136	005D  59				     pop cx
+    137	005E  E2 C6				     loop vvod
+    138	0060  EB 1C 90				     jmp arifmet
+    139	0063			     err1:		     p1	text_err1
+1   140	0063  50			     push ax
+1   141	0064  52			     push dx
+1   142	0065  BA 008Cr			     mov dx,offset text_err1
+1   143	0068  B4 09			     mov ah,9
+1   144	006A  CD 21			     int 21h
+1   145	006C  5A			     pop dx
+1   146	006D  58			     pop ax
+    147	006E  EB B7				     jmp m1
+    148
+    149	0070			     OVR:    p1	messovf	 ;вывод	сообщения о переполнении
+1   150	0070  50			     push ax
+1   151	0071  52			     push dx
+1   152	0072  BA 009Br			     mov dx,offset messovf
+1   153	0075  B4 09			     mov ah,9
+1   154	0077  CD 21			     int 21h
+1   155	0079  5A			     pop dx
+1   156	007A  58			     pop ax
+    157	007B  E9 011B				     jmp PROGEND
+    158				     ;место для	арифметической обработки
+    159				     ;*******************************************************************************
+    160	007E			     arifmet:
+    161	007E  8B 0E 0067r			     mov cx, siz     ; В (cx) -	размер массива
+    162	0082  33 F6				     xor si,si
+    163				     ;Поиск максимального и минимального элементов
+    164	0084  A1 005Dr				     mov ax,number
+    165	0087  A3 0069r				     mov maxnum,ax
+    166	008A  A3 006Br				     mov minnum,ax
+    167
+    168	008D			     max:
+    169	008D  8B 84 005Dr			     mov ax,number+si
+    170	0091  3B 06 0069r			     cmp ax,maxnum
+    171	0095  7E 06				     jle min
+Turbo Assembler	 Version 3.1	    20/12/21 11:02:57	    Page 4
+lab3.asm
+
+
+
+    172	0097  A3 0069r				     mov maxnum,ax
+    173	009A  EB 01 90				     jmp min
+    174
+    175	009D  3B 06 006Br	     min:    cmp ax,minnum
+    176	00A1  7D 06				     jge next
+    177	00A3  A3 006Br				     mov minnum,ax
+    178	00A6  EB 01 90				     jmp next
+    179
+    180	00A9  46		     next:   inc si
+    181	00AA  46				     inc si
+    182	00AB  E2 E0				     loop max
+    183
+    184				     ; Поиск отрицательных элементов и рассчет их суммы
+    185	00AD  8B 0E 0067r			     mov cx, siz     ; В (cx) -	размер массива
+    186	00B1  BE 005Dr				     mov si, offset number
+    187	00B4  BF 006Dr				     mov di, offset negNum
+    188	00B7			     negFind:
+    189	00B7  8B 04				     mov ax, [si]
+    190	00B9  3D 0000				     cmp ax, 0
+    191	00BC  7D 0A				     jge endNegFind
+    192	00BE  89 05				     mov [di], ax
+    193	00C0  01 06 0081r			     add negSum, ax ; Сумма отрицательных
+    194	00C4  70 AA				     jo	 OVR; Если произошло переполнение
+    195
+    196	00C6  47				     inc di
+    197	00C7  47				     inc di
+    198
+    199	00C8			     endNegFind:
+    200	00C8  46				     inc si
+    201	00C9  46				     inc si
+    202	00CA  E2 EB				     loop negFind
+    203
+    204	00CC  8B 0E 0067r			     mov cx, siz
+    205	00D0  BE 005Dr				     mov si, offset number
+    206	00D3  BF 0077r				     mov di, offset posNum
+    207	00D6  33 DB				     xor bx, bx
+    208				     ; Поиск положительных элементов и рассчет их среднего
+    209	00D8			     posFind:
+    210	00D8  8B 04				     mov ax, [si]
+    211	00DA  3D 0000				     cmp ax, 0
+    212	00DD  7C 0B				     jl	endPosFind
+    213	00DF  89 05				     mov [di], ax
+    214	00E1  01 06 0083r			     add posSum, ax ; Сумма положительных
+    215	00E5  70 89				     jo	 OVR; Если произошло переполнение
+    216
+    217	00E7  47				     inc di
+    218	00E8  47				     inc di
+    219	00E9  43				     inc bx  ; Считаем количество положительных	элементов
+    220
+    221
+    222	00EA			     endPosFind:
+    223	00EA  46				     inc si
+    224	00EB  46				     inc si
+    225	00EC  E2 EA				     loop posFind
+    226
+    227				     ; Поиск среднего положительного
+    228	00EE  BA 0000				     mov dx,0
+Turbo Assembler	 Version 3.1	    20/12/21 11:02:57	    Page 5
+lab3.asm
+
+
+
+    229	00F1  A1 0083r				     mov ax,posSum
+    230	00F4  83 FB 00				     cmp bx,0
+    231	00F7  74 05				     je	endAvg
+    232	00F9  F7 F3				     div bx
+    233	00FB  A3 0085r				     mov posAvg, ax
+    234	00FE			     endAvg:
+    235
+    236				     ;********************************************************************************************
+    237				     ;вывод результата на экран
+    238						     p1	messmax
+1   239	00FE  50			     push ax
+1   240	00FF  52			     push dx
+1   241	0100  BA 00BCr			     mov dx,offset messmax
+1   242	0103  B4 09			     mov ah,9
+1   243	0105  CD 21			     int 21h
+1   244	0107  5A			     pop dx
+1   245	0108  58			     pop ax
+    246	0109  A1 0069r				     mov ax,maxnum
+    247	010C  E8 012F				     call BinToAsc
+    248						     p1	out_str
+1   249	010F  50			     push ax
+1   250	0110  52			     push dx
+1   251	0111  BA 0105r			     mov dx,offset out_str
+1   252	0114  B4 09			     mov ah,9
+1   253	0116  CD 21			     int 21h
+1   254	0118  5A			     pop dx
+1   255	0119  58			     pop ax
+    256	011A  E8 0081				     call clearOutputStr
+    257
+    258						     p1	messmin
+1   259	011D  50			     push ax
+1   260	011E  52			     push dx
+1   261	011F  BA 00C3r			     mov dx,offset messmin
+1   262	0122  B4 09			     mov ah,9
+1   263	0124  CD 21			     int 21h
+1   264	0126  5A			     pop dx
+1   265	0127  58			     pop ax
+    266	0128  A1 006Br				     mov ax,minnum
+    267	012B  E8 0110				     call BinToAsc
+    268						     p1	out_str
+1   269	012E  50			     push ax
+1   270	012F  52			     push dx
+1   271	0130  BA 0105r			     mov dx,offset out_str
+1   272	0133  B4 09			     mov ah,9
+1   273	0135  CD 21			     int 21h
+1   274	0137  5A			     pop dx
+1   275	0138  58			     pop ax
+    276	0139  E8 0062				     call clearOutputStr
+    277
+    278						     p1	mesnegSum
+1   279	013C  50			     push ax
+1   280	013D  52			     push dx
+1   281	013E  BA 00DFr			     mov dx,offset mesnegSum
+1   282	0141  B4 09			     mov ah,9
+1   283	0143  CD 21			     int 21h
+1   284	0145  5A			     pop dx
+1   285	0146  58			     pop ax
+Turbo Assembler	 Version 3.1	    20/12/21 11:02:57	    Page 6
+lab3.asm
+
+
+
+    286	0147  A1 0081r				     mov ax,negSum
+    287	014A  E8 00F1				     call BinToAsc
+    288						     p1	out_str
+1   289	014D  50			     push ax
+1   290	014E  52			     push dx
+1   291	014F  BA 0105r			     mov dx,offset out_str
+1   292	0152  B4 09			     mov ah,9
+1   293	0154  CD 21			     int 21h
+1   294	0156  5A			     pop dx
+1   295	0157  58			     pop ax
+    296	0158  E8 0043				     call clearOutputStr
+    297
+    298						     p1	mesposSum
+1   299	015B  50			     push ax
+1   300	015C  52			     push dx
+1   301	015D  BA 00F2r			     mov dx,offset mesposSum
+1   302	0160  B4 09			     mov ah,9
+1   303	0162  CD 21			     int 21h
+1   304	0164  5A			     pop dx
+1   305	0165  58			     pop ax
+    306	0166  A1 0083r				     mov ax,posSum
+    307	0169  E8 00D2				     call BinToAsc
+    308						     p1	out_str
+1   309	016C  50			     push ax
+1   310	016D  52			     push dx
+1   311	016E  BA 0105r			     mov dx,offset out_str
+1   312	0171  B4 09			     mov ah,9
+1   313	0173  CD 21			     int 21h
+1   314	0175  5A			     pop dx
+1   315	0176  58			     pop ax
+    316	0177  E8 0024				     call clearOutputStr
+    317
+    318						     p1	mesposavg
+1   319	017A  50			     push ax
+1   320	017B  52			     push dx
+1   321	017C  BA 00A8r			     mov dx,offset mesposavg
+1   322	017F  B4 09			     mov ah,9
+1   323	0181  CD 21			     int 21h
+1   324	0183  5A			     pop dx
+1   325	0184  58			     pop ax
+    326	0185  A1 0085r				     mov ax,posAvg
+    327	0188  E8 00B3				     call BinToAsc
+    328						     p1	out_str
+1   329	018B  50			     push ax
+1   330	018C  52			     push dx
+1   331	018D  BA 0105r			     mov dx,offset out_str
+1   332	0190  B4 09			     mov ah,9
+1   333	0192  CD 21			     int 21h
+1   334	0194  5A			     pop dx
+1   335	0195  58			     pop ax
+    336
+    337
+    338	0196  EB 01 90				     jmp PROGEND
+    339
+    340	0199			     PROGEND:
+    341	0199  B8 4C00				     mov ax,4c00h
+    342	019C  CD 21				     int 21h
+Turbo Assembler	 Version 3.1	    20/12/21 11:02:57	    Page 7
+lab3.asm
+
+
+
+    343
+    344	019E			     clearOutputStr PROC
+    345	019E  33 F6			     xor si, si
+    346	01A0  BE 0105r			     mov si, offset out_str
+    347	01A3  51			     push cx
+    348	01A4  B1 06			     mov cl, 06h
+    349	01A6			     _clearCycle:
+    350	01A6  C6 04 20			     mov [si], byte ptr	' '
+    351	01A9  46			     inc si
+    352	01AA  E2 FA			     loop _clearCycle
+    353	01AC  59			     pop cx
+    354	01AD  C3			     ret
+    355	01AE			     ENDP
+    356
+    357	01AE			     DIAPAZON PROC
+    358				     ;проверка диапазона вводимых чисел	-29999,+29999
+    359				     ;буфер ввода - stroka
+    360				     ;через bh возвращается флаг ошибки	ввода
+    361	01AE  32 FF			     xor bh,bh;
+    362	01B0  33 F6			     xor si,si;	     номер символа в вводимом числе
+    363				     ;если ввели менее 5 символов проверим их допустимость
+    364	01B2  80 3E 0055r 05		     cmp kol,5
+    365	01B7  72 22			     jb	dop
+    366				     ;если ввели 5 или более символов проверим является	ли первый минусом
+    367	01B9  80 3E 0056r 2D		     cmp stroka,2dh
+    368	01BE  75 0B			     jne plus ;	  если 1 символ	не минус,проверим число	символов
+    369				     ;если первый - минус и символов меньше 6 проверим допустимость символов
+    370	01C0  80 3E 0055r 06		     cmp kol,6
+    371	01C5  72 14			     jb	dop
+    372	01C7  46			     inc si;	     иначе проверим первую цифру
+    373	01C8  EB 08 90			     jmp first
+    374
+    375	01CB  80 3E 0055r 06	     plus:   cmp kol,6;	     введено 6 символов	и первый - не минус
+    376	01D0  74 07			     je	error1;	      ошибка
+    377	01D2  80 BC 0056r 32	     first:  cmp stroka[si],32h;сравним	первый символ с	2
+    378	01D7  76 02			     jna dop;если первый <=2 -проверим допустимость символов
+    379	01D9  B7 01		     error1: mov bh,flag_err;иначе bh=flag_err
+    380	01DB  C3		     dop:    ret
+    381	01DC			     DIAPAZON ENDP
+    382	01DC			     DOPUST PROC
+    383				     ;проверка допустимости вводимых символов
+    384				     ;буфер ввода - stroka
+    385				     ;si - номер символа в строке
+    386				     ;через bh возвращается флаг ошибки	ввода
+    387	01DC  32 FF			     xor bh,bh
+    388	01DE  33 F6			     xor si,si
+    389	01E0  32 E4			     xor ah,ah
+    390	01E2  32 ED			     xor ch,ch
+    391	01E4  8A 0E 0055r		     mov cl,kol;в ch количество	введенных символов
+    392	01E8  8A 84 0056r	     m11:    mov al,[stroka+si]; в al -	первый символ
+    393	01EC  3C 2D			     cmp al,2dh;является ли символ минусом
+    394	01EE  75 08			     jne testdop;если не минус - проверка допустимости
+    395	01F0  83 FE 00			     cmp si,0;если минус  - является ли	он первым символом
+    396	01F3  75 11			     jne error2;если минус не первый -ошибка
+    397	01F5  EB 09 90			     jmp m13
+    398				     ;является ли введенный символ цифрой
+    399	01F8  3C 30		     testdop:cmp al,30h
+Turbo Assembler	 Version 3.1	    20/12/21 11:02:57	    Page 8
+lab3.asm
+
+
+
+    400	01FA  72 0A			     jb	error2
+    401	01FC  3C 39			     cmp al,39h
+    402	01FE  77 06			     ja	error2
+    403	0200  46		     m13:    inc si
+    404	0201  E2 E5			     loop m11
+    405	0203  EB 03 90			     jmp m14
+    406	0206  B7 01		     error2: mov bh, flag_err;при недопустимости символа bh=flag_err
+    407	0208  C3		     m14:    ret
+    408	0209			     DOPUST ENDP
+    409	0209			     AscToBin PROC
+    410				     ;в	cx количество введенных	символов
+    411				     ;в	bx - номер символа начиная с последнего
+    412				     ;буфер чисел - number, в di - номер числа в массиве
+    413	0209  32 ED			     xor ch,ch
+    414	020B  8A 0E 0055r		     mov cl,kol
+    415	020F  32 FF			     xor bh,bh
+    416	0211  8A D9			     mov bl,cl
+    417	0213  FE CB			     dec bl
+    418	0215  BE 0001			     mov si,1  ;в si вес разряда
+    419	0218  8A 87 0056r	     n1:     mov al,[stroka+bx]
+    420	021C  32 E4			     xor ah,ah
+    421	021E  3C 2D			     cmp al,2dh;проверим знак числа
+    422	0220  74 17			     je	otr    ; если число отрицательное
+    423	0222  2C 30			     sub al,30h
+    424	0224  F7 E6			     mul si
+    425	0226  01 85 005Dr		     add [number+di],ax
+    426	022A  8B C6			     mov ax,si
+    427	022C  BE 000A			     mov si,10
+    428	022F  F7 E6			     mul si
+    429	0231  8B F0			     mov si,ax
+    430	0233  4B			     dec bx
+    431	0234  E2 E2			     loop n1
+    432	0236  EB 05 90			     jmp n2
+    433	0239  F7 9D 005Dr	     otr:    neg [number+di];представим	отрицательное число в дополнительном коде
+    434	023D  C3		     n2:     ret
+    435	023E			     AscToBin ENDP
+    436	023E			     BinToAsc PROC
+    437				     ;преобразование числа в строку
+    438				     ;число передается через ax
+    439	023E  33 F6			     xor si,si
+    440	0240  83 C6 05			     add si,5
+    441	0243  BB 000A			     mov bx,10
+    442	0246  50			     push ax
+    443	0247  3D 0000			     cmp ax,0
+    444	024A  7D 02			     jnl mm1
+    445	024C  F7 D8			     neg ax
+    446	024E  99		     mm1:    cwd
+    447	024F  F7 FB			     idiv bx
+    448	0251  80 C2 30			     add dl,30h
+    449	0254  88 94 0105r		     mov [out_str+si],dl
+    450	0258  4E			     dec si
+    451	0259  3D 0000			     cmp ax,0
+    452	025C  75 F0			     jne mm1
+    453	025E  58			     pop ax
+    454	025F  3D 0000			     cmp ax,0
+    455	0262  7D 05			     jge mm2
+    456	0264  C6 84 0105r 2D		     mov [out_str+si],2dh
+Turbo Assembler	 Version 3.1	    20/12/21 11:02:57	    Page 9
+lab3.asm
+
+
+
+    457	0269  C3		     mm2:    ret
+    458	026A			     BinToAsc ENDP
+    459
+    460				     end start
+Turbo Assembler	 Version 3.1	    20/12/21 11:02:57	    Page 10
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "20/12/21"
+??FILENAME			  Text	 "lab3	  "
+??TIME				  Text	 "11:02:57"
+??VERSION			  Number 030A
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 LAB3
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+ARIFMET				  Near	 _TEXT:007E
+ASCTOBIN			  Near	 _TEXT:0209
+BINTOASC			  Near	 _TEXT:023E
+CLEAROUTPUTSTR			  Near	 _TEXT:019E
+DIAPAZON			  Near	 _TEXT:01AE
+DOP				  Near	 _TEXT:01DB
+DOPUST				  Near	 _TEXT:01DC
+ENDAVG				  Near	 _TEXT:00FE
+ENDNEGFIND			  Near	 _TEXT:00C8
+ENDPOSFIND			  Near	 _TEXT:00EA
+ERR1				  Near	 _TEXT:0063
+ERROR1				  Near	 _TEXT:01D9
+ERROR2				  Near	 _TEXT:0206
+FIRST				  Near	 _TEXT:01D2
+FLAG_ERR			  Number 0001
+IN_STR				  Byte	 DGROUP:0054
+KOL				  Byte	 DGROUP:0055
+M1				  Near	 _TEXT:0027
+M11				  Near	 _TEXT:01E8
+M13				  Near	 _TEXT:0200
+M14				  Near	 _TEXT:0208
+MAX				  Near	 _TEXT:008D
+MAXNUM				  Word	 DGROUP:0069
+MESNEGSUM			  Byte	 DGROUP:00DF
+MESPOSAVG			  Byte	 DGROUP:00A8
+MESPOSKOL			  Byte	 DGROUP:00CA
+MESPOSSUM			  Byte	 DGROUP:00F2
+MESS0				  Byte	 DGROUP:0000
+MESS00				  Byte	 DGROUP:0024
+MESS1				  Byte	 DGROUP:0046
+MESSMAX				  Byte	 DGROUP:00BC
+MESSMIN				  Byte	 DGROUP:00C3
+MESSOVF				  Byte	 DGROUP:009B
+MIN				  Near	 _TEXT:009D
+MINNUM				  Word	 DGROUP:006B
+MM1				  Near	 _TEXT:024E
+MM2				  Near	 _TEXT:0269
+N1				  Near	 _TEXT:0218
+Turbo Assembler	 Version 3.1	    20/12/21 11:02:57	    Page 11
+Symbol Table
+
+
+
+N2				  Near	 _TEXT:023D
+NEGFIND				  Near	 _TEXT:00B7
+NEGNUM				  Word	 DGROUP:006D
+NEGSUM				  Word	 DGROUP:0081
+NEXT				  Near	 _TEXT:00A9
+NUMBER				  Word	 DGROUP:005D
+OTR				  Near	 _TEXT:0239
+OUT_STR				  Byte	 DGROUP:0105
+OVR				  Near	 _TEXT:0070
+PEREVOD				  Byte	 DGROUP:0089
+PLUS				  Near	 _TEXT:01CB
+POSAVG				  Word	 DGROUP:0085
+POSFIND				  Near	 _TEXT:00D8
+POSKOL				  Word	 DGROUP:0087
+POSNUM				  Word	 DGROUP:0077
+POSSUM				  Word	 DGROUP:0083
+PROGEND				  Near	 _TEXT:0199
+RAZMER				  Byte	 DGROUP:0054
+SIZ				  Word	 DGROUP:0067
+START				  Near	 _TEXT:0000
+STROKA				  Byte	 DGROUP:0056
+TESTDOP				  Near	 _TEXT:01F8
+TEXT_ERR1			  Byte	 DGROUP:008C
+VVOD				  Near	 _TEXT:0026
+_CLEARCYCLE			  Near	 _TEXT:01A6
+
+Macro Name
+
+P1
+P2
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0100 Para	  Stack	  STACK
+  _DATA				  16  010C Word	  Public  DATA
+_TEXT				  16  026A Word	  Public  CODE
+

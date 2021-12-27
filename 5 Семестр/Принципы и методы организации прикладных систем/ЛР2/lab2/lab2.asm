@@ -3,22 +3,23 @@
 ; Перестановка a(n),a(n-1),a(n-2),...,a(n/2),a(1),a(2),...,a(n/2-1).
 ; Многосегментная программа. Создаётся exe файл
 
-.model small
-.stack 200h
-
-d1 segment para public 'data'
+d1 segment page public 'data'
 mess1 db 'Input: ',10,13,'$'
 in_str db 22 dup (?)
 d1 ends
 
-e1 segment para public 'data'
+e1 segment page public 'data'
 mess2 db 10,13, 'Output: ',10,13,'$'
 out_str db 20 dup ('$')
 e1 ends
 
+st1 segment page stack 'stack'
+    dw 100 dup (?)
+st1 ends
 
-c1 segment para public 'code'
-assume cs:c1, ds:d1, es:e1
+
+c1 segment page public 'code'
+assume cs:c1, ds:d1, es:e1, ss:st1
 
 start:
     ;Инициализация сегментов

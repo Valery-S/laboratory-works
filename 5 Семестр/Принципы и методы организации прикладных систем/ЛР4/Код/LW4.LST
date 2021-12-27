@@ -1,0 +1,2125 @@
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 1
+lw4.asm
+
+
+
+      1	    0000			 d1 SEGMENT para public	USE16 'data'
+      2		  =000E				 InSnowmanColor	  equ 00001110b	 ;черный фон  - желтые буквы
+      3		  =000B				 SnowmanColor	  equ 00001011b	 ;черный фон  - голубые	буквы
+      4		  =0006				 BroomColor	  equ 0000110b	 ;черный фон  - коричневые	    +
+      5					 буквы
+      6		  =0002				 BucketColor	  equ 00000010b	 ;черный фон  - синие буквы
+      7		  =0012				 waitBgColor	  equ 00010010b	 ;серый  фон  -	синие буквы
+      8		  =0012				 mainBgColor	  equ 00010010b	 ;синий  фон  -	зеленые буквы
+      9		  =0040				 errorBgColor	  equ 01000000b	 ;красный фон	- черные буквы
+     10		  =00C0				 errorBgColorWait equ 11000000b	 ;красный фон	- черные		    +
+     11					 моргающие буквы
+     12		  =0071				 resultBGColor	  equ 01110001b	 ;серый фон   -	синие буквы
+     13		  =B800				 videoSeg	  equ 0b800h
+     14
+     15						 ;Снеговик
+     16	    0000  10*(20) 2A 2A	2A 2A +		 Snowman1 db 16	dup (' '),'*******','$'
+     17		  2A 2A	2A 24
+     18	    0018  10*(20) 2A 20	20 20 +		 Snowman2 db 16	dup (' '),'*	 *','$'
+     19		  20 20	2A 24
+     20	    0030  0E*(20) 2A 20	20 20 +		 Snowman3 db 14	dup (' '),'*	     *','$'
+     21		  20 20	20 20 20 20 2A+
+     22		  24
+     23	    004A  0D*(20) 2A 20	20 20 +		 Snowman4 db 13	dup (' '),'*	       * ','$'
+     24		  20 20	20 20 20 20 20+
+     25		  20 2A	20 24
+     26	    0066  0D*(20) 2A 20	20 20 +		 Snowman5 db 13	dup (' '),'*	       *','$'
+     27		  20 20	20 20 20 20 20+
+     28		  20 2A	24
+     29	    0081  0D*(20) 2A 20	20 20 +		 Snowman6 db 13	dup (' '),'*	       *','$'
+     30		  20 20	20 20 20 20 20+
+     31		  20 2A	24
+     32	    009C  0D*(20) 2A 20	20 20 +		 Snowman7 db 13	dup (' '),'*   ****    * ','$'
+     33		  2A 2A	2A 2A 20 20 20+
+     34		  20 2A	20 24
+     35	    00B8  0E*(20) 2A 20	20 20 +		 Snowman8 db 14	dup (' '),'*	     *	      *','$'
+     36		  20 20	20 20 20 20 2A+
+     37		  20 20	20 20 20 20 20+
+     38		  20 2A	24
+     39	    00DB  08*(20) 2A 20	20 20 +		 Snowman9 db 8 dup (' '),'*	  *******	  *','$'
+     40		  20 20	20 20 2A 2A 2A+
+     41		  2A 2A	2A 2A 20 20 20+
+     42		  20 20	20 20 20 20 2A+
+     43		  24
+     44	    00FD  09*(20) 2A 20	20 20 +		 Snowman10 db 9	dup (' '),'*   *	   *	 * ','$'
+     45		  2A 20	20 20 20 20 20+
+     46		  20 20	20 20 20 2A 20+
+     47		  20 20	20 20 2A 20 24
+     48	    011F  0A*(20) 2A 20	2A 20 +		 Snowman11 db 10 dup ('	'),'* *		    *  *   ','$'
+     49		  20 20	20 20 20 20 20+
+     50		  20 20	20 20 20 2A 20+
+     51		  20 2A	20 20 20 24
+     52	    0141  0B*(20) 2A 2A	20 20 +		 Snowman12 db 11 dup ('	'),'**		   * *	  ','$'
+     53		  20 20	20 20 20 20 20+
+     54		  20 20	20 20 2A 20 2A+
+     55		  20 20	20 20 24
+     56	    0163  0C*(20) 2A 20	20 20 +		 Snowman13 db 12 dup ('	'),'*		  *	 ','$'
+     57		  20 20	20 20 20 20 20+
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 2
+lw4.asm
+
+
+
+     58		  20 20	20 2A 20 20 20+
+     59		  20 20	20 24
+     60	    0185  0D*(20) 2A 20	20 20 +		 Snowman14 db 13 dup ('	'),'*		*','$'
+     61		  20 20	20 20 20 20 20+
+     62		  20 2A	24
+     63	    01A0  0F*(20) 2A 2A	2A 2A +		 Snowman15 db 15 dup ('	'),'*********','$'
+     64		  2A 2A	2A 2A 2A 24
+     65	    01B9  0D*(20) 2A 20	20 20 +		 Snowman16 db 13 dup ('	'),'*		*','$'
+     66		  20 20	20 20 20 20 20+
+     67		  20 2A	24
+     68	    01D4  0C*(20) 2A 20	20 20 +		 Snowman17 db 12 dup ('	'),'*		  *','$'
+     69		  20 20	20 20 20 20 20+
+     70		  20 20	20 2A 24
+     71
+     72	    01F0  2A 20	20 20 20 20 2A+		 Eyes db'*     *','$'
+     73		  24
+     74	    01F8  2A 24				 Point db '*','$'
+     75	    01FA  04*(2A)			 Mouth db 4 dup	('*')
+     76
+     77	    01FE  2A 20	20 20 2A 20 20+		 Broom1	db'*   *   *','$'
+     78		  20 2A	24
+     79	    0208  2A 20	20 2A 20 20 2A+		 Broom2	db'*  *	 *','$'
+     80		  24
+     81	    0210  2A 20	2A 20 2A 24		 Broom3	db'* * *','$'
+     82	    0216  2A 2A	2A 24			 Broom4	db'***','$'
+     83
+     84
+     85	    021A  06				 mainWindowXStart db 6d
+     86	    021B  07				 mainWindowYStart db 7d
+     87	    021C  37				 mainWindowXEnd	  db 55d
+     88	    021D  0D				 mainWindowYEnd	  db	 13d
+     89
+     90	    021E  50 72	65 73 73 20 45+		 WaitToStartText     db	'Press Enter to	start, F4 to exit.$'
+     91		  6E 74	65 72 20 74 6F+
+     92		  20 73	74 61 72 74 2C+
+     93		  20 46	34 20 74 6F 20+
+     94		  65 78	69 74 2E 24
+     95	    0240  55 73	65 20 74 68 65+		 WaitToMoveWiindow   db	'Use the arrows	to move	window,	press Enter to Start, F4 to +
+     96		  20 61	72 72 6F 77 73+	 exit.$'
+     97		  20 74	6F 20 6D 6F 76+
+     98		  65 20	77 69 6E 64 6F+
+     99		  77 2C	20 70 72 65 73+
+    100		  73 20	45 6E 74 65 72+
+    101		  20 74	6F 20 53 74 61+
+    102		  72 74	2C 20 46 34 20+
+    103		  74 6F	20 65 78 69 74+
+    104		  2E 24
+    105	    0281  50 72	65 73 73 20 61+		 WaitAnyKeyToExit    db	'Press any key to exit.$'
+    106		  6E 79	20 6B 65 79 20+
+    107		  74 6F	20 65 78 69 74+
+    108		  2E 24
+    109	    0298  50 72	65 73 73 20 46+		 WaitToReloadOrExit1 db	'Press F5 to show credits, F4 to exit.$'
+    110		  35 20	74 6F 20 73 68+
+    111		  6F 77	20 63 72 65 64+
+    112		  69 74	73 2C 20 46 34+
+    113		  20 74	6F 20 65 78 69+
+    114		  74 2E	24
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 3
+lw4.asm
+
+
+
+    115	    02BE  46 34	20 74 6F 20 65+		 WaitToExit	     db	'F4 to exit.$'
+    116		  78 69	74 2E 24
+    117	    02CA  52 65	73 75 6C 74 73+		 Result				 db 'Results$'
+    118		  24
+    119
+    120
+    121
+    122	    02D2  00				 coursorX db 0
+    123	    02D3  00				 coursorY db 0
+    124
+    125
+    126	    02D4				 in_str	label byte ;строка символов (не	более 6)
+    127	    02D4  07				 razmer	db 7
+    128	    02D5  00				 kol db	(?)
+    129	    02D6  07*(??)			 stroka	db 7 dup (?)   ;знак числа (для отрицательных), 5  +
+    130					 цифр, enter
+    131	    02DD  05*(0000)			 number	dw 5 dup (0)   ;массив чисел
+    132	    02E7  0005				 siz dw	5	       ;количество чисел
+    133	    02E9  0000				 maxnum	dw 0	       ;наибольшее
+    134	    02EB  0000				 minnum	dw 0	       ;наименьшее
+    135	    02ED  05*(0000)			 negNum	dw 5 dup (0)   ;Отрицательные элементы
+    136	    02F7  05*(0000)			 posNum	dw 5 dup (0)   ;Положительные элементы
+    137	    0301  0000				 negSum	dw 0	       ;Сумма отрицательных
+    138	    0303  0000				 posSum	dw 0	       ;Сумма положительных
+    139	    0305  0000				 posAvg	dw 0		       ;Среднее полжительных	чисел
+    140	    0307  0000				 posKol	dw 0		   ;Количество положительных
+    141	    0309  0A 0D	24			 perevod db 10,13,'$'
+    142	    030C  49 6E	70 75 74 20 65+		 text_err1 db 'Input error!',10,13,'$'
+    143		  72 72	6F 72 21 0A 0D+
+    144		  24
+    145	    031B  0D 0A	07 4F 76 65 72+		 messovf db 13,10,7,'Overflow!','$'
+    146		  66 6C	6F 77 21 24
+    147	    0328  0D 0A	50 6F 73 69 74+		 mesposavg db 13,10,'Positive Average:','$'
+    148		  69 76	65 20 41 76 65+
+    149		  72 61	67 65 3A 24
+    150	    033C  0D 0A	4D 61 78 3A 24		 messmax db 13,10,'Max:','$'
+    151	    0343  0D 0A	4D 69 6E 3A 24		 messmin db 13,10,'Min:','$'
+    152	    034A  0D 0A	43 6F 75 6E 74+		 mesposkol db 13,10,'Count of positive:','$'
+    153		  20 6F	66 20 70 6F 73+
+    154		  69 74	69 76 65 3A 24
+    155	    035F  0D 0A	53 75 6D 20 6F+		 mesnegSum db 13,10,'Sum of negative:','$'
+    156		  66 20	6E 65 67 61 74+
+    157		  69 76	65 3A 24
+    158	    0372  0D 0A	53 75 6D 20 6F+		 mesposSum db 13,10,'Sum of positive:','$'
+    159		  66 20	70 6F 73 69 74+
+    160		  69 76	65 3A 24
+    161	    0385  49 6E	70 75 74 20 6E+		 enter_please db 'Input	number from -29999 to 29999: $'
+    162		  75 6D	62 65 72 20 66+
+    163		  72 6F	6D 20 2D 32 39+
+    164		  39 39	39 20 74 6F 20+
+    165		  32 39	39 39 39 3A 20+
+    166		  24
+    167	    03A9  06*(20) 24			 out_str db 6 dup (' '),'$'
+    168		  =0001				 flag_err equ 1
+    169
+    170	    03B0			 d1 ENDS
+    171
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 4
+lw4.asm
+
+
+
+    172	    0000			 st1 SEGMENT para stack	USE16 'stack'
+    173	    0000  64*(????)			 dw 100	dup (?)
+    174	    00C8			 st1 ENDS
+    175
+    176
+    177					 ;Макрос рисования окна
+    178					 ; xStart - левый верхний угол - столбец
+    179					 ; yStart - левый верхний угол - строка
+    180					 ; xEnd	  - правый нижний угол - столбец
+    181					 ; yEnd	  - правый нижний угол - строка
+    182					 drawWindow macro xStart, yStart, xEnd,	yEnd, color
+    183						 mov ah, 06
+    184						 mov al, 00
+    185
+    186						 mov ch, yStart				 ;левый верхний угол -	    +
+    187					 строка
+    188						 mov cl, xStart				 ;левый верхний угол -	    +
+    189					 столбец
+    190
+    191						 mov dh, yEnd				 ;правый нижний угол -	    +
+    192					 строка
+    193						 mov dl, xEnd				 ;правый нижний угол -	    +
+    194					 столбец
+    195
+    196						 mov bh, color				 ;установка цвета	фона и +
+    197					 цвета букв
+    198
+    199						 int 10h					 ;прерывание		    +
+    200					 отрисовки
+    201					 endm
+    202
+    203					 ;Макрос вывода в окне
+    204					 ; string - текст для вывода
+    205					 ; row	  - строка вывода
+    206					 ; column - колонка вывода
+    207					 printInWindow macro string, row, column
+    208						 push ax
+    209						 push dx
+    210
+    211						 mov ah,2
+    212						 mov dh,row
+    213						 mov dl,column
+    214						 mov bh,0
+    215						 int 10h
+    216
+    217						 mov ah, 09h
+    218						 mov dx, offset	string
+    219						 int 21h
+    220
+    221						 pop dx
+    222						 pop ax
+    223					 endm
+    224
+    225					 ; Макрос	ввода строки	символов
+    226					 ; string - строка для	ввода
+    227					 input macro srting
+    228						 push ax
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 5
+lw4.asm
+
+
+
+    229						 push dx
+    230						 mov dx, offset	srting
+    231						 mov ah, 0Ah
+    232						 int 21h
+    233						 pop dx
+    234						 pop ax
+    235					 endm
+    236
+    237					 ;Макрос вывода сообщений на экран
+    238					 ; string - строка для	вывода
+    239					 print macro srting
+    240						 push ax
+    241						 push dx
+    242						 mov dx, offset	srting
+    243						 mov ah, 09h
+    244						 int 21h
+    245						 pop dx
+    246						 pop ax
+    247					 endm
+    248
+    249					 ; Макорс	рисования снеговика
+    250					 drawSnowman macro
+    251						 printInWindow Snowman1, 6, 0
+    252						 printInWindow Snowman2, 7, 0
+    253						 printInWindow Snowman2, 8, 0
+    254						 printInWindow Snowman2, 9, 0
+    255						 printInWindow Snowman1, 10, 0
+    256						 printInWindow Snowman3, 11, 0
+    257						 printInWindow Snowman4, 12, 0
+    258						 printInWindow Snowman5, 13, 0
+    259						 printInWindow Snowman6, 14, 0
+    260						 printInWindow Snowman7, 15, 0
+    261						 printInWindow Snowman8, 16, 0
+    262						 printInWindow Snowman9, 17, 0
+    263						 printInWindow Snowman10, 18, 0
+    264						 printInWindow Snowman11, 19, 0
+    265						 printInWindow Snowman12, 20, 0
+    266						 printInWindow Snowman13, 21, 0
+    267						 printInWindow Snowman13, 22, 0
+    268						 printInWindow Snowman14, 23, 0
+    269						 printInWindow Snowman15, 24, 0
+    270						 printInWindow Snowman16, 25, 0
+    271						 printInWindow Snowman17, 26, 0
+    272						 printInWindow Snowman17, 27, 0
+    273						 printInWindow Snowman17, 28, 0
+    274						 printInWindow Snowman17, 29, 0
+    275						 printInWindow Snowman17, 30, 0
+    276						 printInWindow Snowman17, 31, 0
+    277						 printInWindow Snowman16, 32, 0
+    278						 printInWindow Snowman15, 33, 0
+    279					 endm
+    280
+    281					 .386
+    282	    0000			 c1 SEGMENT para public	USE16 'code'
+    283						 ASSUME	cs:c1, ds:d1, ss:st1
+    284
+    285					 ;Процедура сдвига окна влево
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 6
+lw4.asm
+
+
+
+    286	    0000			 leftShift PROC
+    287	    0000  80 3E	021Ar 00		 cmp mainWindowXStart, 0
+    288	    0005  74 0A	90 90			 je retleftShift
+    289	    0009  FE 0E	021Ar			 dec mainWindowXStart
+    290	    000D  FE 0E	021Cr			 dec mainWindowXEnd
+    291	    0011			 retleftShift:
+    292	    0011  C3				 ret
+    293	    0012			 ENDP
+    294
+    295
+    296
+    297					 ;Процедура сдвига окна вправо
+    298	    0012			 rightShift PROC
+    299	    0012  80 3E	021Cr 4F		 cmp mainWindowXEnd, 79
+    300	    0017  74 0A	90 90			 je retrightShift
+    301	    001B  FE 06	021Ar			 inc mainWindowXStart
+    302	    001F  FE 06	021Cr			 inc mainWindowXEnd
+    303	    0023			 retrightShift:
+    304	    0023  C3				 ret
+    305	    0024			 ENDP
+    306
+    307
+    308
+    309					 ;Процедура сдвига окна вверх
+    310	    0024			 upShift PROC
+    311	    0024  80 3E	021Br 00		 cmp mainWindowYStart, 0
+    312	    0029  74 0A	90 90			 je relupShift
+    313	    002D  FE 0E	021Br			 dec mainWindowYStart
+    314	    0031  FE 0E	021Dr			 dec mainWindowYEnd
+    315	    0035			 relupShift:
+    316	    0035  C3				 ret
+    317	    0036			 ENDP
+    318
+    319
+    320
+    321					 ;Процедура сдвига окна вниз
+    322	    0036			 downShift PROC
+    323	    0036  80 3E	021Dr 17		 cmp mainWindowYEnd, 23
+    324	    003B  74 0A	90 90			 je downshitRet
+    325	    003F  FE 06	021Br			 inc mainWindowYStart
+    326	    0043  FE 06	021Dr			 inc mainWindowYEnd
+    327	    0047			 downshitRet:
+    328	    0047  C3				 ret
+    329	    0048			 ENDP
+    330
+    331					 ;Старт программы
+    332	    0048			 start:
+    333	    0048  B8 B800			 mov ax, videoSeg
+    334	    004B  8E C0				 mov es, ax
+    335	    004D  B8 0000s			 mov ax, d1
+    336	    0050  8E D8				 mov ds, ax
+    337
+    338					 ;*********************************************	Снеговик			    +
+    339					 *********************************************************
+    340						 drawWindow 0, 10, 80, 35, SnowmanColor
+1   341	    0052  B4 06				 mov ah, 06
+1   342	    0054  B0 00				 mov al, 00
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 7
+lw4.asm
+
+
+
+1   343	    0056  B5 0A				 mov ch, 10				 ;левый верхний угол -	    +
+    344					 строка
+1   345	    0058  B1 00				 mov cl, 0				 ;левый верхний угол -	    +
+    346					 столбец
+1   347	    005A  B6 23				 mov dh, 35				 ;правый нижний угол -	    +
+    348					 строка
+1   349	    005C  B2 50				 mov dl, 80				 ;правый нижний угол -	    +
+    350					 столбец
+1   351	    005E  B7 0B				 mov bh, SnowmanColor				 ;установка цвета	    +
+    352					 фона и цвета	букв
+1   353	    0060  CD 10				 int 10h					 ;прерывание		    +
+    354					 отрисовки
+    355						 drawWindow 0, 0, 80, 9, BucketColor
+1   356	    0062  B4 06				 mov ah, 06
+1   357	    0064  B0 00				 mov al, 00
+1   358	    0066  B5 00				 mov ch, 0				 ;левый верхний угол -	    +
+    359					 строка
+1   360	    0068  B1 00				 mov cl, 0				 ;левый верхний угол -	    +
+    361					 столбец
+1   362	    006A  B6 09				 mov dh, 9				 ;правый нижний угол -	    +
+    363					 строка
+1   364	    006C  B2 50				 mov dl, 80				 ;правый нижний угол -	    +
+    365					 столбец
+1   366	    006E  B7 02				 mov bh, BucketColor				 ;установка цвета	    +
+    367					 фона и цвета	букв
+1   368	    0070  CD 10				 int 10h					 ;прерывание		    +
+    369					 отрисовки
+    370						 drawSnowman
+1   371						 printInWindow Snowman1, 6, 0
+2   372	    0072  50				 push ax
+2   373	    0073  52				 push dx
+2   374	    0074  B4 02				 mov ah,2
+2   375	    0076  B6 06				 mov dh,6
+2   376	    0078  B2 00				 mov dl,0
+2   377	    007A  B7 00				 mov bh,0
+2   378	    007C  CD 10				 int 10h
+2   379	    007E  B4 09				 mov ah, 09h
+2   380	    0080  BA 0000r			 mov dx, offset	Snowman1
+2   381	    0083  CD 21				 int 21h
+2   382	    0085  5A				 pop dx
+2   383	    0086  58				 pop ax
+1   384						 printInWindow Snowman2, 7, 0
+2   385	    0087  50				 push ax
+2   386	    0088  52				 push dx
+2   387	    0089  B4 02				 mov ah,2
+2   388	    008B  B6 07				 mov dh,7
+2   389	    008D  B2 00				 mov dl,0
+2   390	    008F  B7 00				 mov bh,0
+2   391	    0091  CD 10				 int 10h
+2   392	    0093  B4 09				 mov ah, 09h
+2   393	    0095  BA 0018r			 mov dx, offset	Snowman2
+2   394	    0098  CD 21				 int 21h
+2   395	    009A  5A				 pop dx
+2   396	    009B  58				 pop ax
+1   397						 printInWindow Snowman2, 8, 0
+2   398	    009C  50				 push ax
+2   399	    009D  52				 push dx
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 8
+lw4.asm
+
+
+
+2   400	    009E  B4 02				 mov ah,2
+2   401	    00A0  B6 08				 mov dh,8
+2   402	    00A2  B2 00				 mov dl,0
+2   403	    00A4  B7 00				 mov bh,0
+2   404	    00A6  CD 10				 int 10h
+2   405	    00A8  B4 09				 mov ah, 09h
+2   406	    00AA  BA 0018r			 mov dx, offset	Snowman2
+2   407	    00AD  CD 21				 int 21h
+2   408	    00AF  5A				 pop dx
+2   409	    00B0  58				 pop ax
+1   410						 printInWindow Snowman2, 9, 0
+2   411	    00B1  50				 push ax
+2   412	    00B2  52				 push dx
+2   413	    00B3  B4 02				 mov ah,2
+2   414	    00B5  B6 09				 mov dh,9
+2   415	    00B7  B2 00				 mov dl,0
+2   416	    00B9  B7 00				 mov bh,0
+2   417	    00BB  CD 10				 int 10h
+2   418	    00BD  B4 09				 mov ah, 09h
+2   419	    00BF  BA 0018r			 mov dx, offset	Snowman2
+2   420	    00C2  CD 21				 int 21h
+2   421	    00C4  5A				 pop dx
+2   422	    00C5  58				 pop ax
+1   423						 printInWindow Snowman1, 10, 0
+2   424	    00C6  50				 push ax
+2   425	    00C7  52				 push dx
+2   426	    00C8  B4 02				 mov ah,2
+2   427	    00CA  B6 0A				 mov dh,10
+2   428	    00CC  B2 00				 mov dl,0
+2   429	    00CE  B7 00				 mov bh,0
+2   430	    00D0  CD 10				 int 10h
+2   431	    00D2  B4 09				 mov ah, 09h
+2   432	    00D4  BA 0000r			 mov dx, offset	Snowman1
+2   433	    00D7  CD 21				 int 21h
+2   434	    00D9  5A				 pop dx
+2   435	    00DA  58				 pop ax
+1   436						 printInWindow Snowman3, 11, 0
+2   437	    00DB  50				 push ax
+2   438	    00DC  52				 push dx
+2   439	    00DD  B4 02				 mov ah,2
+2   440	    00DF  B6 0B				 mov dh,11
+2   441	    00E1  B2 00				 mov dl,0
+2   442	    00E3  B7 00				 mov bh,0
+2   443	    00E5  CD 10				 int 10h
+2   444	    00E7  B4 09				 mov ah, 09h
+2   445	    00E9  BA 0030r			 mov dx, offset	Snowman3
+2   446	    00EC  CD 21				 int 21h
+2   447	    00EE  5A				 pop dx
+2   448	    00EF  58				 pop ax
+1   449						 printInWindow Snowman4, 12, 0
+2   450	    00F0  50				 push ax
+2   451	    00F1  52				 push dx
+2   452	    00F2  B4 02				 mov ah,2
+2   453	    00F4  B6 0C				 mov dh,12
+2   454	    00F6  B2 00				 mov dl,0
+2   455	    00F8  B7 00				 mov bh,0
+2   456	    00FA  CD 10				 int 10h
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 9
+lw4.asm
+
+
+
+2   457	    00FC  B4 09				 mov ah, 09h
+2   458	    00FE  BA 004Ar			 mov dx, offset	Snowman4
+2   459	    0101  CD 21				 int 21h
+2   460	    0103  5A				 pop dx
+2   461	    0104  58				 pop ax
+1   462						 printInWindow Snowman5, 13, 0
+2   463	    0105  50				 push ax
+2   464	    0106  52				 push dx
+2   465	    0107  B4 02				 mov ah,2
+2   466	    0109  B6 0D				 mov dh,13
+2   467	    010B  B2 00				 mov dl,0
+2   468	    010D  B7 00				 mov bh,0
+2   469	    010F  CD 10				 int 10h
+2   470	    0111  B4 09				 mov ah, 09h
+2   471	    0113  BA 0066r			 mov dx, offset	Snowman5
+2   472	    0116  CD 21				 int 21h
+2   473	    0118  5A				 pop dx
+2   474	    0119  58				 pop ax
+1   475						 printInWindow Snowman6, 14, 0
+2   476	    011A  50				 push ax
+2   477	    011B  52				 push dx
+2   478	    011C  B4 02				 mov ah,2
+2   479	    011E  B6 0E				 mov dh,14
+2   480	    0120  B2 00				 mov dl,0
+2   481	    0122  B7 00				 mov bh,0
+2   482	    0124  CD 10				 int 10h
+2   483	    0126  B4 09				 mov ah, 09h
+2   484	    0128  BA 0081r			 mov dx, offset	Snowman6
+2   485	    012B  CD 21				 int 21h
+2   486	    012D  5A				 pop dx
+2   487	    012E  58				 pop ax
+1   488						 printInWindow Snowman7, 15, 0
+2   489	    012F  50				 push ax
+2   490	    0130  52				 push dx
+2   491	    0131  B4 02				 mov ah,2
+2   492	    0133  B6 0F				 mov dh,15
+2   493	    0135  B2 00				 mov dl,0
+2   494	    0137  B7 00				 mov bh,0
+2   495	    0139  CD 10				 int 10h
+2   496	    013B  B4 09				 mov ah, 09h
+2   497	    013D  BA 009Cr			 mov dx, offset	Snowman7
+2   498	    0140  CD 21				 int 21h
+2   499	    0142  5A				 pop dx
+2   500	    0143  58				 pop ax
+1   501						 printInWindow Snowman8, 16, 0
+2   502	    0144  50				 push ax
+2   503	    0145  52				 push dx
+2   504	    0146  B4 02				 mov ah,2
+2   505	    0148  B6 10				 mov dh,16
+2   506	    014A  B2 00				 mov dl,0
+2   507	    014C  B7 00				 mov bh,0
+2   508	    014E  CD 10				 int 10h
+2   509	    0150  B4 09				 mov ah, 09h
+2   510	    0152  BA 00B8r			 mov dx, offset	Snowman8
+2   511	    0155  CD 21				 int 21h
+2   512	    0157  5A				 pop dx
+2   513	    0158  58				 pop ax
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 10
+lw4.asm
+
+
+
+1   514						 printInWindow Snowman9, 17, 0
+2   515	    0159  50				 push ax
+2   516	    015A  52				 push dx
+2   517	    015B  B4 02				 mov ah,2
+2   518	    015D  B6 11				 mov dh,17
+2   519	    015F  B2 00				 mov dl,0
+2   520	    0161  B7 00				 mov bh,0
+2   521	    0163  CD 10				 int 10h
+2   522	    0165  B4 09				 mov ah, 09h
+2   523	    0167  BA 00DBr			 mov dx, offset	Snowman9
+2   524	    016A  CD 21				 int 21h
+2   525	    016C  5A				 pop dx
+2   526	    016D  58				 pop ax
+1   527						 printInWindow Snowman10, 18, 0
+2   528	    016E  50				 push ax
+2   529	    016F  52				 push dx
+2   530	    0170  B4 02				 mov ah,2
+2   531	    0172  B6 12				 mov dh,18
+2   532	    0174  B2 00				 mov dl,0
+2   533	    0176  B7 00				 mov bh,0
+2   534	    0178  CD 10				 int 10h
+2   535	    017A  B4 09				 mov ah, 09h
+2   536	    017C  BA 00FDr			 mov dx, offset	Snowman10
+2   537	    017F  CD 21				 int 21h
+2   538	    0181  5A				 pop dx
+2   539	    0182  58				 pop ax
+1   540						 printInWindow Snowman11, 19, 0
+2   541	    0183  50				 push ax
+2   542	    0184  52				 push dx
+2   543	    0185  B4 02				 mov ah,2
+2   544	    0187  B6 13				 mov dh,19
+2   545	    0189  B2 00				 mov dl,0
+2   546	    018B  B7 00				 mov bh,0
+2   547	    018D  CD 10				 int 10h
+2   548	    018F  B4 09				 mov ah, 09h
+2   549	    0191  BA 011Fr			 mov dx, offset	Snowman11
+2   550	    0194  CD 21				 int 21h
+2   551	    0196  5A				 pop dx
+2   552	    0197  58				 pop ax
+1   553						 printInWindow Snowman12, 20, 0
+2   554	    0198  50				 push ax
+2   555	    0199  52				 push dx
+2   556	    019A  B4 02				 mov ah,2
+2   557	    019C  B6 14				 mov dh,20
+2   558	    019E  B2 00				 mov dl,0
+2   559	    01A0  B7 00				 mov bh,0
+2   560	    01A2  CD 10				 int 10h
+2   561	    01A4  B4 09				 mov ah, 09h
+2   562	    01A6  BA 0141r			 mov dx, offset	Snowman12
+2   563	    01A9  CD 21				 int 21h
+2   564	    01AB  5A				 pop dx
+2   565	    01AC  58				 pop ax
+1   566						 printInWindow Snowman13, 21, 0
+2   567	    01AD  50				 push ax
+2   568	    01AE  52				 push dx
+2   569	    01AF  B4 02				 mov ah,2
+2   570	    01B1  B6 15				 mov dh,21
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 11
+lw4.asm
+
+
+
+2   571	    01B3  B2 00				 mov dl,0
+2   572	    01B5  B7 00				 mov bh,0
+2   573	    01B7  CD 10				 int 10h
+2   574	    01B9  B4 09				 mov ah, 09h
+2   575	    01BB  BA 0163r			 mov dx, offset	Snowman13
+2   576	    01BE  CD 21				 int 21h
+2   577	    01C0  5A				 pop dx
+2   578	    01C1  58				 pop ax
+1   579						 printInWindow Snowman13, 22, 0
+2   580	    01C2  50				 push ax
+2   581	    01C3  52				 push dx
+2   582	    01C4  B4 02				 mov ah,2
+2   583	    01C6  B6 16				 mov dh,22
+2   584	    01C8  B2 00				 mov dl,0
+2   585	    01CA  B7 00				 mov bh,0
+2   586	    01CC  CD 10				 int 10h
+2   587	    01CE  B4 09				 mov ah, 09h
+2   588	    01D0  BA 0163r			 mov dx, offset	Snowman13
+2   589	    01D3  CD 21				 int 21h
+2   590	    01D5  5A				 pop dx
+2   591	    01D6  58				 pop ax
+1   592						 printInWindow Snowman14, 23, 0
+2   593	    01D7  50				 push ax
+2   594	    01D8  52				 push dx
+2   595	    01D9  B4 02				 mov ah,2
+2   596	    01DB  B6 17				 mov dh,23
+2   597	    01DD  B2 00				 mov dl,0
+2   598	    01DF  B7 00				 mov bh,0
+2   599	    01E1  CD 10				 int 10h
+2   600	    01E3  B4 09				 mov ah, 09h
+2   601	    01E5  BA 0185r			 mov dx, offset	Snowman14
+2   602	    01E8  CD 21				 int 21h
+2   603	    01EA  5A				 pop dx
+2   604	    01EB  58				 pop ax
+1   605						 printInWindow Snowman15, 24, 0
+2   606	    01EC  50				 push ax
+2   607	    01ED  52				 push dx
+2   608	    01EE  B4 02				 mov ah,2
+2   609	    01F0  B6 18				 mov dh,24
+2   610	    01F2  B2 00				 mov dl,0
+2   611	    01F4  B7 00				 mov bh,0
+2   612	    01F6  CD 10				 int 10h
+2   613	    01F8  B4 09				 mov ah, 09h
+2   614	    01FA  BA 01A0r			 mov dx, offset	Snowman15
+2   615	    01FD  CD 21				 int 21h
+2   616	    01FF  5A				 pop dx
+2   617	    0200  58				 pop ax
+1   618						 printInWindow Snowman16, 25, 0
+2   619	    0201  50				 push ax
+2   620	    0202  52				 push dx
+2   621	    0203  B4 02				 mov ah,2
+2   622	    0205  B6 19				 mov dh,25
+2   623	    0207  B2 00				 mov dl,0
+2   624	    0209  B7 00				 mov bh,0
+2   625	    020B  CD 10				 int 10h
+2   626	    020D  B4 09				 mov ah, 09h
+2   627	    020F  BA 01B9r			 mov dx, offset	Snowman16
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 12
+lw4.asm
+
+
+
+2   628	    0212  CD 21				 int 21h
+2   629	    0214  5A				 pop dx
+2   630	    0215  58				 pop ax
+1   631						 printInWindow Snowman17, 26, 0
+2   632	    0216  50				 push ax
+2   633	    0217  52				 push dx
+2   634	    0218  B4 02				 mov ah,2
+2   635	    021A  B6 1A				 mov dh,26
+2   636	    021C  B2 00				 mov dl,0
+2   637	    021E  B7 00				 mov bh,0
+2   638	    0220  CD 10				 int 10h
+2   639	    0222  B4 09				 mov ah, 09h
+2   640	    0224  BA 01D4r			 mov dx, offset	Snowman17
+2   641	    0227  CD 21				 int 21h
+2   642	    0229  5A				 pop dx
+2   643	    022A  58				 pop ax
+1   644						 printInWindow Snowman17, 27, 0
+2   645	    022B  50				 push ax
+2   646	    022C  52				 push dx
+2   647	    022D  B4 02				 mov ah,2
+2   648	    022F  B6 1B				 mov dh,27
+2   649	    0231  B2 00				 mov dl,0
+2   650	    0233  B7 00				 mov bh,0
+2   651	    0235  CD 10				 int 10h
+2   652	    0237  B4 09				 mov ah, 09h
+2   653	    0239  BA 01D4r			 mov dx, offset	Snowman17
+2   654	    023C  CD 21				 int 21h
+2   655	    023E  5A				 pop dx
+2   656	    023F  58				 pop ax
+1   657						 printInWindow Snowman17, 28, 0
+2   658	    0240  50				 push ax
+2   659	    0241  52				 push dx
+2   660	    0242  B4 02				 mov ah,2
+2   661	    0244  B6 1C				 mov dh,28
+2   662	    0246  B2 00				 mov dl,0
+2   663	    0248  B7 00				 mov bh,0
+2   664	    024A  CD 10				 int 10h
+2   665	    024C  B4 09				 mov ah, 09h
+2   666	    024E  BA 01D4r			 mov dx, offset	Snowman17
+2   667	    0251  CD 21				 int 21h
+2   668	    0253  5A				 pop dx
+2   669	    0254  58				 pop ax
+1   670						 printInWindow Snowman17, 29, 0
+2   671	    0255  50				 push ax
+2   672	    0256  52				 push dx
+2   673	    0257  B4 02				 mov ah,2
+2   674	    0259  B6 1D				 mov dh,29
+2   675	    025B  B2 00				 mov dl,0
+2   676	    025D  B7 00				 mov bh,0
+2   677	    025F  CD 10				 int 10h
+2   678	    0261  B4 09				 mov ah, 09h
+2   679	    0263  BA 01D4r			 mov dx, offset	Snowman17
+2   680	    0266  CD 21				 int 21h
+2   681	    0268  5A				 pop dx
+2   682	    0269  58				 pop ax
+1   683						 printInWindow Snowman17, 30, 0
+2   684	    026A  50				 push ax
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 13
+lw4.asm
+
+
+
+2   685	    026B  52				 push dx
+2   686	    026C  B4 02				 mov ah,2
+2   687	    026E  B6 1E				 mov dh,30
+2   688	    0270  B2 00				 mov dl,0
+2   689	    0272  B7 00				 mov bh,0
+2   690	    0274  CD 10				 int 10h
+2   691	    0276  B4 09				 mov ah, 09h
+2   692	    0278  BA 01D4r			 mov dx, offset	Snowman17
+2   693	    027B  CD 21				 int 21h
+2   694	    027D  5A				 pop dx
+2   695	    027E  58				 pop ax
+1   696						 printInWindow Snowman17, 31, 0
+2   697	    027F  50				 push ax
+2   698	    0280  52				 push dx
+2   699	    0281  B4 02				 mov ah,2
+2   700	    0283  B6 1F				 mov dh,31
+2   701	    0285  B2 00				 mov dl,0
+2   702	    0287  B7 00				 mov bh,0
+2   703	    0289  CD 10				 int 10h
+2   704	    028B  B4 09				 mov ah, 09h
+2   705	    028D  BA 01D4r			 mov dx, offset	Snowman17
+2   706	    0290  CD 21				 int 21h
+2   707	    0292  5A				 pop dx
+2   708	    0293  58				 pop ax
+1   709						 printInWindow Snowman16, 32, 0
+2   710	    0294  50				 push ax
+2   711	    0295  52				 push dx
+2   712	    0296  B4 02				 mov ah,2
+2   713	    0298  B6 20				 mov dh,32
+2   714	    029A  B2 00				 mov dl,0
+2   715	    029C  B7 00				 mov bh,0
+2   716	    029E  CD 10				 int 10h
+2   717	    02A0  B4 09				 mov ah, 09h
+2   718	    02A2  BA 01B9r			 mov dx, offset	Snowman16
+2   719	    02A5  CD 21				 int 21h
+2   720	    02A7  5A				 pop dx
+2   721	    02A8  58				 pop ax
+1   722						 printInWindow Snowman15, 33, 0
+2   723	    02A9  50				 push ax
+2   724	    02AA  52				 push dx
+2   725	    02AB  B4 02				 mov ah,2
+2   726	    02AD  B6 21				 mov dh,33
+2   727	    02AF  B2 00				 mov dl,0
+2   728	    02B1  B7 00				 mov bh,0
+2   729	    02B3  CD 10				 int 10h
+2   730	    02B5  B4 09				 mov ah, 09h
+2   731	    02B7  BA 01A0r			 mov dx, offset	Snowman15
+2   732	    02BA  CD 21				 int 21h
+2   733	    02BC  5A				 pop dx
+2   734	    02BD  58				 pop ax
+    735
+    736						 drawWindow 15,	12, 23,	15, InSnowmanColor
+1   737	    02BE  B4 06				 mov ah, 06
+1   738	    02C0  B0 00				 mov al, 00
+1   739	    02C2  B5 0C				 mov ch, 12				 ;левый верхний угол -	    +
+    740					 строка
+1   741	    02C4  B1 0F				 mov cl, 15				 ;левый верхний угол -	    +
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 14
+lw4.asm
+
+
+
+    742					 столбец
+1   743	    02C6  B6 0F				 mov dh, 15				 ;правый нижний угол -	    +
+    744					 строка
+1   745	    02C8  B2 17				 mov dl, 23				 ;правый нижний угол -	    +
+    746					 столбец
+1   747	    02CA  B7 0E				 mov bh, InSnowmanColor				 ;установка цвета	    +
+    748					 фона и цвета	букв
+1   749	    02CC  CD 10				 int 10h					 ;прерывание		    +
+    750					 отрисовки
+    751						 printInWindow Eyes, 12, 16
+1   752	    02CE  50				 push ax
+1   753	    02CF  52				 push dx
+1   754	    02D0  B4 02				 mov ah,2
+1   755	    02D2  B6 0C				 mov dh,12
+1   756	    02D4  B2 10				 mov dl,16
+1   757	    02D6  B7 00				 mov bh,0
+1   758	    02D8  CD 10				 int 10h
+1   759	    02DA  B4 09				 mov ah, 09h
+1   760	    02DC  BA 01F0r			 mov dx, offset	Eyes
+1   761	    02DF  CD 21				 int 21h
+1   762	    02E1  5A				 pop dx
+1   763	    02E2  58				 pop ax
+    764						 printInWindow Point, 13, 19
+1   765	    02E3  50				 push ax
+1   766	    02E4  52				 push dx
+1   767	    02E5  B4 02				 mov ah,2
+1   768	    02E7  B6 0D				 mov dh,13
+1   769	    02E9  B2 13				 mov dl,19
+1   770	    02EB  B7 00				 mov bh,0
+1   771	    02ED  CD 10				 int 10h
+1   772	    02EF  B4 09				 mov ah, 09h
+1   773	    02F1  BA 01F8r			 mov dx, offset	Point
+1   774	    02F4  CD 21				 int 21h
+1   775	    02F6  5A				 pop dx
+1   776	    02F7  58				 pop ax
+    777						 printInWindow Mouth, 15, 17
+1   778	    02F8  50				 push ax
+1   779	    02F9  52				 push dx
+1   780	    02FA  B4 02				 mov ah,2
+1   781	    02FC  B6 0F				 mov dh,15
+1   782	    02FE  B2 11				 mov dl,17
+1   783	    0300  B7 00				 mov bh,0
+1   784	    0302  CD 10				 int 10h
+1   785	    0304  B4 09				 mov ah, 09h
+1   786	    0306  BA 01FAr			 mov dx, offset	Mouth
+1   787	    0309  CD 21				 int 21h
+1   788	    030B  5A				 pop dx
+1   789	    030C  58				 pop ax
+    790
+    791						 drawWindow 28,	12, 40,	16, BroomColor
+1   792	    030D  B4 06				 mov ah, 06
+1   793	    030F  B0 00				 mov al, 00
+1   794	    0311  B5 0C				 mov ch, 12				 ;левый верхний угол -	    +
+    795					 строка
+1   796	    0313  B1 1C				 mov cl, 28				 ;левый верхний угол -	    +
+    797					 столбец
+1   798	    0315  B6 10				 mov dh, 16				 ;правый нижний угол -	    +
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 15
+lw4.asm
+
+
+
+    799					 строка
+1   800	    0317  B2 28				 mov dl, 40				 ;правый нижний угол -	    +
+    801					 столбец
+1   802	    0319  B7 06				 mov bh, BroomColor				 ;установка цвета	    +
+    803					 фона и цвета	букв
+1   804	    031B  CD 10				 int 10h					 ;прерывание		    +
+    805					 отрисовки
+    806						 drawWindow 33,	17, 34,	22, BroomColor
+1   807	    031D  B4 06				 mov ah, 06
+1   808	    031F  B0 00				 mov al, 00
+1   809	    0321  B5 11				 mov ch, 17				 ;левый верхний угол -	    +
+    810					 строка
+1   811	    0323  B1 21				 mov cl, 33				 ;левый верхний угол -	    +
+    812					 столбец
+1   813	    0325  B6 16				 mov dh, 22				 ;правый нижний угол -	    +
+    814					 строка
+1   815	    0327  B2 22				 mov dl, 34				 ;правый нижний угол -	    +
+    816					 столбец
+1   817	    0329  B7 06				 mov bh, BroomColor				 ;установка цвета	    +
+    818					 фона и цвета	букв
+1   819	    032B  CD 10				 int 10h					 ;прерывание		    +
+    820					 отрисовки
+    821						 printInWindow Broom1, 12, 29
+1   822	    032D  50				 push ax
+1   823	    032E  52				 push dx
+1   824	    032F  B4 02				 mov ah,2
+1   825	    0331  B6 0C				 mov dh,12
+1   826	    0333  B2 1D				 mov dl,29
+1   827	    0335  B7 00				 mov bh,0
+1   828	    0337  CD 10				 int 10h
+1   829	    0339  B4 09				 mov ah, 09h
+1   830	    033B  BA 01FEr			 mov dx, offset	Broom1
+1   831	    033E  CD 21				 int 21h
+1   832	    0340  5A				 pop dx
+1   833	    0341  58				 pop ax
+    834						 printInWindow Broom2, 13, 30
+1   835	    0342  50				 push ax
+1   836	    0343  52				 push dx
+1   837	    0344  B4 02				 mov ah,2
+1   838	    0346  B6 0D				 mov dh,13
+1   839	    0348  B2 1E				 mov dl,30
+1   840	    034A  B7 00				 mov bh,0
+1   841	    034C  CD 10				 int 10h
+1   842	    034E  B4 09				 mov ah, 09h
+1   843	    0350  BA 0208r			 mov dx, offset	Broom2
+1   844	    0353  CD 21				 int 21h
+1   845	    0355  5A				 pop dx
+1   846	    0356  58				 pop ax
+    847						 printInWindow Broom3, 14, 31
+1   848	    0357  50				 push ax
+1   849	    0358  52				 push dx
+1   850	    0359  B4 02				 mov ah,2
+1   851	    035B  B6 0E				 mov dh,14
+1   852	    035D  B2 1F				 mov dl,31
+1   853	    035F  B7 00				 mov bh,0
+1   854	    0361  CD 10				 int 10h
+1   855	    0363  B4 09				 mov ah, 09h
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 16
+lw4.asm
+
+
+
+1   856	    0365  BA 0210r			 mov dx, offset	Broom3
+1   857	    0368  CD 21				 int 21h
+1   858	    036A  5A				 pop dx
+1   859	    036B  58				 pop ax
+    860						 printInWindow Broom4, 15, 32
+1   861	    036C  50				 push ax
+1   862	    036D  52				 push dx
+1   863	    036E  B4 02				 mov ah,2
+1   864	    0370  B6 0F				 mov dh,15
+1   865	    0372  B2 20				 mov dl,32
+1   866	    0374  B7 00				 mov bh,0
+1   867	    0376  CD 10				 int 10h
+1   868	    0378  B4 09				 mov ah, 09h
+1   869	    037A  BA 0216r			 mov dx, offset	Broom4
+1   870	    037D  CD 21				 int 21h
+1   871	    037F  5A				 pop dx
+1   872	    0380  58				 pop ax
+    873						 printInWindow Point, 16, 33
+1   874	    0381  50				 push ax
+1   875	    0382  52				 push dx
+1   876	    0383  B4 02				 mov ah,2
+1   877	    0385  B6 10				 mov dh,16
+1   878	    0387  B2 21				 mov dl,33
+1   879	    0389  B7 00				 mov bh,0
+1   880	    038B  CD 10				 int 10h
+1   881	    038D  B4 09				 mov ah, 09h
+1   882	    038F  BA 01F8r			 mov dx, offset	Point
+1   883	    0392  CD 21				 int 21h
+1   884	    0394  5A				 pop dx
+1   885	    0395  58				 pop ax
+    886						 printInWindow Point, 17, 33
+1   887	    0396  50				 push ax
+1   888	    0397  52				 push dx
+1   889	    0398  B4 02				 mov ah,2
+1   890	    039A  B6 11				 mov dh,17
+1   891	    039C  B2 21				 mov dl,33
+1   892	    039E  B7 00				 mov bh,0
+1   893	    03A0  CD 10				 int 10h
+1   894	    03A2  B4 09				 mov ah, 09h
+1   895	    03A4  BA 01F8r			 mov dx, offset	Point
+1   896	    03A7  CD 21				 int 21h
+1   897	    03A9  5A				 pop dx
+1   898	    03AA  58				 pop ax
+    899						 printInWindow Point, 18, 33
+1   900	    03AB  50				 push ax
+1   901	    03AC  52				 push dx
+1   902	    03AD  B4 02				 mov ah,2
+1   903	    03AF  B6 12				 mov dh,18
+1   904	    03B1  B2 21				 mov dl,33
+1   905	    03B3  B7 00				 mov bh,0
+1   906	    03B5  CD 10				 int 10h
+1   907	    03B7  B4 09				 mov ah, 09h
+1   908	    03B9  BA 01F8r			 mov dx, offset	Point
+1   909	    03BC  CD 21				 int 21h
+1   910	    03BE  5A				 pop dx
+1   911	    03BF  58				 pop ax
+    912						 printInWindow Point, 19, 33
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 17
+lw4.asm
+
+
+
+1   913	    03C0  50				 push ax
+1   914	    03C1  52				 push dx
+1   915	    03C2  B4 02				 mov ah,2
+1   916	    03C4  B6 13				 mov dh,19
+1   917	    03C6  B2 21				 mov dl,33
+1   918	    03C8  B7 00				 mov bh,0
+1   919	    03CA  CD 10				 int 10h
+1   920	    03CC  B4 09				 mov ah, 09h
+1   921	    03CE  BA 01F8r			 mov dx, offset	Point
+1   922	    03D1  CD 21				 int 21h
+1   923	    03D3  5A				 pop dx
+1   924	    03D4  58				 pop ax
+    925						 printInWindow Point, 20, 33
+1   926	    03D5  50				 push ax
+1   927	    03D6  52				 push dx
+1   928	    03D7  B4 02				 mov ah,2
+1   929	    03D9  B6 14				 mov dh,20
+1   930	    03DB  B2 21				 mov dl,33
+1   931	    03DD  B7 00				 mov bh,0
+1   932	    03DF  CD 10				 int 10h
+1   933	    03E1  B4 09				 mov ah, 09h
+1   934	    03E3  BA 01F8r			 mov dx, offset	Point
+1   935	    03E6  CD 21				 int 21h
+1   936	    03E8  5A				 pop dx
+1   937	    03E9  58				 pop ax
+    938						 printInWindow Point, 21, 33
+1   939	    03EA  50				 push ax
+1   940	    03EB  52				 push dx
+1   941	    03EC  B4 02				 mov ah,2
+1   942	    03EE  B6 15				 mov dh,21
+1   943	    03F0  B2 21				 mov dl,33
+1   944	    03F2  B7 00				 mov bh,0
+1   945	    03F4  CD 10				 int 10h
+1   946	    03F6  B4 09				 mov ah, 09h
+1   947	    03F8  BA 01F8r			 mov dx, offset	Point
+1   948	    03FB  CD 21				 int 21h
+1   949	    03FD  5A				 pop dx
+1   950	    03FE  58				 pop ax
+    951						 printInWindow Point, 22, 33
+1   952	    03FF  50				 push ax
+1   953	    0400  52				 push dx
+1   954	    0401  B4 02				 mov ah,2
+1   955	    0403  B6 16				 mov dh,22
+1   956	    0405  B2 21				 mov dl,33
+1   957	    0407  B7 00				 mov bh,0
+1   958	    0409  CD 10				 int 10h
+1   959	    040B  B4 09				 mov ah, 09h
+1   960	    040D  BA 01F8r			 mov dx, offset	Point
+1   961	    0410  CD 21				 int 21h
+1   962	    0412  5A				 pop dx
+1   963	    0413  58				 pop ax
+    964
+    965
+    966					 ;******************************* Переход от вступления к		    +
+    967					 двиганию окна ******************************************
+    968					 ;Ожидание нажатие F4/Enter
+    969	    0414			 waitToStart:
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 18
+lw4.asm
+
+
+
+    970						 drawWindow 0, 36, 80, 36, waitBgColor
+1   971	    0414  B4 06				 mov ah, 06
+1   972	    0416  B0 00				 mov al, 00
+1   973	    0418  B5 24				 mov ch, 36				 ;левый верхний угол -	    +
+    974					 строка
+1   975	    041A  B1 00				 mov cl, 0				 ;левый верхний угол -	    +
+    976					 столбец
+1   977	    041C  B6 24				 mov dh, 36				 ;правый нижний угол -	    +
+    978					 строка
+1   979	    041E  B2 50				 mov dl, 80				 ;правый нижний угол -	    +
+    980					 столбец
+1   981	    0420  B7 12				 mov bh, waitBgColor				 ;установка цвета	    +
+    982					 фона и цвета	букв
+1   983	    0422  CD 10				 int 10h					 ;прерывание		    +
+    984					 отрисовки
+    985						 printInWindow WaitToStartText,	36, 0
+1   986	    0424  50				 push ax
+1   987	    0425  52				 push dx
+1   988	    0426  B4 02				 mov ah,2
+1   989	    0428  B6 24				 mov dh,36
+1   990	    042A  B2 00				 mov dl,0
+1   991	    042C  B7 00				 mov bh,0
+1   992	    042E  CD 10				 int 10h
+1   993	    0430  B4 09				 mov ah, 09h
+1   994	    0432  BA 021Er			 mov dx, offset	WaitToStartText
+1   995	    0435  CD 21				 int 21h
+1   996	    0437  5A				 pop dx
+1   997	    0438  58				 pop ax
+    998	    0439  B4 00				 mov ah, 000									    +
+    999					 ;ожидание ввода клавиши
+   1000	    043B  CD 16				 int 16h
+   1001	    043D  3D 3E00			 cmp ax, 3E00h							 ;сравнение+
+   1002					 с ASCII-кодом клавиши F4
+   1003	    0440  0F 84	0390			 je programEnd
+   1004	    0444  3D 1C0D			 cmp ax, 1C0Dh							 ;сравнение+
+   1005					 с ASCII и скан кодом клавиши	Enter
+   1006	    0447  74 04	90 90			 je moveWindow
+   1007	    044B  E2 C7				 loop waitToStart
+   1008					 ;**************************************** Двигаем окно			    +
+   1009					 ***********************************************************
+   1010	    044D			 moveWindow:
+   1011	    044D  B8 0003			 mov ax, 03h		 ;очистка экрана
+   1012	    0450  CD 10				 int 10h
+   1013						 drawWindow mainWindowXStart, mainWindowYStart,	mainWindowXEnd,	mainWindowYEnd,	    +
+   1014					 mainBgColor
+1  1015	    0452  B4 06				 mov ah, 06
+1  1016	    0454  B0 00				 mov al, 00
+1  1017	    0456  8A 2E	021Br			 mov ch, mainWindowYStart				 ;левый верхний +
+   1018					 угол - строка
+1  1019	    045A  8A 0E	021Ar			 mov cl, mainWindowXStart				 ;левый верхний +
+   1020					 угол - столбец
+1  1021	    045E  8A 36	021Dr			 mov dh, mainWindowYEnd				 ;правый нижний угол+
+   1022					 - строка
+1  1023	    0462  8A 16	021Cr			 mov dl, mainWindowXEnd				 ;правый нижний угол+
+   1024					 - столбец
+1  1025	    0466  B7 12				 mov bh, mainBgColor				 ;установка цвета	    +
+   1026					 фона и цвета	букв
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 19
+lw4.asm
+
+
+
+1  1027	    0468  CD 10				 int 10h					 ;прерывание		    +
+   1028					 отрисовки
+   1029						 drawWindow 0, 24, 80, 24, waitBgColor
+1  1030	    046A  B4 06				 mov ah, 06
+1  1031	    046C  B0 00				 mov al, 00
+1  1032	    046E  B5 18				 mov ch, 24				 ;левый верхний угол -	    +
+   1033					 строка
+1  1034	    0470  B1 00				 mov cl, 0				 ;левый верхний угол -	    +
+   1035					 столбец
+1  1036	    0472  B6 18				 mov dh, 24				 ;правый нижний угол -	    +
+   1037					 строка
+1  1038	    0474  B2 50				 mov dl, 80				 ;правый нижний угол -	    +
+   1039					 столбец
+1  1040	    0476  B7 12				 mov bh, waitBgColor				 ;установка цвета	    +
+   1041					 фона и цвета	букв
+1  1042	    0478  CD 10				 int 10h					 ;прерывание		    +
+   1043					 отрисовки
+   1044						 printInWindow WaitToMoveWiindow, 24, 0
+1  1045	    047A  50				 push ax
+1  1046	    047B  52				 push dx
+1  1047	    047C  B4 02				 mov ah,2
+1  1048	    047E  B6 18				 mov dh,24
+1  1049	    0480  B2 00				 mov dl,0
+1  1050	    0482  B7 00				 mov bh,0
+1  1051	    0484  CD 10				 int 10h
+1  1052	    0486  B4 09				 mov ah, 09h
+1  1053	    0488  BA 0240r			 mov dx, offset	WaitToMoveWiindow
+1  1054	    048B  CD 21				 int 21h
+1  1055	    048D  5A				 pop dx
+1  1056	    048E  58				 pop ax
+   1057
+   1058
+   1059	    048F  B4 00				 mov ah, 00									    +
+   1060					 ;ожидание ввода клавиши
+   1061	    0491  CD 16				 int 16h
+   1062	    0493  3D 3E00			 cmp ax, 3E00h							 ;сравнение+
+   1063					 с ASCII-кодом клавиши F4
+   1064	    0496  0F 84	033A			 je programEnd
+   1065
+   1066	    049A  3D 1C0D			 cmp ax, 1C0Dh							 ;сравнение+
+   1067					 с ASCII и скан кодом клавиши	Enter
+   1068	    049D  74 36	90 90			 je startInput
+   1069
+   1070	    04A1  3D 4B00			 cmp ax, 4B00h							 ;сравнение+
+   1071					 с ASCII и скан кодом клавиши	'Стрелочка влево'
+   1072	    04A4  74 19	90 90			 je moveLeft
+   1073
+   1074	    04A8  3D 4D00			 cmp ax, 4D00h							 ;сравнение+
+   1075					 с ASCII и скан кодом клавиши	'Стрелочка вправо'
+   1076	    04AB  74 17	90 90			 je moveRight
+   1077
+   1078	    04AF  3D 4800			 cmp ax, 4800h							 ;сравнение+
+   1079					 с ASCII и скан кодом клавиши	'Стрелочка вниз'
+   1080	    04B2  74 15	90 90			 je moveUp
+   1081
+   1082	    04B6  3D 5000			 cmp ax, 5000h							 ;сравнение+
+   1083					 с ASCII и скан кодом клавиши	'Стрелочка вверх'
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 20
+lw4.asm
+
+
+
+   1084	    04B9  74 14	90 90			 je moveDown
+   1085
+   1086	    04BD  E2 8E				 loop moveWindow
+   1087
+   1088	    04BF			 moveLeft:
+   1089	    04BF  E8 FB3E			 call leftShift
+   1090	    04C2  EB 89				 jmp moveWindow
+   1091
+   1092	    04C4			 moveRight:
+   1093	    04C4  E8 FB4B			 call rightShift
+   1094	    04C7  EB 84				 jmp moveWindow
+   1095
+   1096	    04C9			 moveUp:
+   1097	    04C9  E8 FB58			 call upShift
+   1098	    04CC  E9 FF7E			 jmp moveWindow
+   1099
+   1100	    04CF			 moveDown:
+   1101	    04CF  E8 FB64			 call downShift
+   1102	    04D2  E9 FF78			 jmp moveWindow
+   1103
+   1104					 ;*************************************	Вводим значения			    +
+   1105					 ************************************************
+   1106	    04D5			 startInput:
+   1107	    04D5  B8 0003			 mov ax, 03h		 ;очистка экрана
+   1108	    04D8  CD 10				 int 10h
+   1109						 drawWindow mainWindowXStart, mainWindowYStart,	mainWindowXEnd,	mainWindowYEnd,	    +
+   1110					 mainBgColor
+1  1111	    04DA  B4 06				 mov ah, 06
+1  1112	    04DC  B0 00				 mov al, 00
+1  1113	    04DE  8A 2E	021Br			 mov ch, mainWindowYStart				 ;левый верхний +
+   1114					 угол - строка
+1  1115	    04E2  8A 0E	021Ar			 mov cl, mainWindowXStart				 ;левый верхний +
+   1116					 угол - столбец
+1  1117	    04E6  8A 36	021Dr			 mov dh, mainWindowYEnd				 ;правый нижний угол+
+   1118					 - строка
+1  1119	    04EA  8A 16	021Cr			 mov dl, mainWindowXEnd				 ;правый нижний угол+
+   1120					 - столбец
+1  1121	    04EE  B7 12				 mov bh, mainBgColor				 ;установка цвета	    +
+   1122					 фона и цвета	букв
+1  1123	    04F0  CD 10				 int 10h					 ;прерывание		    +
+   1124					 отрисовки
+   1125
+   1126	    04F2  A0 021Ar			 mov al, mainWindowXStart
+   1127	    04F5  A2 02D2r			 mov coursorX, al
+   1128
+   1129	    04F8  A0 021Br			 mov al, mainWindowYStart
+   1130	    04FB  A2 02D3r			 mov coursorY, al
+   1131
+   1132	    04FE  FE 06	02D2r			 inc coursorX
+   1133
+   1134	    0502  33 FF				 xor di,di		 ;di - номер числа в	массиве
+   1135	    0504  8B 0E	02E7r		     mov cx, siz	 ;cx - размер массива
+   1136
+   1137	    0508			 inputValues:
+   1138	    0508  51				 push cx
+   1139
+   1140	    0509  FE 06	02D3r			 inc coursorY
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 21
+lw4.asm
+
+
+
+   1141
+   1142						 ;Вывод сообщения	о вводе строки
+   1143						 printInWindow enter_please, coursorY, coursorX
+1  1144	    050D  50				 push ax
+1  1145	    050E  52				 push dx
+1  1146	    050F  B4 02				 mov ah,2
+1  1147	    0511  8A 36	02D3r			 mov dh,coursorY
+1  1148	    0515  8A 16	02D2r			 mov dl,coursorX
+1  1149	    0519  B7 00				 mov bh,0
+1  1150	    051B  CD 10				 int 10h
+1  1151	    051D  B4 09				 mov ah, 09h
+1  1152	    051F  BA 0385r			 mov dx, offset	enter_please
+1  1153	    0522  CD 21				 int 21h
+1  1154	    0524  5A				 pop dx
+1  1155	    0525  58				 pop ax
+   1156						 input in_str		 ;Ввод числа в виде строки
+1  1157	    0526  50				 push ax
+1  1158	    0527  52				 push dx
+1  1159	    0528  BA 02D4r			 mov dx, offset	in_str
+1  1160	    052B  B4 0A				 mov ah, 0Ah
+1  1161	    052D  CD 21				 int 21h
+1  1162	    052F  5A				 pop dx
+1  1163	    0530  58				 pop ax
+   1164
+   1165	    0531  E8 02A0			 call diapazon		 ;Проверка диапазона вводимых	    +
+   1166					 чисел (-29999,+29999)
+   1167	    0534  80 FF	01			 cmp bh, flag_err	 ;Сравним bh и flag_err
+   1168	    0537  74 17	90 90			 je inErr		 ;Если равен 1	сообщение об	ошибке+
+   1169					 ввода
+   1170
+   1171	    053B  E8 02CE			 call dopust			 ;Проверка допустимости	    +
+   1172					 вводимых символов
+   1173	    053E  80 FF	01			 cmp bh, flag_err	 ;Сравним bh и flag_err
+   1174	    0541  74 0D	90 90			 je inErr		 ;Если равен 1	сообщение об	ошибке+
+   1175					 ввода
+   1176
+   1177	    0545  E8 02F9			 call AscToBin	     ;Преобразование строки	в число
+   1178	    0548  47				 inc di
+   1179	    0549  47				 inc di
+   1180	    054A  59				 pop cx
+   1181	    054B  E2 BB				 loop inputValues
+   1182	    054D  EB 52	90			 jmp arifmet
+   1183
+   1184	    0550			 inErr:
+   1185						 drawWindow 27,	9, 53, 16, errorBgColor
+1  1186	    0550  B4 06				 mov ah, 06
+1  1187	    0552  B0 00				 mov al, 00
+1  1188	    0554  B5 09				 mov ch, 9				 ;левый верхний угол -	    +
+   1189					 строка
+1  1190	    0556  B1 1B				 mov cl, 27				 ;левый верхний угол -	    +
+   1191					 столбец
+1  1192	    0558  B6 10				 mov dh, 16				 ;правый нижний угол -	    +
+   1193					 строка
+1  1194	    055A  B2 35				 mov dl, 53				 ;правый нижний угол -	    +
+   1195					 столбец
+1  1196	    055C  B7 40				 mov bh, errorBgColor				 ;установка цвета	    +
+   1197					 фона и цвета	букв
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 22
+lw4.asm
+
+
+
+1  1198	    055E  CD 10				 int 10h					 ;прерывание		    +
+   1199					 отрисовки
+   1200						 drawWindow 27,	15, 53,	16, errorBgColorWait
+1  1201	    0560  B4 06				 mov ah, 06
+1  1202	    0562  B0 00				 mov al, 00
+1  1203	    0564  B5 0F				 mov ch, 15				 ;левый верхний угол -	    +
+   1204					 строка
+1  1205	    0566  B1 1B				 mov cl, 27				 ;левый верхний угол -	    +
+   1206					 столбец
+1  1207	    0568  B6 10				 mov dh, 16				 ;правый нижний угол -	    +
+   1208					 строка
+1  1209	    056A  B2 35				 mov dl, 53				 ;правый нижний угол -	    +
+   1210					 столбец
+1  1211	    056C  B7 C0				 mov bh, errorBgColorWait				 ;установка	    +
+   1212					 цвета фона и	цвета букв
+1  1213	    056E  CD 10				 int 10h					 ;прерывание		    +
+   1214					 отрисовки
+   1215						 printInWindow text_err1, 12, 34
+1  1216	    0570  50				 push ax
+1  1217	    0571  52				 push dx
+1  1218	    0572  B4 02				 mov ah,2
+1  1219	    0574  B6 0C				 mov dh,12
+1  1220	    0576  B2 22				 mov dl,34
+1  1221	    0578  B7 00				 mov bh,0
+1  1222	    057A  CD 10				 int 10h
+1  1223	    057C  B4 09				 mov ah, 09h
+1  1224	    057E  BA 030Cr			 mov dx, offset	text_err1
+1  1225	    0581  CD 21				 int 21h
+1  1226	    0583  5A				 pop dx
+1  1227	    0584  58				 pop ax
+   1228						 printInWindow WaitAnyKeyToExit, 15, 30
+1  1229	    0585  50				 push ax
+1  1230	    0586  52				 push dx
+1  1231	    0587  B4 02				 mov ah,2
+1  1232	    0589  B6 0F				 mov dh,15
+1  1233	    058B  B2 1E				 mov dl,30
+1  1234	    058D  B7 00				 mov bh,0
+1  1235	    058F  CD 10				 int 10h
+1  1236	    0591  B4 09				 mov ah, 09h
+1  1237	    0593  BA 0281r			 mov dx, offset	WaitAnyKeyToExit
+1  1238	    0596  CD 21				 int 21h
+1  1239	    0598  5A				 pop dx
+1  1240	    0599  58				 pop ax
+   1241	    059A  B4 00				 mov ah, 000									    +
+   1242					 ;ожидание ввода клавиши
+   1243	    059C  CD 16				 int 16h
+   1244	    059E  E9 0233			 jmp programEnd
+   1245
+   1246					 ;***************************************** Арифметическая обработка +
+   1247					 *****************************************
+   1248	    05A1			 arifmet:
+   1249	    05A1  8B 0E	02E7r				 mov cx, siz	 ; В (cx) - размер массива
+   1250	    05A5  33 F6					 xor si,si
+   1251					 ;Поиск максимального	и минимального элементов
+   1252	    05A7  A1 02DDr				 mov ax,number
+   1253	    05AA  A3 02E9r				 mov maxnum,ax
+   1254	    05AD  A3 02EBr				 mov minnum,ax
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 23
+lw4.asm
+
+
+
+   1255
+   1256	    05B0			 max:
+   1257	    05B0  8B 84	02DDr				 mov ax,number+si
+   1258	    05B4  3B 06	02E9r				 cmp ax,maxnum
+   1259	    05B8  7E 08	90 90				 jle min
+   1260	    05BC  A3 02E9r				 mov maxnum,ax
+   1261	    05BF  EB 01	90				 jmp min
+   1262
+   1263	    05C2  3B 06	02EBr		 min:	 cmp ax,minnum
+   1264	    05C6  7D 08	90 90				 jge next
+   1265	    05CA  A3 02EBr				 mov minnum,ax
+   1266	    05CD  EB 01	90				 jmp next
+   1267
+   1268	    05D0  46			 next:	 inc si
+   1269	    05D1  46					 inc si
+   1270	    05D2  E2 DC					 loop max
+   1271
+   1272					 ; Поиск отрицательных элементов и рассчет их суммы
+   1273	    05D4  8B 0E	02E7r				 mov cx, siz	 ; В (cx) - размер массива
+   1274	    05D8  BE 02DDr				 mov si, offset	number
+   1275	    05DB  BF 02EDr				 mov di, offset	negNum
+   1276	    05DE			 negFind:
+   1277	    05DE  8B 04					 mov ax, [si]
+   1278	    05E0  3D 0000				 cmp ax, 0
+   1279	    05E3  7D 0E	90 90				 jge endNegFind
+   1280	    05E7  89 05					 mov [di], ax
+   1281	    05E9  01 06	0301r				 add negSum, ax	; Сумма отрицательных
+   1282	    05ED  70 43	90 90				 jo  overFlowErr; Если произошло переполнение
+   1283
+   1284	    05F1  47					 inc di
+   1285	    05F2  47					 inc di
+   1286
+   1287	    05F3			 endNegFind:
+   1288	    05F3  46					 inc si
+   1289	    05F4  46					 inc si
+   1290	    05F5  E2 E7					 loop negFind
+   1291
+   1292	    05F7  8B 0E	02E7r				 mov cx, siz
+   1293	    05FB  BE 02DDr				 mov si, offset	number
+   1294	    05FE  BF 02F7r				 mov di, offset	posNum
+   1295	    0601  33 DB					 xor bx, bx
+   1296					 ; Поиск положительных элементов	 и рассчет их	    +
+   1297					 среднего
+   1298	    0603			 posFind:
+   1299	    0603  8B 04					 mov ax, [si]
+   1300	    0605  3D 0000				 cmp ax, 0
+   1301	    0608  7C 0F	90 90				 jl endPosFind
+   1302	    060C  89 05					 mov [di], ax
+   1303	    060E  01 06	0303r				 add posSum, ax	; Сумма положительных
+   1304	    0612  70 1E	90 90				 jo  overFlowErr; Если произошло переполнение
+   1305
+   1306	    0616  47					 inc di
+   1307	    0617  47					 inc di
+   1308	    0618  43					 inc bx	 ; Считаем количество положительных   +
+   1309					 элементов
+   1310
+   1311
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 24
+lw4.asm
+
+
+
+   1312	    0619			 endPosFind:
+   1313	    0619  46					 inc si
+   1314	    061A  46					 inc si
+   1315	    061B  E2 E6					 loop posFind
+   1316
+   1317					 ; Поиск среднего положительного
+   1318	    061D  BA 0000				 mov dx,0
+   1319	    0620  A1 0303r				 mov ax,posSum
+   1320	    0623  83 FB	00				 cmp bx,0
+   1321	    0626  74 07	90 90				 je endAvg
+   1322	    062A  F7 F3					 div bx
+   1323	    062C  A3 0305r				 mov posAvg, ax
+   1324	    062F			 endAvg:
+   1325	    062F  EB 52	90				 jmp resOutput
+   1326
+   1327					 ;*********************************************************** Вывод ошибок	    +
+   1328					 ************************************************************
+   1329	    0632			 overFlowErr:
+   1330						 drawWindow 27,	9, 53, 16, errorBgColor
+1  1331	    0632  B4 06				 mov ah, 06
+1  1332	    0634  B0 00				 mov al, 00
+1  1333	    0636  B5 09				 mov ch, 9				 ;левый верхний угол -	    +
+   1334					 строка
+1  1335	    0638  B1 1B				 mov cl, 27				 ;левый верхний угол -	    +
+   1336					 столбец
+1  1337	    063A  B6 10				 mov dh, 16				 ;правый нижний угол -	    +
+   1338					 строка
+1  1339	    063C  B2 35				 mov dl, 53				 ;правый нижний угол -	    +
+   1340					 столбец
+1  1341	    063E  B7 40				 mov bh, errorBgColor				 ;установка цвета	    +
+   1342					 фона и цвета	букв
+1  1343	    0640  CD 10				 int 10h					 ;прерывание		    +
+   1344					 отрисовки
+   1345						 drawWindow 27,	15, 53,	16, errorBgColorWait
+1  1346	    0642  B4 06				 mov ah, 06
+1  1347	    0644  B0 00				 mov al, 00
+1  1348	    0646  B5 0F				 mov ch, 15				 ;левый верхний угол -	    +
+   1349					 строка
+1  1350	    0648  B1 1B				 mov cl, 27				 ;левый верхний угол -	    +
+   1351					 столбец
+1  1352	    064A  B6 10				 mov dh, 16				 ;правый нижний угол -	    +
+   1353					 строка
+1  1354	    064C  B2 35				 mov dl, 53				 ;правый нижний угол -	    +
+   1355					 столбец
+1  1356	    064E  B7 C0				 mov bh, errorBgColorWait				 ;установка	    +
+   1357					 цвета фона и	цвета букв
+1  1358	    0650  CD 10				 int 10h					 ;прерывание		    +
+   1359					 отрисовки
+   1360						 printInWindow messovf,	12, 36
+1  1361	    0652  50				 push ax
+1  1362	    0653  52				 push dx
+1  1363	    0654  B4 02				 mov ah,2
+1  1364	    0656  B6 0C				 mov dh,12
+1  1365	    0658  B2 24				 mov dl,36
+1  1366	    065A  B7 00				 mov bh,0
+1  1367	    065C  CD 10				 int 10h
+1  1368	    065E  B4 09				 mov ah, 09h
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 25
+lw4.asm
+
+
+
+1  1369	    0660  BA 031Br			 mov dx, offset	messovf
+1  1370	    0663  CD 21				 int 21h
+1  1371	    0665  5A				 pop dx
+1  1372	    0666  58				 pop ax
+   1373						 printInWindow WaitAnyKeyToExit, 15, 30
+1  1374	    0667  50				 push ax
+1  1375	    0668  52				 push dx
+1  1376	    0669  B4 02				 mov ah,2
+1  1377	    066B  B6 0F				 mov dh,15
+1  1378	    066D  B2 1E				 mov dl,30
+1  1379	    066F  B7 00				 mov bh,0
+1  1380	    0671  CD 10				 int 10h
+1  1381	    0673  B4 09				 mov ah, 09h
+1  1382	    0675  BA 0281r			 mov dx, offset	WaitAnyKeyToExit
+1  1383	    0678  CD 21				 int 21h
+1  1384	    067A  5A				 pop dx
+1  1385	    067B  58				 pop ax
+   1386	    067C  B4 00				 mov ah, 00
+   1387	    067E  CD 16				 int 16h
+   1388	    0680  E9 0151			 jmp programEnd
+   1389
+   1390					 ;*************************************************** Вывод полученных	    +
+   1391					 результатов	****************************************************
+   1392	    0683			 resOutput:
+   1393						 drawWindow mainWindowXStart, mainWindowYStart,	mainWindowXEnd,	mainWindowYEnd,	    +
+   1394					 resultBGColor
+1  1395	    0683  B4 06				 mov ah, 06
+1  1396	    0685  B0 00				 mov al, 00
+1  1397	    0687  8A 2E	021Br			 mov ch, mainWindowYStart				 ;левый верхний +
+   1398					 угол - строка
+1  1399	    068B  8A 0E	021Ar			 mov cl, mainWindowXStart				 ;левый верхний +
+   1400					 угол - столбец
+1  1401	    068F  8A 36	021Dr			 mov dh, mainWindowYEnd				 ;правый нижний угол+
+   1402					 - строка
+1  1403	    0693  8A 16	021Cr			 mov dl, mainWindowXEnd				 ;правый нижний угол+
+   1404					 - столбец
+1  1405	    0697  B7 71				 mov bh, resultBGColor				 ;установка цвета	    +
+   1406					 фона и цвета	букв
+1  1407	    0699  CD 10				 int 10h					 ;прерывание		    +
+   1408					 отрисовки
+   1409						 printInWindow Result, 10, 39
+1  1410	    069B  50				 push ax
+1  1411	    069C  52				 push dx
+1  1412	    069D  B4 02				 mov ah,2
+1  1413	    069F  B6 0A				 mov dh,10
+1  1414	    06A1  B2 27				 mov dl,39
+1  1415	    06A3  B7 00				 mov bh,0
+1  1416	    06A5  CD 10				 int 10h
+1  1417	    06A7  B4 09				 mov ah, 09h
+1  1418	    06A9  BA 02CAr			 mov dx, offset	Result
+1  1419	    06AC  CD 21				 int 21h
+1  1420	    06AE  5A				 pop dx
+1  1421	    06AF  58				 pop ax
+   1422						 printInWindow mesposSum, 12, 21
+1  1423	    06B0  50				 push ax
+1  1424	    06B1  52				 push dx
+1  1425	    06B2  B4 02				 mov ah,2
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 26
+lw4.asm
+
+
+
+1  1426	    06B4  B6 0C				 mov dh,12
+1  1427	    06B6  B2 15				 mov dl,21
+1  1428	    06B8  B7 00				 mov bh,0
+1  1429	    06BA  CD 10				 int 10h
+1  1430	    06BC  B4 09				 mov ah, 09h
+1  1431	    06BE  BA 0372r			 mov dx, offset	mesposSum
+1  1432	    06C1  CD 21				 int 21h
+1  1433	    06C3  5A				 pop dx
+1  1434	    06C4  58				 pop ax
+   1435	    06C5  A1 0303r			 mov ax, posSum
+   1436	    06C8  E8 01AD			 call BinToAsc
+   1437						 printInWindow out_str,13,21
+1  1438	    06CB  50				 push ax
+1  1439	    06CC  52				 push dx
+1  1440	    06CD  B4 02				 mov ah,2
+1  1441	    06CF  B6 0D				 mov dh,13
+1  1442	    06D1  B2 15				 mov dl,21
+1  1443	    06D3  B7 00				 mov bh,0
+1  1444	    06D5  CD 10				 int 10h
+1  1445	    06D7  B4 09				 mov ah, 09h
+1  1446	    06D9  BA 03A9r			 mov dx, offset	out_str
+1  1447	    06DC  CD 21				 int 21h
+1  1448	    06DE  5A				 pop dx
+1  1449	    06DF  58				 pop ax
+   1450
+   1451	    06E0  B9 0006			 mov cx,6			 ;очистка буфера вывода
+   1452	    06E3  33 F6				 xor si,si
+   1453	    06E5			 clear1:
+   1454	    06E5  C6 84	03A9r 20		 mov [out_str+si],' '
+   1455	    06EA  46				 inc si
+   1456	    06EB  E2 F8				 loop clear1
+   1457
+   1458						 printInWindow mesposavg, 14, 21
+1  1459	    06ED  50				 push ax
+1  1460	    06EE  52				 push dx
+1  1461	    06EF  B4 02				 mov ah,2
+1  1462	    06F1  B6 0E				 mov dh,14
+1  1463	    06F3  B2 15				 mov dl,21
+1  1464	    06F5  B7 00				 mov bh,0
+1  1465	    06F7  CD 10				 int 10h
+1  1466	    06F9  B4 09				 mov ah, 09h
+1  1467	    06FB  BA 0328r			 mov dx, offset	mesposavg
+1  1468	    06FE  CD 21				 int 21h
+1  1469	    0700  5A				 pop dx
+1  1470	    0701  58				 pop ax
+   1471	    0702  A1 0305r			 mov ax,posAvg
+   1472	    0705  E8 0170			 call BinToAsc
+   1473						 printInWindow out_str,15,21
+1  1474	    0708  50				 push ax
+1  1475	    0709  52				 push dx
+1  1476	    070A  B4 02				 mov ah,2
+1  1477	    070C  B6 0F				 mov dh,15
+1  1478	    070E  B2 15				 mov dl,21
+1  1479	    0710  B7 00				 mov bh,0
+1  1480	    0712  CD 10				 int 10h
+1  1481	    0714  B4 09				 mov ah, 09h
+1  1482	    0716  BA 03A9r			 mov dx, offset	out_str
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 27
+lw4.asm
+
+
+
+1  1483	    0719  CD 21				 int 21h
+1  1484	    071B  5A				 pop dx
+1  1485	    071C  58				 pop ax
+   1486
+   1487	    071D  B9 0006			 mov cx,6			 ;очистка буфера вывода
+   1488	    0720  33 F6				 xor si,si
+   1489	    0722			 clear2:
+   1490	    0722  C6 84	03A9r 20		 mov [out_str+si],' '
+   1491	    0727  46				 inc si
+   1492	    0728  E2 F8				 loop clear2
+   1493
+   1494						 printInWindow messmax,	16, 21
+1  1495	    072A  50				 push ax
+1  1496	    072B  52				 push dx
+1  1497	    072C  B4 02				 mov ah,2
+1  1498	    072E  B6 10				 mov dh,16
+1  1499	    0730  B2 15				 mov dl,21
+1  1500	    0732  B7 00				 mov bh,0
+1  1501	    0734  CD 10				 int 10h
+1  1502	    0736  B4 09				 mov ah, 09h
+1  1503	    0738  BA 033Cr			 mov dx, offset	messmax
+1  1504	    073B  CD 21				 int 21h
+1  1505	    073D  5A				 pop dx
+1  1506	    073E  58				 pop ax
+   1507	    073F  A1 02E9r			 mov ax,maxnum
+   1508	    0742  E8 0133			 call BinToAsc
+   1509						 printInWindow out_str,17,21
+1  1510	    0745  50				 push ax
+1  1511	    0746  52				 push dx
+1  1512	    0747  B4 02				 mov ah,2
+1  1513	    0749  B6 11				 mov dh,17
+1  1514	    074B  B2 15				 mov dl,21
+1  1515	    074D  B7 00				 mov bh,0
+1  1516	    074F  CD 10				 int 10h
+1  1517	    0751  B4 09				 mov ah, 09h
+1  1518	    0753  BA 03A9r			 mov dx, offset	out_str
+1  1519	    0756  CD 21				 int 21h
+1  1520	    0758  5A				 pop dx
+1  1521	    0759  58				 pop ax
+   1522
+   1523	    075A  B9 0006			 mov cx,6			 ;очистка буфера вывода
+   1524	    075D  33 F6				 xor si,si
+   1525
+   1526	    075F			 clear3:
+   1527	    075F  C6 84	03A9r 20		 mov [out_str+si],' '
+   1528	    0764  46				 inc si
+   1529	    0765  E2 F8				 loop clear3
+   1530
+   1531						 printInWindow messmin,	18, 21
+1  1532	    0767  50				 push ax
+1  1533	    0768  52				 push dx
+1  1534	    0769  B4 02				 mov ah,2
+1  1535	    076B  B6 12				 mov dh,18
+1  1536	    076D  B2 15				 mov dl,21
+1  1537	    076F  B7 00				 mov bh,0
+1  1538	    0771  CD 10				 int 10h
+1  1539	    0773  B4 09				 mov ah, 09h
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 28
+lw4.asm
+
+
+
+1  1540	    0775  BA 0343r			 mov dx, offset	messmin
+1  1541	    0778  CD 21				 int 21h
+1  1542	    077A  5A				 pop dx
+1  1543	    077B  58				 pop ax
+   1544	    077C  A1 02EBr			 mov ax,minnum
+   1545	    077F  E8 00F6			 call BinToAsc
+   1546						 printInWindow out_str,19,21
+1  1547	    0782  50				 push ax
+1  1548	    0783  52				 push dx
+1  1549	    0784  B4 02				 mov ah,2
+1  1550	    0786  B6 13				 mov dh,19
+1  1551	    0788  B2 15				 mov dl,21
+1  1552	    078A  B7 00				 mov bh,0
+1  1553	    078C  CD 10				 int 10h
+1  1554	    078E  B4 09				 mov ah, 09h
+1  1555	    0790  BA 03A9r			 mov dx, offset	out_str
+1  1556	    0793  CD 21				 int 21h
+1  1557	    0795  5A				 pop dx
+1  1558	    0796  58				 pop ax
+   1559
+   1560	    0797  B9 0006			 mov cx,6			 ;очистка буфера вывода
+   1561	    079A  33 F6				 xor si,si
+   1562
+   1563	    079C			 clear4:
+   1564	    079C  C6 84	03A9r 20		 mov [out_str+si],' '
+   1565	    07A1  46				 inc si
+   1566	    07A2  E2 F8				 loop clear4
+   1567
+   1568						 printInWindow mesnegSum, 20, 21
+1  1569	    07A4  50				 push ax
+1  1570	    07A5  52				 push dx
+1  1571	    07A6  B4 02				 mov ah,2
+1  1572	    07A8  B6 14				 mov dh,20
+1  1573	    07AA  B2 15				 mov dl,21
+1  1574	    07AC  B7 00				 mov bh,0
+1  1575	    07AE  CD 10				 int 10h
+1  1576	    07B0  B4 09				 mov ah, 09h
+1  1577	    07B2  BA 035Fr			 mov dx, offset	mesnegSum
+1  1578	    07B5  CD 21				 int 21h
+1  1579	    07B7  5A				 pop dx
+1  1580	    07B8  58				 pop ax
+   1581	    07B9  A1 0301r			 mov ax,negSum
+   1582	    07BC  E8 00B9			 call BinToAsc
+   1583						 printInWindow out_str,21,21
+1  1584	    07BF  50				 push ax
+1  1585	    07C0  52				 push dx
+1  1586	    07C1  B4 02				 mov ah,2
+1  1587	    07C3  B6 15				 mov dh,21
+1  1588	    07C5  B2 15				 mov dl,21
+1  1589	    07C7  B7 00				 mov bh,0
+1  1590	    07C9  CD 10				 int 10h
+1  1591	    07CB  B4 09				 mov ah, 09h
+1  1592	    07CD  BA 03A9r			 mov dx, offset	out_str
+1  1593	    07D0  CD 21				 int 21h
+1  1594	    07D2  5A				 pop dx
+1  1595	    07D3  58				 pop ax
+   1596
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 29
+lw4.asm
+
+
+
+   1597
+   1598
+   1599
+   1600	    07D4			 programEnd:
+   1601					 ;	 mov ax, 03h		 ;очистка экрана
+   1602					 ;	 int 10h
+   1603					 ;	 mov ax, 4c00h	 ;завершение работы
+   1604					 ;	 int 21h
+   1605
+   1606
+   1607					 ;****************************************************
+   1608					 ;* Проверка диапазона	вводимых чисел -29999,+29999	 *
+   1609					 ;* Аргументы:									    +
+   1610					 *
+   1611					 ;*		 Буфер ввода - stroka						 *
+   1612					 ;*											    +
+   1613					 *
+   1614					 ;* Результат:									    +
+   1615					 *
+   1616					 ;*		 bh - флаг ошибки ввода					    +
+   1617					 *
+   1618					 ;****************************************************
+   1619	    07D4			 DIAPAZON PROC
+   1620	    07D4  32 FF			     xor bh, bh
+   1621	    07D6  33 F6				 xor si, si
+   1622
+   1623	    07D8  80 3E	02D5r 05		 cmp kol, 05h	 ; Если ввели менее 5 символов,		    +
+   1624					 проверим их допустимость
+   1625	    07DD  72 2C	90 90			 jb dop
+   1626
+   1627	    07E1  80 3E	02D6r 2D		 cmp stroka, 2dh	 ; Eсли ввели 5	или более символов  +
+   1628					 проверим является ли	первый минусом
+   1629	    07E6  75 0F	90 90			 jne plus	 ; Eсли 1 символ не минус, проверим	    +
+   1630					 число символов
+   1631
+   1632	    07EA  80 3E	02D5r 06		 cmp kol, 06h	 ; Eсли первый	- минус и	символов	    +
+   1633					 меньше 6	проверим допустимость символов
+   1634	    07EF  72 1A	90 90			 jb dop
+   1635
+   1636	    07F3  46				 inc si		 ; Иначе проверим первую цифру
+   1637	    07F4  EB 0A	90			 jmp first
+   1638
+   1639	    07F7			 plus:
+   1640	    07F7  80 3E	02D5r 06		 cmp kol,6	 ; Bведено 6 символов и первый - не	    +
+   1641					 минус
+   1642	    07FC  74 0B	90 90			 je error1	 ; Oшибка
+   1643
+   1644	    0800			 first:
+   1645	    0800  80 BC	02D6r 32		 cmp stroka[si], 32h	 ; Cравним первый символ с '2'
+   1646	    0805  76 04	90 90			 jna dop	 ; Eсли первый	<= '2' - проверим		    +
+   1647					 допустимость символов
+   1648
+   1649	    0809			 error1:
+   1650	    0809  B7 01				 mov bh, flag_err	 ; Иначе bh = flag_err
+   1651
+   1652	    080B			 dop:
+   1653	    080B  C3				 ret
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 30
+lw4.asm
+
+
+
+   1654	    080C			 DIAPAZON ENDP
+   1655
+   1656
+   1657
+   1658					 ;****************************************************
+   1659					 ;* Проверка допустимости вводимых символов		    +
+   1660					 *
+   1661					 ;* Аргументы:									    +
+   1662					 *
+   1663					 ;*		 Буфер ввода - stroka						 *
+   1664					 ;*		 si - номер символа	в строке				    +
+   1665					 *
+   1666					 ;*											    +
+   1667					 *
+   1668					 ;* Результат:									    +
+   1669					 *
+   1670					 ;*		 bh - флаг ошибки ввода					    +
+   1671					 *
+   1672					 ;****************************************************
+   1673	    080C			 DOPUST	PROC
+   1674
+   1675	    080C  32 FF				 xor bh, bh
+   1676	    080E  33 F6			     xor si, si
+   1677	    0810  32 E4				 xor ah, ah
+   1678	    0812  32 ED				 xor ch, ch
+   1679
+   1680	    0814  8A 0E	02D5r			 mov cl, kol	 ; В (cl) количество	введенных символов
+   1681
+   1682	    0818			 m11:
+   1683	    0818  8A 84	02D6r			 mov al, [stroka + si]	 ; B (al) - первый символ
+   1684	    081C  3C 2D				 cmp al, 2dh	 ; Является ли символ минусом
+   1685	    081E  75 0C	90 90			 jne testdop	 ; Если не минус - проверка			    +
+   1686					 допустимости
+   1687	    0822  83 FE	00			 cmp si, 00h	 ; Если минус	- является ли	он первым   +
+   1688					 символом
+   1689	    0825  75 17	90 90			 jne error2	 ; Если минус не первый - ошибка
+   1690	    0829  EB 0D	90			 jmp m13
+   1691
+   1692	    082C			 testdop:
+   1693	    082C  3C 30				 cmp al, 30h	 ;Является ли	введенный символ	цифрой
+   1694	    082E  72 0E	90 90			 jb error2
+   1695	    0832  3C 39				 cmp al, 39h
+   1696	    0834  77 08	90 90			 ja error2
+   1697
+   1698	    0838			 m13:
+   1699	    0838  46				 inc si
+   1700	    0839  E2 DD				 loop m11
+   1701	    083B  EB 03	90			 jmp m14
+   1702
+   1703	    083E			 error2:
+   1704	    083E  B7 01				 mov bh, flag_err	 ; При недопустимости символа bh =  +
+   1705					 flag_err
+   1706
+   1707	    0840			 m14:
+   1708	    0840  C3				 ret
+   1709	    0841			 DOPUST	ENDP
+   1710
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 31
+lw4.asm
+
+
+
+   1711
+   1712
+   1713					 ;****************************************************
+   1714					 ;* ASCII to number									 *
+   1715					 ;* Аргументы:									    +
+   1716					 *
+   1717					 ;*		 B cx количество введенных символов		    +
+   1718					 *
+   1719					 ;*		 B bx -	номер символа начиная с последнего    +
+   1720					 *
+   1721					 ;*											    +
+   1722					 *
+   1723					 ;* Результат:									    +
+   1724					 *
+   1725					 ;*		 Буфер чисел - number						 *
+   1726					 ;*		 B di -	номер числа в массиве				 *
+   1727					 ;****************************************************
+   1728	    0841			 AscToBin PROC
+   1729	    0841  32 ED				 xor ch, ch
+   1730	    0843  8A 0E	02D5r			 mov cl, kol
+   1731	    0847  32 FF				 xor bh, bh
+   1732	    0849  8A D9				 mov bl, cl
+   1733	    084B  FE CB				 dec bl
+   1734	    084D  BE 0001			 mov si, 01h  ;	В si вес разряда
+   1735
+   1736	    0850			 n1:
+   1737	    0850  8A 87	02D6r			 mov al, [stroka + bx]
+   1738	    0854  32 E4				 xor ah, ah
+   1739	    0856  3C 2D				 cmp al, 2dh	 ; Проверим знак числа
+   1740	    0858  74 19	90 90			 je otr	 ; Eсли число отрицательное
+   1741	    085C  2C 30				 sub al, 30h
+   1742	    085E  F7 E6				 mul si
+   1743	    0860  01 85	02DDr			 add [number + di], ax
+   1744	    0864  8B C6				 mov ax, si
+   1745	    0866  BE 000A			 mov si, 10
+   1746	    0869  F7 E6				 mul si
+   1747	    086B  8B F0				 mov si, ax
+   1748	    086D  4B				 dec bx
+   1749	    086E  E2 E0				 loop n1
+   1750	    0870  EB 05	90			 jmp n2
+   1751	    0873			 otr:
+   1752	    0873  F7 9D	02DDr			 neg [number + di]	 ; Представим	отрицательное	    +
+   1753					 число в дополнительном коде
+   1754
+   1755	    0877			 n2:
+   1756	    0877  C3				 ret
+   1757	    0878			 AscToBin ENDP
+   1758
+   1759
+   1760
+   1761					 ;****************************************************
+   1762					 ;* Number to ASCII									 *
+   1763					 ;* Аргументы:									    +
+   1764					 *
+   1765					 ;*		 Число передается через ax				    +
+   1766					 *
+   1767					 ;*											    +
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 32
+lw4.asm
+
+
+
+   1768					 *
+   1769					 ;* Результат:									    +
+   1770					 *
+   1771					 ;*		 Буфер чисел - out_str					 *
+   1772					 ;****************************************************
+   1773	    0878			 BinToAsc PROC
+   1774	    0878  33 F6				 xor si, si
+   1775	    087A  83 C6	05			 add si, 05h
+   1776	    087D  BB 000A			 mov bx, 0Ah
+   1777	    0880  50				 push ax
+   1778	    0881  3D 0000			 cmp ax, 00h
+   1779	    0884  7D 04	90 90			 jnl mm1
+   1780	    0888  F7 D8				 neg ax
+   1781
+   1782	    088A			 mm1:
+   1783	    088A  99				 cwd
+   1784	    088B  F7 FB				 idiv bx
+   1785	    088D  80 C2	30			 add dl,30h
+   1786	    0890  88 94	03A9r			 mov [out_str +	si], dl
+   1787	    0894  4E				 dec si
+   1788	    0895  3D 0000			 cmp ax, 00h
+   1789	    0898  75 F0				 jne mm1
+   1790	    089A  58				 pop ax
+   1791	    089B  3D 0000			 cmp ax, 00h
+   1792	    089E  7D 07	90 90			 jge mm2
+   1793	    08A2  C6 84	03A9r 2D		 mov [out_str +	si], 2dh
+   1794
+   1795	    08A7			 mm2:
+   1796	    08A7  C3				 ret
+   1797	    08A8			 BinToAsc ENDP
+   1798
+   1799	    08A8			 c1 ENDS
+   1800					 end start
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 33
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "27/12/21"
+??FILENAME			  Text	 "lw4	  "
+??TIME				  Text	 "12:02:51"
+??VERSION			  Number 030A
+@CPU				  Text	 0F0FH
+@CURSEG				  Text	 C1
+@FILENAME			  Text	 LW4
+@WORDSIZE			  Text	 2
+ARIFMET				  Near	 C1:05A1
+ASCTOBIN			  Near	 C1:0841
+BINTOASC			  Near	 C1:0878
+BROOM1				  Byte	 D1:01FE
+BROOM2				  Byte	 D1:0208
+BROOM3				  Byte	 D1:0210
+BROOM4				  Byte	 D1:0216
+BROOMCOLOR			  Number 0006
+BUCKETCOLOR			  Number 0002
+CLEAR1				  Near	 C1:06E5
+CLEAR2				  Near	 C1:0722
+CLEAR3				  Near	 C1:075F
+CLEAR4				  Near	 C1:079C
+COURSORX			  Byte	 D1:02D2
+COURSORY			  Byte	 D1:02D3
+DIAPAZON			  Near	 C1:07D4
+DOP				  Near	 C1:080B
+DOPUST				  Near	 C1:080C
+DOWNSHIFT			  Near	 C1:0036
+DOWNSHITRET			  Near	 C1:0047
+ENDAVG				  Near	 C1:062F
+ENDNEGFIND			  Near	 C1:05F3
+ENDPOSFIND			  Near	 C1:0619
+ENTER_PLEASE			  Byte	 D1:0385
+ERROR1				  Near	 C1:0809
+ERROR2				  Near	 C1:083E
+ERRORBGCOLOR			  Number 0040
+ERRORBGCOLORWAIT		  Number 00C0
+EYES				  Byte	 D1:01F0
+FIRST				  Near	 C1:0800
+FLAG_ERR			  Number 0001
+INERR				  Near	 C1:0550
+INPUTVALUES			  Near	 C1:0508
+INSNOWMANCOLOR			  Number 000E
+IN_STR				  Byte	 D1:02D4
+KOL				  Byte	 D1:02D5
+LEFTSHIFT			  Near	 C1:0000
+M11				  Near	 C1:0818
+M13				  Near	 C1:0838
+M14				  Near	 C1:0840
+MAINBGCOLOR			  Number 0012
+MAINWINDOWXEND			  Byte	 D1:021C
+MAINWINDOWXSTART		  Byte	 D1:021A
+MAINWINDOWYEND			  Byte	 D1:021D
+MAINWINDOWYSTART		  Byte	 D1:021B
+MAX				  Near	 C1:05B0
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 34
+Symbol Table
+
+
+
+MAXNUM				  Word	 D1:02E9
+MESNEGSUM			  Byte	 D1:035F
+MESPOSAVG			  Byte	 D1:0328
+MESPOSKOL			  Byte	 D1:034A
+MESPOSSUM			  Byte	 D1:0372
+MESSMAX				  Byte	 D1:033C
+MESSMIN				  Byte	 D1:0343
+MESSOVF				  Byte	 D1:031B
+MIN				  Near	 C1:05C2
+MINNUM				  Word	 D1:02EB
+MM1				  Near	 C1:088A
+MM2				  Near	 C1:08A7
+MOUTH				  Byte	 D1:01FA
+MOVEDOWN			  Near	 C1:04CF
+MOVELEFT			  Near	 C1:04BF
+MOVERIGHT			  Near	 C1:04C4
+MOVEUP				  Near	 C1:04C9
+MOVEWINDOW			  Near	 C1:044D
+N1				  Near	 C1:0850
+N2				  Near	 C1:0877
+NEGFIND				  Near	 C1:05DE
+NEGNUM				  Word	 D1:02ED
+NEGSUM				  Word	 D1:0301
+NEXT				  Near	 C1:05D0
+NUMBER				  Word	 D1:02DD
+OTR				  Near	 C1:0873
+OUT_STR				  Byte	 D1:03A9
+OVERFLOWERR			  Near	 C1:0632
+PEREVOD				  Byte	 D1:0309
+PLUS				  Near	 C1:07F7
+POINT				  Byte	 D1:01F8
+POSAVG				  Word	 D1:0305
+POSFIND				  Near	 C1:0603
+POSKOL				  Word	 D1:0307
+POSNUM				  Word	 D1:02F7
+POSSUM				  Word	 D1:0303
+PROGRAMEND			  Near	 C1:07D4
+RAZMER				  Byte	 D1:02D4
+RELUPSHIFT			  Near	 C1:0035
+RESOUTPUT			  Near	 C1:0683
+RESULT				  Byte	 D1:02CA
+RESULTBGCOLOR			  Number 0071
+RETLEFTSHIFT			  Near	 C1:0011
+RETRIGHTSHIFT			  Near	 C1:0023
+RIGHTSHIFT			  Near	 C1:0012
+SIZ				  Word	 D1:02E7
+SNOWMAN1			  Byte	 D1:0000
+SNOWMAN10			  Byte	 D1:00FD
+SNOWMAN11			  Byte	 D1:011F
+SNOWMAN12			  Byte	 D1:0141
+SNOWMAN13			  Byte	 D1:0163
+SNOWMAN14			  Byte	 D1:0185
+SNOWMAN15			  Byte	 D1:01A0
+SNOWMAN16			  Byte	 D1:01B9
+SNOWMAN17			  Byte	 D1:01D4
+SNOWMAN2			  Byte	 D1:0018
+SNOWMAN3			  Byte	 D1:0030
+Turbo Assembler	 Version 3.1	    27/12/21 12:02:51	    Page 35
+Symbol Table
+
+
+
+SNOWMAN4			  Byte	 D1:004A
+SNOWMAN5			  Byte	 D1:0066
+SNOWMAN6			  Byte	 D1:0081
+SNOWMAN7			  Byte	 D1:009C
+SNOWMAN8			  Byte	 D1:00B8
+SNOWMAN9			  Byte	 D1:00DB
+SNOWMANCOLOR			  Number 000B
+START				  Near	 C1:0048
+STARTINPUT			  Near	 C1:04D5
+STROKA				  Byte	 D1:02D6
+TESTDOP				  Near	 C1:082C
+TEXT_ERR1			  Byte	 D1:030C
+UPSHIFT				  Near	 C1:0024
+VIDEOSEG			  Number B800
+WAITANYKEYTOEXIT		  Byte	 D1:0281
+WAITBGCOLOR			  Number 0012
+WAITTOEXIT			  Byte	 D1:02BE
+WAITTOMOVEWIINDOW		  Byte	 D1:0240
+WAITTORELOADOREXIT1		  Byte	 D1:0298
+WAITTOSTART			  Near	 C1:0414
+WAITTOSTARTTEXT			  Byte	 D1:021E
+
+Macro Name
+
+DRAWSNOWMAN
+DRAWWINDOW
+INPUT
+PRINT
+PRINTINWINDOW
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+C1				  16  08A8 Para	  Public  CODE
+D1				  16  03B0 Para	  Public  DATA
+ST1				  16  00C8 Para	  Stack	  STACK
+
