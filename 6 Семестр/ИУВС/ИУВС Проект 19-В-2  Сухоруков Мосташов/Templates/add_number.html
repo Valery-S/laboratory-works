@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление работника</title>
+    <link rel="stylesheet" href="{{url_for ('static',filename='css/Style.css')}}">
+
+</head>
+<body>
+    <ul>
+        <li><a href="{{url_for('profile',un=UN)}}">Профиль</a></li>
+        <li><a href="{{url_for('out',un=UN)}}">Выйти</a></li>
+        <li><a href="{{url_for('add_number_get',un=UN)}}">Добавить работника</a></li>
+        <li><a href="{{url_for('sensors',un=UN)}}">Показания датчиков</a></li>
+        <li><a href="{{url_for('enters',un=UN)}}">Пропускной пункт</a></li>
+        <li><a href="{{url_for('allert',un=UN)}}">Кнопки тревоги</a></li>
+    </ul>
+
+    {% for cat, msg in get_flashed_messages(True) %}
+    <div class="flash {{cat}}">{{msg}}</div>
+    {% endfor %}
+
+    <form method ="post">
+        <p><label class="add_number6"> Уникальный номер</label> <input type="text", name="UN",value="" class="add_number1"/></p>
+        <p><label class="add_number7"> Имя</label> <input type="text", name="Name",value="" class="add_number2"/></p>
+        <p><label class="add_number8"> Фамилия</label> <input type="text", name="Surname",value="" class="add_number3"/></p>
+        <p><label class="add_number9"> Статус</label> <input type="text", name="Status",value="" class="add_number4"/></p>
+        <p><label class="add_number10"> Фото</label> <input type="file" , name="Foto",value="Выбрать" class="add_number5"></p>
+        <button class="add_number11">Записать</button>
+    </form>
+</body>
+
+</html>

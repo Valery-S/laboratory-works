@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Датчики</title>
+    <link rel="stylesheet" href="{{url_for ('static',filename='css/Style.css')}}">
+</head>
+<body>
+    <ul>
+        <li><a href="{{url_for('profile',un=UN)}}">Профиль</a></li>
+        <li><a href="{{url_for('out',un=UN)}}">Выйти</a></li>
+        <li><a href="{{url_for('add_number_get',un=UN)}}">Добавить работника</a></li>
+        <li><a href="{{url_for('sensors',un=UN)}}">Показания датчиков</a></li>
+        <li><a href="{{url_for('enters',un=UN)}}">Пропускной пункт</a></li>
+        <li><a href="{{url_for('allert',un=UN)}}">Кнопки тревоги</a></li>
+    </ul>
+
+    {% for cat, msg in get_flashed_messages(True) %}
+    <div class="flash {{cat}}">{{msg}}</div>
+    {% endfor %}
+
+    <table  class="sensors-table">
+        <caption> Показания датчиков</caption>
+        <tr>
+            <th>Тип датчика</th>
+            <th>Номер датчика</th>
+            <th>Состояние датчика</th>
+        </tr>
+        {% for sen in Sensors %}
+        <tr><td>{{sen.type}}</td><td>{{sen.id}}</td><td>{{sen.status}}</td></tr>
+        {% endfor %}
+    </table>
+
+    <form method ="post">
+        <div class="refresh">
+            <button>Обновить показания</button>
+        </div>
+    </form>
+
+    <table class="disturbance-table">
+        <caption> Нарушения безопастности</caption>
+        <tr>
+            <th>№</th>>
+            <th>Тип датчика</th>
+            <th>Номер датчика</th>
+            <th>Время</th>
+        </tr>
+        {% for i in range(LEN) %}
+        <tr><td>{{i+1}}</td><td>{{Type[i]}}</td><td>{{ID[i]}}</td><td>{{Time[i]}}</td></tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>

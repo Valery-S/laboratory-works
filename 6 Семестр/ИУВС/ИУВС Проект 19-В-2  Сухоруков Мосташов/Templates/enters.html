@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Пропускной пункт</title>
+    <link rel="stylesheet" href="{{url_for ('static',filename='css/Style.css')}}">
+</head>
+<body>
+    <ul>
+        <li><a href="{{url_for('profile',un=UN)}}">Профиль</a></li>
+        <li><a href="{{url_for('out',un=UN)}}">Выйти</a></li>
+        <li><a href="{{url_for('add_number_get',un=UN)}}">Добавить работника</a></li>
+        <li><a href="{{url_for('sensors',un=UN)}}">Показания датчиков</a></li>
+        <li><a href="{{url_for('enters',un=UN)}}">Пропускной пункт</a></li>
+        <li><a href="{{url_for('allert',un=UN)}}">Кнопки тревоги</a></li>
+    </ul>
+
+    {% for cat, msg in get_flashed_messages(True) %}
+    <div class="flash {{cat}}">{{msg}}</div>
+    {% endfor %}
+
+    <table class="enters-table">
+        <caption> Пропускной пункт</caption>
+        <tr>
+            <th>№</th>>
+            <th>Зашел/Вышел</th>
+            <th>Фамилия</th>
+            <th>Имя</th>
+            <th>Время</th>
+            <th>Фото</th>
+        </tr>
+        {% for i in range(LEN) %}
+            <tr><td>{{i+1}}</td><td>{{EN[i]}}</td><td>{{Sna[i]}}</td><td>{{Name[i]}}</td>
+            <td>{{Time[i]}}</td><td><img src={{Foto[i]}} width="80px" height="100px"></td></tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

@@ -3188,11 +3188,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Валерий\\Desktop\\Study\\web\\lw2\\MySite\\MySite\\MySite.csproj",
+      "projectUniqueName": "C:\\Study\\laboratory-works\\5 Семестр\\Web технологии\\ЛР2-3\\MySite\\MySite\\MySite.csproj",
       "projectName": "MySite",
-      "projectPath": "C:\\Users\\Валерий\\Desktop\\Study\\web\\lw2\\MySite\\MySite\\MySite.csproj",
+      "projectPath": "C:\\Study\\laboratory-works\\5 Семестр\\Web технологии\\ЛР2-3\\MySite\\MySite\\MySite.csproj",
       "packagesPath": "C:\\Users\\Валерий\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Валерий\\Desktop\\Study\\web\\lw2\\MySite\\MySite\\obj\\",
+      "outputPath": "C:\\Study\\laboratory-works\\5 Семестр\\Web технологии\\ЛР2-3\\MySite\\MySite\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Валерий\\AppData\\Roaming\\NuGet\\NuGet.Config",
