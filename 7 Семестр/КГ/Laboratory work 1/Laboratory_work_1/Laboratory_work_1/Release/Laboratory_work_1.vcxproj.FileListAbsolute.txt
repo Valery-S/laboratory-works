@@ -1,0 +1,4 @@
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 1\Laboratory_work_1\Laboratory_work_1\Release\Laboratory_work_1.vcxproj.AssemblyReference.cache
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 1\Laboratory_work_1\Laboratory_work_1\Release\Laboratory_work_1.vcxproj.SuggestedBindingRedirects.cache
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 1\Laboratory_work_1\Laboratory_work_1\Release\Laboratorywork1.triangle_transformation.resources
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 1\Laboratory_work_1\Laboratory_work_1\Release\Laboratory_work_1.vcxproj.GenerateResource.cache

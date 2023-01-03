@@ -1,0 +1,4 @@
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 3\Laboratory work 3\x64\Release\Laboratory work 3.vcxproj.AssemblyReference.cache
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 3\Laboratory work 3\x64\Release\Laboratory work 3.vcxproj.SuggestedBindingRedirects.cache
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 3\Laboratory work 3\x64\Release\Laboratorywork3.shadow_of_circle.resources
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 3\Laboratory work 3\x64\Release\Laboratory work 3.vcxproj.GenerateResource.cache

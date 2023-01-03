@@ -1,0 +1,21 @@
+﻿  shadow_of_circle.cpp
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 3\Laboratory work 3\shadow_of_circle.cpp(26,25): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 3\Laboratory work 3\shadow_of_circle.cpp(148,48): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 3\Laboratory work 3\shadow_of_circle.cpp(158,47): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 3\Laboratory work 3\shadow_of_circle.cpp(220,10): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 3\Laboratory work 3\shadow_of_circle.cpp(221,10): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 3\Laboratory work 3\shadow_of_circle.cpp(224,10): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 3\Laboratory work 3\shadow_of_circle.cpp(225,10): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 3\Laboratory work 3\shadow_of_circle.cpp(226,45): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 3\Laboratory work 3\shadow_of_circle.cpp(227,45): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 3\Laboratory work 3\shadow_of_circle.cpp(237,14): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 3\Laboratory work 3\shadow_of_circle.cpp(238,14): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 3\Laboratory work 3\shadow_of_circle.cpp(244,14): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 3\Laboratory work 3\shadow_of_circle.cpp(245,14): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 3\Laboratory work 3\shadow_of_circle.cpp(272,47): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 3\Laboratory work 3\shadow_of_circle.cpp(273,47): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 3\Laboratory work 3\shadow_of_circle.cpp(275,46): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 3\Laboratory work 3\shadow_of_circle.cpp(282,46): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 3\Laboratory work 3\shadow_of_circle.cpp(289,46): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+  shadow_of_circle.obj : обнаружен модуль MSIL; для MSIL последовательная компоновка отключена; выполняется полная компоновка
+  Laboratory work 3.vcxproj -> C:\Users\Валерий\Desktop\Учёба\КГ\Laboratory work 3\x64\Release\Laboratory work 3.exe
