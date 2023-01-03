@@ -87,7 +87,7 @@ def index_post():
         st = tmp['status']
         f = tmp['Foto']
         t = datetime.now()
-        dbase.add_entery(un, na, sna, st, f, 'Зашол', t)
+        dbase.add_entery(un, na, sna, st, f, 'Зашёл', t)
         foto = '/static/image/'+f
         flash('Успешный вход ', category='success')
         return render_template('profile.html', UN=un, Status=st, Name=na, Surname=sna,Foto=foto)
