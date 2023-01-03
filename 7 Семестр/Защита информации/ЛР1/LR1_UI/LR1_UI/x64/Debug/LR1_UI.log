@@ -1,0 +1,9 @@
+﻿  Vigenere_code.cpp
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР1\LR1_UI\LR1_UI\Vigenere_code.cpp(43,42): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР1\LR1_UI\LR1_UI\Vigenere_code.cpp(46,41): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР1\LR1_UI\LR1_UI\Vigenere_code.cpp(50,29): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР1\LR1_UI\LR1_UI\Vigenere_code.cpp(77,42): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР1\LR1_UI\LR1_UI\Vigenere_code.cpp(80,42): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР1\LR1_UI\LR1_UI\Vigenere_code.cpp(84,29): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+  Vigenere_code.obj : обнаружен модуль MSIL; для MSIL последовательная компоновка отключена; выполняется полная компоновка
+  LR1_UI.vcxproj -> C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР1\LR1_UI\x64\Debug\LR1_UI.exe

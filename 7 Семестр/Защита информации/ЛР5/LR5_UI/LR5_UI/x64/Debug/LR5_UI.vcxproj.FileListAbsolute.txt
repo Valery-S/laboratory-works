@@ -1,0 +1,4 @@
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР5\LR5_UI\LR5_UI\x64\Debug\LR5_UI.vcxproj.AssemblyReference.cache
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР5\LR5_UI\LR5_UI\x64\Debug\LR5_UI.vcxproj.SuggestedBindingRedirects.cache
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР5\LR5_UI\LR5_UI\x64\Debug\LR5UI.RSA_form.resources
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР5\LR5_UI\LR5_UI\x64\Debug\LR5_UI.vcxproj.GenerateResource.cache

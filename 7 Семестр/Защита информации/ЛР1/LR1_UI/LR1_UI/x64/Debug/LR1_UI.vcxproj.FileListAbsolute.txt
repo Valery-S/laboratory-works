@@ -1,0 +1,4 @@
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР1\LR1_UI\LR1_UI\x64\Debug\LR1_UI.vcxproj.AssemblyReference.cache
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР1\LR1_UI\LR1_UI\x64\Debug\LR1_UI.vcxproj.SuggestedBindingRedirects.cache
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР1\LR1_UI\LR1_UI\x64\Debug\LR1UI.Vigenere_code.resources
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР1\LR1_UI\LR1_UI\x64\Debug\LR1_UI.vcxproj.GenerateResource.cache

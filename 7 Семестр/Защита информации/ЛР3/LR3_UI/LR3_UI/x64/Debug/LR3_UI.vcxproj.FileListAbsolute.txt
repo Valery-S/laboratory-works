@@ -1,0 +1,8 @@
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР3\LR3_UI\LR3_UI\x64\Debug\LR3_UI.vcxproj.AssemblyReference.cache
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР3\LR3_UI\LR3_UI\x64\Debug\LR3_UI.vcxproj.SuggestedBindingRedirects.cache
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР3\LR3_UI\LR3_UI\x64\Debug\LR3UI.DES_form.resources
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР3\LR3_UI\LR3_UI\x64\Debug\LR3_UI.vcxproj.GenerateResource.cache
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР3 — копия\LR3_UI\LR3_UI\x64\Debug\LR3_UI.vcxproj.AssemblyReference.cache
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР3 — копия\LR3_UI\LR3_UI\x64\Debug\LR3_UI.vcxproj.SuggestedBindingRedirects.cache
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР3 — копия\LR3_UI\LR3_UI\x64\Debug\LR3UI.DES_form.resources
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР3 — копия\LR3_UI\LR3_UI\x64\Debug\LR3_UI.vcxproj.GenerateResource.cache

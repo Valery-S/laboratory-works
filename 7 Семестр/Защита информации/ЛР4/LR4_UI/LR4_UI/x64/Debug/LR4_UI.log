@@ -1,0 +1,9 @@
+﻿  DES_feedback_by_cipher.cpp
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР4\LR4_UI\LR4_UI\DES_feedback_by_cipher.cpp(352,45): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР4\LR4_UI\LR4_UI\DES_feedback_by_cipher.cpp(377,41): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР4\LR4_UI\LR4_UI\DES_feedback_by_cipher.cpp(387,42): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР4\LR4_UI\LR4_UI\DES_feedback_by_cipher.cpp(443,47): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР4\LR4_UI\LR4_UI\DES_feedback_by_cipher.cpp(468,41): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР4\LR4_UI\LR4_UI\DES_feedback_by_cipher.cpp(478,42): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+  DES_feedback_by_cipher.obj : обнаружен модуль MSIL; для MSIL последовательная компоновка отключена; выполняется полная компоновка
+  LR4_UI.vcxproj -> C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР4\LR4_UI\x64\Debug\LR4_UI.exe

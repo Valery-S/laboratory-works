@@ -1,0 +1,4 @@
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР2\LR2_UI\LR2_UI\x64\Debug\LR2_UI.vcxproj.AssemblyReference.cache
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР2\LR2_UI\LR2_UI\x64\Debug\LR2_UI.vcxproj.SuggestedBindingRedirects.cache
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР2\LR2_UI\LR2_UI\x64\Debug\LR2UI.Gamma_Encryption.resources
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР2\LR2_UI\LR2_UI\x64\Debug\LR2_UI.vcxproj.GenerateResource.cache

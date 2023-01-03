@@ -1,0 +1,4 @@
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР4\LR4_UI\LR4_UI\x64\Debug\LR4_UI.vcxproj.AssemblyReference.cache
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР4\LR4_UI\LR4_UI\x64\Debug\LR4_UI.vcxproj.SuggestedBindingRedirects.cache
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР4\LR4_UI\LR4_UI\x64\Debug\LR4UI.DES_feedback_by_cipher.resources
+C:\Users\Валерий\Desktop\Учёба\Защита информации\ЛР4\LR4_UI\LR4_UI\x64\Debug\LR4_UI.vcxproj.GenerateResource.cache
